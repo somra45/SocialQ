@@ -64,12 +64,12 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
     const newTweet = new Tweet({
-      body: req.body, /*make sure this matches what's coming in from front end*/
+      body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
-      date: req.date,
-      photoUrl: req.photoUrl,
-      videoUrl: req.videoUrl,
-      categories: req.categories
+      date: req.body.date,
+      photoUrl: req.body.photoUrl,
+      videoUrl: req.body.videoUrl,
+      categories: req.body.categories
     });
 
     let tweet = await newTweet.save();
@@ -78,6 +78,41 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   }
   catch(err) {
     next(err);
+  }
+});
+
+router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
+  try {
+
+    const tweetId = req.params.id;
+    const updates = req.body;
+                             
+    const updatedTweet = await Tweet.findByIdAndUpdate(tweetId, updates, {new: true})
+
+    if (!updatedTweet) {
+      return res.status(404).json({ error: 'Tweet not found' });
+    }
+
+    return res.json(updatedTweet);
+  } catch (error) {
+    return res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by its ID and delete it
+    const deletedPost = await Post.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    return res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'An error occurred' });
   }
 });
 
