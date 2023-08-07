@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Switch } from 'react-router-dom';
 
 import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
-import NavBar from './components/NavBar/Navbar.js';
+import NavBar from './components/NavBar/NavBar.js/index.js';
 
 import MainPage from './components/MainPage/MainPage';
 import LoginForm from './components/SessionForms/LoginForm';
