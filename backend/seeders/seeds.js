@@ -13,6 +13,8 @@ const users = [];
 
 users.push(
   new User ({
+    firstName: 'Demo',
+    lastName: 'User',
     username: 'demo-user',
     email: 'demo-user@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10)
