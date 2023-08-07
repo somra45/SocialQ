@@ -8,6 +8,9 @@ const Category = mongoose.model('Category');
 const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
+var debug = require('debug');
+const serverLogger = debug('backend:server');
+const dbLogger = debug('backend:mongodb');
 
 router.get('/', async function(req, res, next) {
   // res.json({
@@ -64,32 +67,36 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
+  debugger
   try {
-
+    
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
-      date: new Date()
-      // categories: req.body.categories
+      date: new Date(),
+      categories: ['funny']
     });
 
     let tweet = await newTweet.save();
   
-    const categoriesArray = req.body.categories;
+    const categoriesArray = ['funny']
     const mappedCategoryIds = []
     categoriesArray?.forEach(catEl => {
       const catId = Category.find({name: catEl}).id
       if (catId) {
-        mappedCategoryIds.push(PostCategory.create({category: catId, post: tweet.id}).id);
+        dbLogger(`catId: ${catId}`)
+        const newPostCat = await PostCategory.create({category: catId, post: tweet.id})
+        mappedCategoryIds.push(newPostCat.id);
       } else {
         const newCat = Category.create({name: catEl});
+        dbLogger(`newCat: ${newCat}`)
         mappedCategoryIds.push(PostCategory.create({category: newCat.id, post: tweet.id}).id);
       }
     })
-
+    
     tweet = await tweet
                       .populate('author', '_id username')
                       // .populate({
@@ -101,6 +108,7 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     return res.json(tweet);
   }
   catch(err) {
+    debugger
     next(err);
   }
 });
