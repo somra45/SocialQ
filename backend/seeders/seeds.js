@@ -41,8 +41,9 @@ const tweets = [];
 for (let i = 0; i < NUM_SEED_TWEETS; i++) {
   tweets.push(
     new Tweet ({
-      text: faker.hacker.phrase(),
-      author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+      body: faker.hacker.phrase(),
+      author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
+      date: new Date()
     })
   )
 }
