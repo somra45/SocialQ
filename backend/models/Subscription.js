@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const subscriptionSchema = new Schema({
     subscriber: {
         type: Schema.Types.ObjectId,

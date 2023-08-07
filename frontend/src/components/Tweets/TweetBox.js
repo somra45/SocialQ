@@ -1,11 +1,11 @@
 import "./TweetBox.css"
 
-function TweetBox ({ tweet: { text, author }}) {
+function TweetBox ({ tweet: { body, author }}) {
   const { username } = author;
   return (
     <div className="tweet">
       <h3>{username}</h3>
-      <p>{text}</p>
+      <p>{body}</p>
     </div>
   );
 }

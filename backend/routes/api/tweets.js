@@ -4,6 +4,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Tweet = mongoose.model('Tweet');
+const Category = mongoose.model('Category');
+const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
 
@@ -63,17 +65,39 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
+
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
-      categories: req.body.categories
+      date: new Date()
+      // categories: req.body.categories
     });
 
     let tweet = await newTweet.save();
-    tweet = await tweet.populate('author', '_id username');
+  
+    const categoriesArray = req.body.categories;
+    const mappedCategoryIds = []
+    categoriesArray?.forEach(catEl => {
+      const catId = Category.find({name: catEl}).id
+      if (catId) {
+        mappedCategoryIds.push(PostCategory.create({category: catId, post: tweet.id}).id);
+      } else {
+        const newCat = Category.create({name: catEl});
+        mappedCategoryIds.push(PostCategory.create({category: newCat.id, post: tweet.id}).id);
+      }
+    })
+
+    tweet = await tweet
+                      .populate('author', '_id username')
+                      // .populate({
+                      //   path: 'category',
+                      //   match: { username: { $regex: keyword, $options: 'i' } }, // Filtering the author by username
+                      // })
+    tweet['categories'] = mappedCategoryIds
+
     return res.json(tweet);
   }
   catch(err) {

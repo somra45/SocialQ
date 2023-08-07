@@ -7,6 +7,7 @@ const debug = require('debug');
 require('./models/User');
 require('./models/Tweet');
 require('./models/PostCategory');
+require('./models/Category');
 require('./models/Subscription');
 require('./config/passport');
 const passport = require('passport');
@@ -45,6 +46,7 @@ app.use(
 app.use('/api/users', usersRouter);
 app.use('/api/tweets', tweetsRouter);
 app.use('/api/postCategories', postCategoriesRouter);
+// app.use('/api/categories', categoriesRouter);
 // app.use('/api/subscriptions', subscriptionsRouter); NEEDED?
 app.use('/api/csrf', csrfRouter);
 
