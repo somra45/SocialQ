@@ -1,20 +1,39 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const express = require("express");
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const csurf = require('csurf');
 
-var app = express();
+const cors = require('cors');
+const { isProduction } = require('./config/keys');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const usersRouter = require('./routes/api/users');
+const tweetsRouter = require('./routes/api/tweets');
+const csrfRouter = require('./routes/api/csrf');
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+const app = express();
+
+app.use(logger('dev')); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: false })); 
+app.use(cookieParser()); 
+
+if (!isProduction) {
+    app.use(cors());
+}
+
+app.use(
+    csurf({
+      cookie: {
+        secure: isProduction,
+        sameSite: isProduction && "Lax",
+        httpOnly: true
+      }
+    })
+  );
+
+app.use('/api/users', usersRouter);
+app.use('/api/tweets', tweetsRouter);
+app.use('/api/csrf', csrfRouter);
 
 module.exports = app;
