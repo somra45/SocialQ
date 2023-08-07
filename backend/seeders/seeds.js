@@ -24,6 +24,8 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
   const lastName = faker.name.lastName();
   users.push(
     new User ({
+      firstName: firstName,
+      lastName: lastName,
       username: faker.internet.userName(firstName, lastName),
       email: faker.internet.email(firstName, lastName),
       hashedPassword: bcrypt.hashSync(faker.internet.password(), 10)
