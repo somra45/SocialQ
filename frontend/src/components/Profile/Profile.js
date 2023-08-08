@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTweets, clearTweetErrors } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
+import Calendar from '../Calendar/Calendar';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Profile () {
             tweet={tweet}
           />
         ))}
+      < Calendar />
       </>
     );
   }
