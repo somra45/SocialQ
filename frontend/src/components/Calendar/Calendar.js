@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const Calendar = () => {
     const calendarRef = useRef(null);
     const [currentEvents, setCurrentEvents] = useState([]);
-    const events = useSelector(state => state.tweets.user);
+    const events = Object.values(useSelector(state => state.tweets.user));
     function handleEvents(events) {
         setCurrentEvents(events);
         currentEvents.forEach(event => {
