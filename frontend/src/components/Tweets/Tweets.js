@@ -6,7 +6,8 @@ import TweetBox from './TweetBox';
 function Tweets () {
   const dispatch = useDispatch();
   const tweets = useSelector(state => Object.values(state.tweets.all));
-  debugger
+  const tweetsSortedByDate = tweets?.sort((a,b) => a.date - b.date);
+
   useEffect(() => {
     dispatch(fetchTweets());
     return () => dispatch(clearTweetErrors());
@@ -17,7 +18,7 @@ function Tweets () {
   return (
     <>
       <h2>All Tweets</h2>
-      {tweets.map(tweet => (
+      {tweetsSortedByDate?.map(tweet => (
         <TweetBox key={tweet._id} tweet={tweet} />
       ))}
     </>

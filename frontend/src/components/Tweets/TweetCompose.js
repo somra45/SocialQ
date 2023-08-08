@@ -38,7 +38,7 @@ function TweetCompose () {
       </form>
       <div className="tweet-preview">
         <h3>Tweet Preview</h3>
-        {body ? <TweetBox tweet={{body, author}} /> : undefined}
+        {body ? <TweetBox tweet={{body, author}} alreadyExists={false} /> : undefined}
       </div>
       <div className="previous-tweet">
         <h3>Previous Tweet</h3>

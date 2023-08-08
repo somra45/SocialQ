@@ -20,10 +20,13 @@ function Profile () {
       <>
         <h2>All of {currentUser.username}'s Tweets</h2>
         {userTweets.map(tweet => (
-          <TweetBox
-            key={tweet._id}
-            tweet={tweet}
-          />
+          <div className='tweetbox'>
+              <TweetBox
+                  key={tweet._id}
+                  tweet={tweet}
+                  alreadyExists={true}
+                  />
+          </div>
         ))}
       </>
     );

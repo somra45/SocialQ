@@ -83,28 +83,30 @@ router.get('/user/:userId', async (req, res, next) => {
       return tweet;
     }));
 
-    return res.json(tweetsWithCategories);
+    const tweetObjects = tweetArrayToObject(tweetsWithCategories)
+                          
+    return res.json(tweetObjects);
   }
   catch(err) {
     return res.json([]);
   }
 })
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const tweet = await Tweet.findById(req.params.id)
-                             .populate("author", "_id username");
-    const tweetWithCategories = await addCategoriesToTweet(tweet);
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     const tweet = await Tweet.findById(req.params.id)
+//                              .populate("author", "_id username");
+//     const tweetWithCategories = await addCategoriesToTweet(tweet);
                         
-    return res.json(tweetWithCategories);
-  }
-  catch(err) {
-    const error = new Error('Tweet not found');
-    error.statusCode = 404;
-    error.errors = { message: "No tweet found with that id" };
-    return next(error);
-  }
-})
+//     return res.json(tweetWithCategories);
+//   }
+//   catch(err) {
+//     const error = new Error('Tweet not found');
+//     error.statusCode = 404;
+//     error.errors = { message: "No tweet found with that id" };
+//     return next(error);
+//   }
+// })
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
@@ -172,17 +174,19 @@ router.delete('/:id', async (req, res) => {
 
   //need to delete associated post categories when a tweet is deleted
   try {
-    const postId = req.params.id;
+    const tweetId = req.params.id;
+    dbLogger('id:' + tweetId)
 
     // Find the post by its ID and delete it
-    const deletedPost = await Post.findByIdAndDelete(postId);
+    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    return res.json({ message: 'Post deleted successfully' });
+    return res.json({ tweetId: tweetId, message: 'Post deleted successfully' });
   } catch (error) {
+    dbLogger('error: ' + error)
     return res.status(500).json({ error: 'An error occurred' });
   }
 });
