@@ -15,6 +15,7 @@ const dbLogger = debug('backend:mongodb');
 
 const addCategoriesToTweet = async (tweet) => {
   let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
+  dbLogger(postCategoriesArray)
       const mappedCategoriesArray = []
 
 
@@ -77,7 +78,9 @@ router.get('/:id', async (req, res, next) => {
   try {
     const tweet = await Tweet.findById(req.params.id)
                              .populate("author", "_id username");
-    return res.json(tweet);
+    const updatedTweet = await addCategoriesToTweet(tweet);
+                        
+    return res.json(updatedTweet);
   }
   catch(err) {
     const error = new Error('Tweet not found');
@@ -101,47 +104,30 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     });
 
     let tweet = await newTweet.save();
+    dbLogger(tweet)
     
     //create new categories for anything not already in db
     if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
       const category = await Category.findOne({name: catEl.toLowerCase()})
       if (!category) {
-        dbLogger('moving into creation')
         let cat = await new Category({name: catEl.toLowerCase()});
-        dbLogger(`new cat: ${cat}`)
         cat.save();
         cat = await Category.find({name: catEl.toLowerCase()});
-        dbLogger(`created: ${cat}`);
-      } else {
-        // dbLogger(category)
       }
     });
 
     //create new postCategory for each category, now that categories have been created
     let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
-      // dbLogger(newTweetCategories)
       const category = await Category.findOne({name: catEl.toLowerCase()})
-      dbLogger(category)
-      dbLogger(`category: ${category}, categoryId: ${category._id ? category._id : 'none'}, post: ${tweet._id}`)
       PostCategory.create({category: category._id, post: tweet._id});
-      // dbLogger(PostCategory.find())
     })
-    
-    //get an array of categories for that tweet, now that postCategories have been created
-    // let tweetCategories = await PostCategory.find({postId: tweet.id});
-    // let mappedTweetCategories = tweetCategories.map(async el => {
-    //   Category.find({name: el.name});
-    // });
 
     tweet = await tweet
                       .populate('author', '_id username');
-                      // .populate({
-                      //   path: 'category',
-                      //   match: { username: { $regex: keyword, $options: 'i' } }, // Filtering the author by username
-                      // })
-    // tweet['categories'] = mappedTweetCategories
 
-    return res.json(tweet);
+    const updatedTweet = await addCategoriesToTweet(tweet);
+                        
+    return res.json(updatedTweet);
   }
   catch(err) {
     debugger
