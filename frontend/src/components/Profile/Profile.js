@@ -27,6 +27,7 @@ function Profile () {
             <TweetBox
               key={tweet._id}
               tweet={tweet}
+              alreadyExists={true}
             />
           ))}
         </div>

@@ -4,6 +4,7 @@ import { RECEIVE_USER_LOGOUT } from './session';
 const RECEIVE_TWEETS = "tweets/RECEIVE_TWEETS";
 const RECEIVE_USER_TWEETS = "tweets/RECEIVE_USER_TWEETS";
 const RECEIVE_NEW_TWEET = "tweets/RECEIVE_NEW_TWEET";
+const REMOVE_TWEET = 'tweets/REMOVE_TWEET';
 const RECEIVE_TWEET_ERRORS = "tweets/RECEIVE_TWEET_ERRORS";
 const CLEAR_TWEET_ERRORS = "tweets/CLEAR_TWEET_ERRORS";
 
@@ -27,6 +28,11 @@ const receiveErrors = errors => ({
   errors
 });
 
+const removeTweet = tweetId => ({
+  type: REMOVE_TWEET,
+  tweetId
+})
+
 export const clearTweetErrors = errors => ({
     type: CLEAR_TWEET_ERRORS,
     errors
@@ -34,7 +40,6 @@ export const clearTweetErrors = errors => ({
 
 
 export const fetchTweets = () => async dispatch => {
-  debugger
     try {
       const res = await jwtFetch('/api/tweets');
       const tweets = await res.json();
@@ -68,9 +73,31 @@ export const fetchTweets = () => async dispatch => {
         body: JSON.stringify(data)
       });
       const tweet = await res.json();
-      debugger
       dispatch(receiveNewTweet(tweet));
     } catch(err) {
+      // TypeError: Cannot read properties of undefined (reading 'user')
+      const resBody = await err.json();
+      if (resBody.statusCode === 400) {
+        return dispatch(receiveErrors(resBody.errors));
+      }
+    }
+  };
+
+  export const deleteTweet = tweetId => async dispatch => {
+    try {
+      debugger
+      const res = await jwtFetch(`/api/tweets/${tweetId}`, {
+        method: 'DELETE'
+      });
+      debugger
+      const response = await res.json();
+
+      debugger
+
+      dispatch(removeTweet(response.tweetId));
+      return response.message
+    } catch(err) {
+      debugger
       const resBody = await err.json();
       if (resBody.statusCode === 400) {
         return dispatch(receiveErrors(resBody.errors));
@@ -101,6 +128,11 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
         return { ...state, user: action.tweets, new: undefined};
       case RECEIVE_NEW_TWEET:
         return { ...state, new: action.tweet};
+      case REMOVE_TWEET:
+          const newState = {...state}
+          debugger
+          delete newState.user[action.tweetId]
+          return newState
       case RECEIVE_USER_LOGOUT:
         return { ...state, user: {}, new: undefined }
       default:
