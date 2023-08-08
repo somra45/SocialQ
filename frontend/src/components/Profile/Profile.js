@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTweets, clearTweetErrors } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
+import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
 import './Profile.css';
 
@@ -31,6 +32,7 @@ function Profile () {
             />
           ))}
         </div>
+        < Calendar />
       </>
     );
   }

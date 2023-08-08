@@ -43,7 +43,6 @@ export const fetchTweets = () => async dispatch => {
     try {
       const res = await jwtFetch('/api/tweets');
       const tweets = await res.json();
-      debugger
       dispatch(receiveTweets(tweets));
     } catch (err) {
       const resBody = await err.json();
