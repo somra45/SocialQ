@@ -15,7 +15,6 @@ const dbLogger = debug('backend:mongodb');
 
 const addCategoriesToTweet = async (tweet) => {
   let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
-  dbLogger(postCategoriesArray)
       const mappedCategoriesArray = []
 
 
@@ -31,6 +30,15 @@ const addCategoriesToTweet = async (tweet) => {
       return tweet
 }
 
+const tweetArrayToObject = (tweetArray) => {
+  const tweetObjects = {}
+  tweetArray.forEach(tweet => {
+    const tweetId = tweet._id.toString()
+    tweetObjects[tweetId] = tweet
+  })
+  return tweetObjects
+}
+
 router.get('/', async function(req, res, next) {
   // res.json({
   //   message: "GET /api/tweets"
@@ -39,7 +47,15 @@ router.get('/', async function(req, res, next) {
     const tweets = await Tweet.find()
                               .populate("author", "_id username")
                               .sort({ createdAt: -1 });
-    return res.json(tweets);
+
+    const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
+          tweet = await addCategoriesToTweet(tweet)
+          return tweet;
+    }));
+
+    const tweetObjects = tweetArrayToObject(tweetsWithCategories)
+                          
+    return res.json(tweetObjects);
   }
   catch(err) {
     return res.json([]);
@@ -62,33 +78,35 @@ router.get('/user/:userId', async (req, res, next) => {
                               .populate("author", "_id username");
 
     //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
-    const updatedTweets = await Promise.all(tweets.map(async tweet => {
+    const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
       tweet = await addCategoriesToTweet(tweet)
       return tweet;
     }));
 
-    return res.json(updatedTweets);
+    const tweetObjects = tweetArrayToObject(tweetsWithCategories)
+                          
+    return res.json(tweetObjects);
   }
   catch(err) {
     return res.json([]);
   }
 })
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const tweet = await Tweet.findById(req.params.id)
-                             .populate("author", "_id username");
-    const updatedTweet = await addCategoriesToTweet(tweet);
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     const tweet = await Tweet.findById(req.params.id)
+//                              .populate("author", "_id username");
+//     const tweetWithCategories = await addCategoriesToTweet(tweet);
                         
-    return res.json(updatedTweet);
-  }
-  catch(err) {
-    const error = new Error('Tweet not found');
-    error.statusCode = 404;
-    error.errors = { message: "No tweet found with that id" };
-    return next(error);
-  }
-})
+//     return res.json(tweetWithCategories);
+//   }
+//   catch(err) {
+//     const error = new Error('Tweet not found');
+//     error.statusCode = 404;
+//     error.errors = { message: "No tweet found with that id" };
+//     return next(error);
+//   }
+// })
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
@@ -104,7 +122,6 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     });
 
     let tweet = await newTweet.save();
-    dbLogger(tweet)
     
     //create new categories for anything not already in db
     if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
@@ -157,17 +174,19 @@ router.delete('/:id', async (req, res) => {
 
   //need to delete associated post categories when a tweet is deleted
   try {
-    const postId = req.params.id;
+    const tweetId = req.params.id;
+    dbLogger('id:' + tweetId)
 
     // Find the post by its ID and delete it
-    const deletedPost = await Post.findByIdAndDelete(postId);
+    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    return res.json({ message: 'Post deleted successfully' });
+    return res.json({ tweetId: tweetId, message: 'Post deleted successfully' });
   } catch (error) {
+    dbLogger('error: ' + error)
     return res.status(500).json({ error: 'An error occurred' });
   }
 });

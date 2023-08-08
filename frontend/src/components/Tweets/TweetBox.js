@@ -1,6 +1,9 @@
-import "./TweetBox.css"
+import "./TweetBox.css";
+import { useDispatch } from "react-redux";
+import { deleteTweet, updateTweet } from '../../store/tweets';
 
-function TweetBox ({ tweet: { body, author, date, categories }}) {
+function TweetBox ({ tweet: { _id, body, author, date, categories }, alreadyExists}) {
+  const dispatch = useDispatch();
   const { username } = author;
 
   const convertTime = (timestamp) => {
@@ -20,6 +23,7 @@ function TweetBox ({ tweet: { body, author, date, categories }}) {
       </div>
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
+
     </div>
   );
 }

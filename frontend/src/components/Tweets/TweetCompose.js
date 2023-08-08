@@ -38,7 +38,7 @@ function TweetCompose () {
               wrap='soft'
               className='compose-tweet-input'
               type="textarea"
-              value=""
+              value={body}
               onChange={update}
               placeholder="Give us a breif description of how you would like your Tweet to sound"
               required
@@ -88,10 +88,6 @@ function TweetCompose () {
           </form>
         </div>
 
-        
-
-        
-
         {/* <div className="tweet-preview">
           <h3>Tweet Preview</h3>
           {text ? <TweetBox tweet={{text, author}} /> : undefined}
@@ -101,7 +97,6 @@ function TweetCompose () {
           <h3>Previous Tweet</h3>
           {newTweet ? <TweetBox tweet={newTweet} /> : undefined}
         </div> */}
-
       </div>
     </>
   )

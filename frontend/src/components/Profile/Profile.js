@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTweets, clearTweetErrors } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
+import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
 import './Profile.css';
 
@@ -22,7 +23,6 @@ function Profile () {
       <>
         <NavBar/>
         <div className='profile-container'>
-
           <div className='left-container'>Left container</div>
 
           <div className='middle-container'>
@@ -34,16 +34,17 @@ function Profile () {
                   <TweetBox
                     key={tweet._id}
                     tweet={tweet}
+                    alreadyExists={true}
                   />
                 </div>
               ))}
             </div>
-
           </div>
 
           <div className='right-container'>right container</div>
-          
+
         </div>
+        < Calendar />
       </>
     );
   }
