@@ -17,8 +17,8 @@ function NavBar () {
       return (
         <div className="links-nav">
           <Link to={'/tweets'}><i className="fa-solid fa-house fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
-          <Link to={'/profile'}><i className="fa-solid fa-user fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
           <Link to={'/tweets/new'}><i className="fa-solid fa-circle-plus fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
+          <Link to={'/profile'}><i className="fa-solid fa-user fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
           <button className="navbarLogout" onClick={logoutUser}>Logout</button>
         </div>
       );
