@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTweets, clearTweetErrors } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
+import NavBar from '../NavBar/NavBar';
+import './Profile.css';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -19,14 +21,18 @@ function Profile () {
   } else {
     return (
       <>
-        <h2>All of {currentUser.username}'s Tweets</h2>
-        {userTweets.map(tweet => (
-          <TweetBox
-            key={tweet._id}
-            tweet={tweet}
-          />
-        ))}
-      < Calendar />
+        <NavBar/>
+        <div className='profile-container'>
+          <h2>All of {currentUser.username}'s Tweets</h2>
+          {userTweets.map(tweet => (
+            <TweetBox
+              key={tweet._id}
+              tweet={tweet}
+              alreadyExists={true}
+            />
+          ))}
+        </div>
+        < Calendar />
       </>
     );
   }

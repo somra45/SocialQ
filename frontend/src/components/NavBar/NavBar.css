@@ -1,0 +1,46 @@
+.navbarContainer{
+    display: flex;
+    background-color: #4682A9;
+}
+
+.navbarLogo{
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 230px;
+}
+
+.links-nav{
+    /* border: 2px solid black; */
+    width: 100%;
+    /* margin-top: 30px; */
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+
+.fa-house{
+    padding-top: 40px;
+}
+
+.fa-user{
+    padding-top: 40px;
+}
+
+.fa-circle-plus{
+    padding-top: 40px;
+}
+
+.navbarLogout{
+    margin-top: 20px;
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f6f4eb;
+    cursor: pointer;
+}
+
+.navbarLogout:hover{
+    background-color:lightslategray;
+}
+
