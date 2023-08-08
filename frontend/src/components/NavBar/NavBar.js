@@ -16,10 +16,10 @@ function NavBar () {
     if (loggedIn) {
       return (
         <div className="links-nav">
-          <Link to={'/tweets'}>All Tweets</Link>
-          <Link to={'/profile'}>Profile</Link>
-          <Link to={'/tweets/new'}>Write a Tweet</Link>
-          <button onClick={logoutUser}>Logout</button>
+          <Link to={'/tweets'}><i className="fa-solid fa-house fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
+          <Link to={'/profile'}><i className="fa-solid fa-user fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
+          <Link to={'/tweets/new'}><i className="fa-solid fa-circle-plus fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
+          <button className="navbarLogout" onClick={logoutUser}>Logout</button>
         </div>
       );
     } else {
@@ -34,8 +34,10 @@ function NavBar () {
 
   return (
     <>
-      <h1>Chirper</h1>
-      { getLinks() }
+      <div className='navbarContainer'>
+        <img className="navbarLogo" src='/assets/images/SocialQOffWhite.png' alt='socialQlogo'></img>
+        { getLinks() }
+      </div>
     </>
   );
 }
