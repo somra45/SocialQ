@@ -7,7 +7,7 @@ function TweetBox ({ tweet: { body, author, date, categories }}) {
       <h3>author: {username}</h3>
       <p>date: {date}</p>
       <p>body: {body}</p>
-      <ul>categories: {categories?.map(cat => `<li>${cat}</li>`)}</ul>
+      <ul>categories: {categories?.map(cat => <li><b>{cat}</b></li>)}</ul>
     </div>
   );
 }

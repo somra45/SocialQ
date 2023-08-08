@@ -47,11 +47,19 @@ router.get('/user/:userId', async (req, res, next) => {
     // })
 
     //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
+    
     const updatedTweets = await Promise.all(tweets.map(async tweet => {
       let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
-      let mappedCategoriesArray = postCategoriesArray['0'] ? [(await Category.findOne({_id: postCategoriesArray['0'].category}))._doc.name] : []
+      const mappedCategoriesArray = []
+      // let mappedCategoriesArray = postCategoriesArray['0'] ? [(await Category.find({_id: postCategoriesArray['0'].category}))] : []
+      while (postCategoriesArray.length) {
+        let shiftedCategory = postCategoriesArray.shift()
+        dbLogger(tweet._id + ':' + shiftedCategory)
+        mappedCategoriesArray.push(shiftedCategory._doc.category)
+      }
       tweet._doc.categories = mappedCategoriesArray
-      dbLogger(tweet);
+      // tweet._doc.categories = ['funny']
+      // dbLogger(tweet);
       return tweet;
     }));
 
@@ -78,7 +86,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
-    let newTweetCategories = ['funny'];
+    let newTweetCategories = ['funny', 'cool'];
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
@@ -93,7 +101,7 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     
     //create new categories for anything not already in db
     if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
-      const category = await Category.find({name: catEl.toLowerCase()})
+      const category = await Category.findOne({name: catEl.toLowerCase()})
       if (!category) {
         dbLogger('moving into creation')
         let cat = await new Category({name: catEl.toLowerCase()});
@@ -101,13 +109,17 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
         cat.save();
         cat = await Category.find({name: catEl.toLowerCase()});
         dbLogger(`created: ${cat}`);
+      } else {
+        // dbLogger(category)
       }
     });
 
     //create new postCategory for each category, now that categories have been created
     let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
+      // dbLogger(newTweetCategories)
       const category = await Category.findOne({name: catEl.toLowerCase()})
-      dbLogger(`category, ${category}, categoryId: ${category._id}, post: ${tweet._id}`)
+      dbLogger(category)
+      dbLogger(`category: ${category}, categoryId: ${category._id ? category._id : 'none'}, post: ${tweet._id}`)
       PostCategory.create({category: category._id, post: tweet._id});
       // dbLogger(PostCategory.find())
     })
@@ -153,6 +165,8 @@ router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
 });
 
 router.delete('/:id', async (req, res) => {
+
+  //need to delete associated post categories when a tweet is deleted
   try {
     const postId = req.params.id;
 
