@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './SessionForm.css';
 
 import { login, clearSessionErrors } from '../../store/session';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function LoginForm () {
   const [email, setEmail] = useState('');
@@ -27,32 +28,60 @@ function LoginForm () {
   }
 
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
-      <h2>Log In Form</h2>
-      <div className="errors">{errors?.email}</div>
-      <label>
-        <span>Email</span>
-        <input type="text"
-          value={email}
-          onChange={update('email')}
-          placeholder="Email"
-        />
-      </label>
-      <div className="errors">{errors?.password}</div>
-      <label>
-        <span>Password</span>
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
-      </label>
-      <input
-        type="submit"
-        value="Log In"
-        disabled={!email || !password}
-      />
-    </form>
+    <>
+    <div className='session-form-container'>
+
+        <form className="session-form" onSubmit={handleSubmit}>
+
+          <img className="socialQBlackLogo" src='/assets/images/SocialQBlackLogo.png' alt='socialQlogo'></img>
+          <br/>
+
+          <div className="errors">{errors?.email}</div>
+          
+          <label>
+            <p className='inputHeader'>Email</p>
+          
+            <input 
+              className='formInput'
+              type="text"
+              value={email}
+              onChange={update('email')}
+              placeholder="Email"
+            />
+          </label>
+
+          <div className="errors">{errors?.password}</div>
+
+          <label>
+            <p className='inputHeader'>Password</p>
+          
+            <input 
+              className='formInput'
+              type="password"
+              value={password}
+              onChange={update('password')}
+              placeholder="Password"
+            />
+          </label>
+
+          <br/>
+
+          <input
+            className='loginButton'
+            type="submit"
+            value="Log In"
+            disabled={!email || !password}
+          />
+          
+          <div className='signupLinkContainer'>
+            <p>Don't have an account?</p>
+          
+            <Link to="/signup"className="sinupLink">Sign Up</Link>
+          </div>
+
+        </form>
+      </div>
+    </>
   );
 }
 
