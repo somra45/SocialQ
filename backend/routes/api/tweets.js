@@ -12,6 +12,24 @@ var debug = require('debug');
 const serverLogger = debug('backend:server');
 const dbLogger = debug('backend:mongodb');
 
+
+const addCategoriesToTweet = async (tweet) => {
+  let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
+      const mappedCategoriesArray = []
+
+
+      while (postCategoriesArray.length) {
+        let shiftedCategory = postCategoriesArray.shift()
+        //find the category whose ID is the postCategory's categoryId, then push that into the mappedCategoriesArray
+        const category = await Category.findOne({_id: shiftedCategory._doc.category}).exec()
+        mappedCategoriesArray.push(category._doc.name)
+      }
+
+      //set the mappedCategoriesArray as the tweet's categories
+      tweet._doc.categories = mappedCategoriesArray
+      return tweet
+}
+
 router.get('/', async function(req, res, next) {
   // res.json({
   //   message: "GET /api/tweets"
@@ -41,25 +59,10 @@ router.get('/user/:userId', async (req, res, next) => {
     let tweets = await Tweet.find({ author: user._id })
                               .sort({ createdAt: -1 })
                               .populate("author", "_id username");
-    // let tweetsWithCategories = {...tweets}
-    // tweetsWithCategories.forEach(tweet =>{
-      // dbLogger(tweet)
-    // })
 
     //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
-    
     const updatedTweets = await Promise.all(tweets.map(async tweet => {
-      let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
-      const mappedCategoriesArray = []
-      // let mappedCategoriesArray = postCategoriesArray['0'] ? [(await Category.find({_id: postCategoriesArray['0'].category}))] : []
-      while (postCategoriesArray.length) {
-        let shiftedCategory = postCategoriesArray.shift()
-        dbLogger(tweet._id + ':' + shiftedCategory)
-        mappedCategoriesArray.push(shiftedCategory._doc.category)
-      }
-      tweet._doc.categories = mappedCategoriesArray
-      // tweet._doc.categories = ['funny']
-      // dbLogger(tweet);
+      tweet = await addCategoriesToTweet(tweet)
       return tweet;
     }));
 
@@ -86,7 +89,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
   try {
-    let newTweetCategories = ['funny', 'cool'];
+    let newTweetCategories = ['funny', 'cool', 'unique'];
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
