@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SessionForm.css';
 import { signup, clearSessionErrors } from '../../store/session';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function SignupForm () {
   const [email, setEmail] = useState('');
@@ -52,52 +53,79 @@ function SignupForm () {
   }
 
   return (
-    <form className="session-form" onSubmit={handleSubmit}>
-      <h2>Sign Up Form</h2>
-      <div className="errors">{errors?.email}</div>
-      <label>
-        <span>Email</span>
-        <input type="text"
-          value={email}
-          onChange={update('email')}
-          placeholder="Email"
-        />
-      </label>
-      <div className="errors">{errors?.username}</div>
-      <label>
-        <span>Username</span>
-        <input type="text"
-          value={username}
-          onChange={update('username')}
-          placeholder="Username"
-        />
-      </label>
-      <div className="errors">{errors?.password}</div>
-      <label>
-        <span>Password</span>
-        <input type="password"
-          value={password}
-          onChange={update('password')}
-          placeholder="Password"
-        />
-      </label>
-      <div className="errors">
-        {password !== password2 && 'Confirm Password field must match'}
-      </div>
-      <label>
-        <span>Confirm Password</span>
-        <input type="password"
-          value={password2}
-          onChange={update('password2')}
-          placeholder="Confirm Password"
-        />
-      </label>
-      <input
-        type="submit"
-        value="Sign Up"
-        disabled={!email || !username || !password || password !== password2}
-      />
-    </form>
+    <div className='session-form-container'>
+        <form className="session-form" onSubmit={handleSubmit}>
+          
+            <img className="socialQBlackLogo" src='/assets/images/SocialQBlackLogo.png' alt='socialQlogo'></img>
+            
+            <div className="errors">{errors?.email}</div>
+            
+            <label>
+              <p className='inputHeader'>Email</p>
+              <input 
+                className='formInput'
+                type="text"
+                value={email}
+                onChange={update('email')}
+                placeholder="Email"
+              />
+            </label>
+
+            <div className="errors">{errors?.username}</div>
+            
+            <label>
+              <p className='inputHeader'>Full Name</p>
+              <input 
+                className='formInput'
+                type="text"
+                value={username}
+                onChange={update('username')}
+                placeholder="Full Name"
+              />
+            </label>
+
+            <div className="errors">{errors?.password}</div>
+            
+            <label>
+              <p className='inputHeader'>Password</p>
+              <input 
+                className='formInput'
+                type="password"
+                value={password}
+                onChange={update('password')}
+                placeholder="Password"
+              />
+            </label>
+
+            <div className="passwordErrors">
+              {password !== password2 && 'Confirm Password field must match'}
+            </div>
+
+            <label>
+              <p className='inputHeader'>Confirm Password</p>
+              <input 
+                className='formInput'
+                type="password"
+                value={password2}
+                onChange={update('password2')}
+                placeholder="Confirm Password"
+              />
+            </label>
+
+            <input
+              className='loginButton'
+              type="submit"
+              value="Sign Up"
+              disabled={!email || !username || !password || password !== password2}
+            />
+
+            <div className='signupLinkContainer'>
+              <p>Already have an account?</p>
+            
+              <Link to="/login"className="sinupLink">Sign in</Link>
+            </div>
+        </form>
+    </div>
   );
 }
 
