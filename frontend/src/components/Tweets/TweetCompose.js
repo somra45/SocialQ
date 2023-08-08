@@ -38,7 +38,7 @@ function TweetCompose () {
               wrap='soft'
               className='compose-tweet-input'
               type="textarea"
-              value={text}
+              value=""
               onChange={update}
               placeholder="Give us a breif description of how you would like your Tweet to sound"
               required
