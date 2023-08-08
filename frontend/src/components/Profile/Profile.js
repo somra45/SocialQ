@@ -23,7 +23,14 @@ function Profile () {
       <>
         <NavBar/>
         <div className='profile-container'>
-          <div className='left-container'>Left container</div>
+
+          <div className='left-container'>
+            <i class="fa-regular fa-circle-user fa-2xl" style={{color: "#749bc2"}}></i>
+            <h2 className='currentUserProfile'>{currentUser.username}'s Profile</h2>
+            <div className='profile-subs-container'>
+              
+            </div>
+          </div>
 
           <div className='middle-container'>
             <h2 className='currentUserHeader'>{currentUser.username}'s Tweets</h2>
@@ -42,11 +49,17 @@ function Profile () {
           </div>
 
           <div className='right-container'>
-          < Calendar />
+            <div className='theos-calendar-container'>
+             < Calendar />
+            </div>
+
+            <h1 className='stats-header'>{currentUser.username}'s Stats</h1>
+            <div className='stats-container'>
+              
+            </div>
           </div>
 
-        </div>
-        
+       </div>
       </>
     );
   }
