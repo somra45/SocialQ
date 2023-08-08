@@ -41,10 +41,12 @@ function Profile () {
             </div>
           </div>
 
-          <div className='right-container'>right container</div>
+          <div className='right-container'>
+          < Calendar />
+          </div>
 
         </div>
-        < Calendar />
+        
       </>
     );
   }

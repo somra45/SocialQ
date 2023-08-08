@@ -10,12 +10,7 @@ const Calendar = () => {
     const calendarRef = useRef(null);
     const [currentEvents, setCurrentEvents] = useState([]);
     const events = Object.values(useSelector(state => state.tweets.user));
-    function handleEvents(events) {
-        setCurrentEvents(events);
-        currentEvents.forEach(event => {
-            calendarRef.addEvent(event)
-        })
-      }
+
     const renderEventContent = (eventInfo) => {
         return (
             <>
@@ -23,8 +18,6 @@ const Calendar = () => {
             </>
         ) 
     } 
-
-
 
     return (
         <>
@@ -54,7 +47,6 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
-                // eventsSet={() => handleEvents(events)}
             />
         </div>
      
