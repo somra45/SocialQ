@@ -22,13 +22,27 @@ function Profile () {
       <>
         <NavBar/>
         <div className='profile-container'>
-          <h2>All of {currentUser.username}'s Tweets</h2>
-          {userTweets.map(tweet => (
-            <TweetBox
-              key={tweet._id}
-              tweet={tweet}
-            />
-          ))}
+
+          <div className='left-container'>Left container</div>
+
+          <div className='middle-container'>
+            <h2 className='currentUserHeader'>{currentUser.username}'s Tweets</h2>
+
+            <div className='tweet-container'>
+              {userTweets.map(tweet => (
+                <div className='individual-tweet'>
+                  <TweetBox
+                    key={tweet._id}
+                    tweet={tweet}
+                  />
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+          <div className='right-container'>right container</div>
+          
         </div>
       </>
     );
