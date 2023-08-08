@@ -38,14 +38,24 @@ router.get('/user/:userId', async (req, res, next) => {
     return next(error);
   }
   try {
-    const tweets = await Tweet.find({ author: user._id })
+    let tweets = await Tweet.find({ author: user._id })
                               .sort({ createdAt: -1 })
                               .populate("author", "_id username");
-    // const subscriptions = await Subscription.find({subscriber: user._id})
-    //                                         .sort({ createdAt: -1 })
-    //                                         .populate("subscribtions", "_id username");
+    // let tweetsWithCategories = {...tweets}
+    // tweetsWithCategories.forEach(tweet =>{
+      // dbLogger(tweet)
+    // })
 
-    return res.json(tweets);
+    //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
+    const updatedTweets = await Promise.all(tweets.map(async tweet => {
+      let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
+      let mappedCategoriesArray = postCategoriesArray['0'] ? [(await Category.findOne({_id: postCategoriesArray['0'].category}))._doc.name] : []
+      tweet._doc.categories = mappedCategoriesArray
+      dbLogger(tweet);
+      return tweet;
+    }));
+
+    return res.json(updatedTweets);
   }
   catch(err) {
     return res.json([]);
@@ -67,9 +77,8 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
-  debugger
   try {
-    
+    let newTweetCategories = ['funny'];
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
@@ -77,33 +86,45 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
       date: new Date(),
-      categories: ['funny']
+      categories: newTweetCategories
     });
 
     let tweet = await newTweet.save();
-  
-    const categoriesArray = ['funny']
-    const mappedCategoryIds = []
-    categoriesArray?.forEach(catEl => {
-      const catId = Category.find({name: catEl}).id
-      if (catId) {
-        dbLogger(`catId: ${catId}`)
-        const newPostCat = await PostCategory.create({category: catId, post: tweet.id})
-        mappedCategoryIds.push(newPostCat.id);
-      } else {
-        const newCat = Category.create({name: catEl});
-        dbLogger(`newCat: ${newCat}`)
-        mappedCategoryIds.push(PostCategory.create({category: newCat.id, post: tweet.id}).id);
+    
+    //create new categories for anything not already in db
+    if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
+      const category = await Category.find({name: catEl.toLowerCase()})
+      if (!category) {
+        dbLogger('moving into creation')
+        let cat = await new Category({name: catEl.toLowerCase()});
+        dbLogger(`new cat: ${cat}`)
+        cat.save();
+        cat = await Category.find({name: catEl.toLowerCase()});
+        dbLogger(`created: ${cat}`);
       }
+    });
+
+    //create new postCategory for each category, now that categories have been created
+    let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
+      const category = await Category.findOne({name: catEl.toLowerCase()})
+      dbLogger(`category, ${category}, categoryId: ${category._id}, post: ${tweet._id}`)
+      PostCategory.create({category: category._id, post: tweet._id});
+      // dbLogger(PostCategory.find())
     })
     
+    //get an array of categories for that tweet, now that postCategories have been created
+    // let tweetCategories = await PostCategory.find({postId: tweet.id});
+    // let mappedTweetCategories = tweetCategories.map(async el => {
+    //   Category.find({name: el.name});
+    // });
+
     tweet = await tweet
-                      .populate('author', '_id username')
+                      .populate('author', '_id username');
                       // .populate({
                       //   path: 'category',
                       //   match: { username: { $regex: keyword, $options: 'i' } }, // Filtering the author by username
                       // })
-    tweet['categories'] = mappedCategoryIds
+    // tweet['categories'] = mappedTweetCategories
 
     return res.json(tweet);
   }
