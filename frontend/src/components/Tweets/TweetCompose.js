@@ -6,7 +6,7 @@ import './TweetCompose.css';
 import NavBar from '../NavBar/NavBar';
 
 function TweetCompose () {
-  const [text, setText] = useState('');
+  const [body, setBody] = useState('');
   const dispatch = useDispatch();
   const author = useSelector(state => state.session.user);
   const newTweet = useSelector(state => state.tweets.new);
@@ -18,11 +18,11 @@ function TweetCompose () {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(composeTweet({ text })); 
-    setText('');
+    dispatch(composeTweet({ body })); 
+    setBody('');
   };
 
-  const update = e => setText(e.currentTarget.value);
+  const update = e => setBody(e.currentTarget.value);
 
   return (
     <>
@@ -72,15 +72,8 @@ function TweetCompose () {
                 /> 
 
                 {/* this is where the extra tags will be */}
-              
-
-
-
-                
-                
-                
+       
                  {/* this is where the extra tags will be */}
-
 
                 <div className="errors">{errors?.text}</div>
 
@@ -108,6 +101,7 @@ function TweetCompose () {
           <h3>Previous Tweet</h3>
           {newTweet ? <TweetBox tweet={newTweet} /> : undefined}
         </div> */}
+
       </div>
     </>
   )

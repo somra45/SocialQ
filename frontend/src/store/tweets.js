@@ -68,6 +68,7 @@ export const fetchTweets = () => async dispatch => {
         body: JSON.stringify(data)
       });
       const tweet = await res.json();
+      debugger
       dispatch(receiveNewTweet(tweet));
     } catch(err) {
       const resBody = await err.json();

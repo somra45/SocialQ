@@ -1,11 +1,13 @@
 import "./TweetBox.css"
 
-function TweetBox ({ tweet: { text, author }}) {
+function TweetBox ({ tweet: { body, author, date, categories }}) {
   const { username } = author;
   return (
     <div className="tweet">
-      <h3>{username}</h3>
-      <p>{text}</p>
+      <h3>author: {username}</h3>
+      <p>date: {date}</p>
+      <p>body: {body}</p>
+      <ul>categories: {categories?.map(cat => <li><b>{cat}</b></li>)}</ul>
     </div>
   );
 }
