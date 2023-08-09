@@ -25,3 +25,8 @@
     font-size: 12px;
 }
 
+.profile-event-div {
+    background-color: rgb(91, 91, 228);
+    width:8px;
+    border-radius: 5px;
+}

@@ -14,7 +14,7 @@ const Calendar = () => {
     const renderEventContent = (eventInfo) => {
         return (
             <>
-                <b>{eventInfo.timeText}</b>
+                <div className="profile-event-div"></div>
             </>
         ) 
     } 
