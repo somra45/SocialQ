@@ -152,8 +152,8 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
 });
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
+  console.log(req)
   try {
-
     const tweetId = req.params.id;
     const updates = req.body;
                              
@@ -177,8 +177,9 @@ router.delete('/:id', async (req, res) => {
     dbLogger('id:' + tweetId)
 
     // Find the post by its ID and delete it, and delete any associated postCategories
-    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
     PostCategory.deleteMany({post: tweetId})
+    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
+    
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });

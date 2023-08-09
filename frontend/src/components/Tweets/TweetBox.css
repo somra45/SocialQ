@@ -34,4 +34,15 @@ b {
 }
 
 
+.show-modal {
+    width: 10em;
+    height: 5em;
+    display: block;
+    position: absolute;
+    background-color: lightblue;
+}
+
+.hide-modal {
+    display: none;
+}
 

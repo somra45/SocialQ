@@ -153,10 +153,6 @@ createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
   return postCategoriesArray
 };
 
-// createPostCategoriesForUserTweets(cher,cherCategories)
-// createPostCategoriesForUserTweets(cookieMonster,cookieMonsterCategories)
-// createPostCategoriesForUserTweets(lordVoldemort,lordVoldemortCategories)
-
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => {
