@@ -6,7 +6,6 @@ const Category = require('../models/Category');
 const PostCategory = require('../models/PostCategory');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker'); 
-const Category = require("../models/Category.js");
 
 const NUM_SEED_USERS = 10;
 const NUM_SEED_TWEETS = 30;
@@ -150,7 +149,7 @@ tweets.push(
     likeCount: 1506,
     viewCount: 116300,
     bookmarkCount: 16,
-    videoUrl1: 'https://twitter.com/i/status/1679894982533033992', // need to edit
+    videoUrl1: `https://socialq--seeds.s3.us-east-2.amazonaws.com/cher+it's+a+man's+world+video.mp4`,
     videoDesc1: `flipping through pages of Cher's book`,
     createdOnSocialQ: false
   }),
@@ -166,7 +165,7 @@ tweets.push(
     likeCount: 1578,
     viewCount: 105500,
     bookmarkCount: 19,
-    videoUrl1: 'https://twitter.com/i/status/1679894982533033992', // need to edit
+    videoUrl1: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cher+paradise+is+here.mp4',
     videoDesc1: `cover of cher's single Paradise is Here while track plays`,
     createdOnSocialQ: false
   }),
@@ -229,7 +228,7 @@ tweets.push(
     likeCount: 1416,
     viewCount: 105300,
     bookmarkCount: 9,
-    videoUrl1: '', // need to edit
+    videoUrl1: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cher+one+by+one.mp4',
     videoDesc1: `still of Cher's One by One single while track plays in background`,
     createdOnSocialQ: false
   }),
@@ -307,7 +306,7 @@ tweets.push(
     likeCount: 2357,
     viewCount: 112000,
     bookmarkCount: 9,
-    videoUrl1: '', //need to edit
+    videoUrl1: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cookie+monster+crumble.mp4',
     videoDesc1: `cookie monster asking: 'if cookie crumbles in the forest, and me not there to eat it, is it still delicious?'`,
     createdOnSocialQ: false
   }),
@@ -517,15 +516,53 @@ categories.push(
   }),
   new Category({
     name: 'excited'
+  }),
+  new Category({
+    name: 'hungry'
+  }),
+  new Category({
+    name: 'goofy'
+  }),
+  new Category({
+    name: 'devious'
+  }),
+  new Category({
+    name: 'calculated'
+  }),
+  new Category({
+    name: 'clever'
   })
 )
 
 //create post categories
 const postCategories = []
 
-postCategories.push(
-  new PostCategory()
-)
+const cher = {firstName: 'Cher', lastName: 'Sarkissian'}
+const cookieMonster = {firstname: 'Cookie', lastName: 'Monster'}
+const lordVoldemort = {firstName: 'Lord', lastName: 'Voldemort'}
+
+const cherCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}]
+const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
+const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
+
+createPostCategoriesForUserTweets = async (user, userCategoryArray) => {
+  const userTweets = await Tweet.find({author: User.findOne({firstName: user.firstName, lastName: user.lastName})._id}).exec()
+  const userCategories = await Category.find({$or: userCategoryArray}).exec()
+
+  userTweets.forEach(post => {
+    userCategories.forEach(category => {
+      const postCategory = new PostCategory({
+        post: post._id,
+        category: category._id
+      });
+      postCategories.push(postCategory)
+    });
+  });
+};
+
+createPostCategoriesForUserTweets(cher,cherCategories)
+createPostCategoriesForUserTweets(cookieMonster,cookieMonsterCategories)
+createPostCategoriesForUserTweets(lordVoldemort,lordVoldemortCategories)
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -538,22 +575,32 @@ mongoose
     process.exit(1);
   });
 
-  const insertSeeds = () => {
+  
+  const insertSeeds = async () => {
     console.log("Resetting db and seeding users and tweets...");
   
-    User.collection.drop()
-                   .then(() => Tweet.collection.drop())
-                   .then(() => PostCategory.collection.drop())
-                   .then(() => Category.collection.drop())
-                   .then(() => User.insertMany(users))
-                   .then(() => Tweet.insertMany(tweets))
-                   .then(() => Category.insertMany(categories))
-                   .then(() => {
-                     console.log("Done!");
-                     mongoose.disconnect();
-                   })
-                   .catch(err => {
-                     console.error(err.stack);
-                     process.exit(1);
-                   });
+    try {
+      await User.collection.drop();
+      await Tweet.collection.drop();
+      await PostCategory.collection.drop();
+      await Category.collection.drop();
+  
+      await User.insertMany(users);
+      await Tweet.insertMany(tweets);
+      await Category.insertMany(categories);
+  
+      // Populate postCategories before inserting
+      await createPostCategoriesForUserTweets(cher, cherCategories);
+      await createPostCategoriesForUserTweets(cookieMonster, cookieMonsterCategories);
+      await createPostCategoriesForUserTweets(lordVoldemort, lordVoldemortCategories);
+  
+      await PostCategory.insertMany(postCategories);
+  
+      console.log("Done!");
+    } catch (err) {
+      console.error(err.stack);
+      process.exit(1)
+    } finally {
+      mongoose.disconnect();
+    }
   }
