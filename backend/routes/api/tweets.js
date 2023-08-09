@@ -147,7 +147,6 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     return res.json(updatedTweet);
   }
   catch(err) {
-    debugger
     next(err);
   }
 });
