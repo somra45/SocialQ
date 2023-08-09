@@ -8,10 +8,11 @@ import { useSelector } from "react-redux";
 import { clearTweetErrors, fetchUserTweets } from "../../store/tweets";
 import { useEffect } from "react";
 import NavBar from "../NavBar/NavBar";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const BigCalendar = () => {
     const calendarRef = useRef(null);
-    const [currentEvents, setCurrentEvents] = useState([]);
+    const history = useHistory();
     const events = Object.values(useSelector(state => state.tweets.user));
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.session.user);
@@ -61,10 +62,21 @@ const BigCalendar = () => {
                 <FullCalendar
                     ref={calendarRef}
                     plugins={[dayGridPlugin, interactionPlugin]}
+                    customButtons={{
+                        profile: {
+                            text: 'Back to Profile',
+                            click: function() {
+                                history.push('/profile')
+                            }
+                        }
+                    }}
                     headerToolbar={{
                         left: "prev,today,next",
                         center: "title",
                         right: "dayGridMonth,dayGridWeek,dayGridDay"
+                    }}
+                    footerToolbar={{
+                        center: "profile"
                     }}
                     buttonText={{
                         today: "Today",
@@ -85,7 +97,6 @@ const BigCalendar = () => {
                     events={userEvents}
                     eventContent={renderEventContent}
                     eventChange={handleEventChange}
-
             />
             </div>
         </div>

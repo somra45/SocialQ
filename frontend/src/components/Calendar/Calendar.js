@@ -6,7 +6,6 @@ import './Calendar.css'
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-// import { events } from './events.js'
 
 const Calendar = () => {
     const history = useHistory();
@@ -39,8 +38,11 @@ const Calendar = () => {
                 }}
                 headerToolbar={{
                     left: "prev,today,next",
-                    center: "title,bigCalendar",
+                    center: "title",
                     right: "dayGridMonth,dayGridWeek,dayGridDay"
+                }}
+                footerToolbar={{
+                    center: "bigCalendar"
                 }}
                 buttonText={{
                     today: "Today",
@@ -59,6 +61,7 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
+                
             />
         </div>
      
