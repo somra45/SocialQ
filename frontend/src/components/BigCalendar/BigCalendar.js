@@ -7,6 +7,7 @@ import './BigCalendar.css'
 import { useSelector } from "react-redux";
 import { clearTweetErrors, fetchUserTweets } from "../../store/tweets";
 import { useEffect } from "react";
+import NavBar from "../NavBar/NavBar";
 
 const BigCalendar = () => {
     const calendarRef = useRef(null);
@@ -45,7 +46,7 @@ const BigCalendar = () => {
                     overflow: "hidden",
                     textOverflow: "ellipsis"
                 }}>
-                    {`${eventInfo.event.title} ${eventInfo.timeText}m`}
+                    {`${eventInfo.event.title} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]}`}
                 </i>
             </div>
                 
@@ -54,6 +55,7 @@ const BigCalendar = () => {
     } 
     return (
         <>
+        <NavBar />
         <div className="big-calendar-full-div">
             <div className="big-calendar-div">
                 <FullCalendar
@@ -72,7 +74,7 @@ const BigCalendar = () => {
                         list: "List"
                     }}
                     eventClassNames={'event-div'}
-                    height='550px'
+                    height='70vh'
                     initialView="dayGridMonth"
                     editable={true}
                     selectable={true}

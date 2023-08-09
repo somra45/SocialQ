@@ -5,9 +5,11 @@ import React, { useState, useRef } from "react";
 import './Calendar.css'
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // import { events } from './events.js'
 
 const Calendar = () => {
+    const history = useHistory();
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
 
@@ -27,9 +29,17 @@ const Calendar = () => {
             <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, interactionPlugin]}
+                customButtons={{
+                    bigCalendar: {
+                        text: 'Expand Calendar',
+                        click: function() {
+                            history.push('/calendar')
+                        }
+                    }
+                }}
                 headerToolbar={{
                     left: "prev,today,next",
-                    center: "title",
+                    center: "title,bigCalendar",
                     right: "dayGridMonth,dayGridWeek,dayGridDay"
                 }}
                 buttonText={{
