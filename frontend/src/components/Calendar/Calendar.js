@@ -4,17 +4,20 @@ import interactionPlugin from "@fullcalendar/interaction";
 import React, { useState, useRef } from "react";
 import './Calendar.css'
 import { useSelector } from "react-redux";
-// import { events } from './events.js'
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Calendar = () => {
+    const history = useHistory();
     const calendarRef = useRef(null);
-    const [currentEvents, setCurrentEvents] = useState([]);
     const events = Object.values(useSelector(state => state.tweets.user));
 
     const renderEventContent = (eventInfo) => {
         return (
             <>
-                <b>{eventInfo.timeText}</b>
+                <div className="profile-event-div">
+                    <i className="event-box">Tweet</i>
+                </div>
             </>
         ) 
     } 
@@ -25,10 +28,21 @@ const Calendar = () => {
             <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, interactionPlugin]}
+                customButtons={{
+                    bigCalendar: {
+                        text: 'Expand Calendar',
+                        click: function() {
+                            history.push('/calendar')
+                        }
+                    }
+                }}
                 headerToolbar={{
                     left: "prev,today,next",
                     center: "title",
                     right: "dayGridMonth,dayGridWeek,dayGridDay"
+                }}
+                footerToolbar={{
+                    center: "bigCalendar"
                 }}
                 buttonText={{
                     today: "Today",
@@ -47,6 +61,7 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
+                
             />
         </div>
      

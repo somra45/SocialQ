@@ -177,8 +177,9 @@ router.delete('/:id', async (req, res) => {
     const tweetId = req.params.id;
     dbLogger('id:' + tweetId)
 
-    // Find the post by its ID and delete it
+    // Find the post by its ID and delete it, and delete any associated postCategories
     const deletedPost = await Tweet.findByIdAndDelete(tweetId);
+    PostCategory.deleteMany({post: tweetId})
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });

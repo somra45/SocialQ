@@ -13,6 +13,7 @@ import Profile from './components/Profile/Profile';
 
 import { getCurrentUser } from './store/session';
 import TweetGenerate from './components/Tweets/TweetGenerate';
+import BigCalendar from './components/BigCalendar/BigCalendar';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -32,6 +33,7 @@ function App() {
         <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetGenerate} />
+        <ProtectedRoute exact path="/calendar" component={BigCalendar} />
       </Switch>
     </>
   );
