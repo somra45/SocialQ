@@ -26,13 +26,11 @@ const userSchema = new Schema({
     },
     twitterHandle: {
       type: String,
-      // required: true,
       unique: true,
       sparse: true
     },
     instagramHandle: {
       type: String,
-      // required: true,
       unique: true,
       sparse: true
     },

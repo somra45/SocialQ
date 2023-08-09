@@ -78,17 +78,23 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 }
   
 // Create tweets
-const tweets = [];
 
-for (let i = 0; i < NUM_SEED_TWEETS; i++) {
-  tweets.push(
-    new Tweet ({
-      body: faker.hacker.phrase(),
-      author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
-      date: new Date()
-    })
-  )
-}
+const createFakerUserTweets = async () => {
+  const fakerUsers = await User.find({ username: { $nin: ['cher', 'mecookiemonster', 'lord_voldemort7'] } })
+  const fakerUserTweets = [];
+
+  for (let i = 0; i < NUM_SEED_TWEETS; i++) {
+    const newTweet = new Tweet ({
+        body: faker.hacker.phrase(),
+        author: fakerUsers[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
+        date: new Date()
+        })
+      console.log(newTweet)
+    fakerUserTweets.push(newTweet)
+  }
+  
+  return fakerUserTweets;
+};
 
 //create categories
 const categories = []
@@ -124,29 +130,28 @@ categories.push(
 )
 
 //create post categories
-const postCategories = []
-
-const cher = {firstName: 'Cher', lastName: 'Sarkissian'}
-const cookieMonster = {firstname: 'Cookie', lastName: 'Monster'}
-const lordVoldemort = {firstName: 'Lord', lastName: 'Voldemort'}
 
 const cherCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}]
 const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
 const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
 
-createPostCategoriesForUserTweets = async (user, userCategoryArray) => {
-  const userTweets = await Tweet.find({author: User.findOne({firstName: user.firstName, lastName: user.lastName})._id}).exec()
-  const userCategories = await Category.find({$or: userCategoryArray}).exec()
-  
+createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
+  const user = await User.find({username: username});
+  const userTweets = await Tweet.find({author: user._id});
+  const userCategories = await Category.find({$or: userCategoryArray});
+  const postCategoriesArray = [];
+
   userTweets.forEach(tweet => {
     userCategories.forEach(category => {
       const postCategory = new PostCategory({
         post: tweet._id,
         category: category._id
       });
-      postCategories.push(postCategory)
+      console.log(postCategory)
+      postCategoriesArray.push(postCategory)
     });
   });
+  return postCategoriesArray
 };
 
 // createPostCategoriesForUserTweets(cher,cherCategories)
@@ -175,6 +180,9 @@ mongoose
       await Category.collection.drop();
   
       await User.insertMany(users)
+
+      const fakerUserTweetsArray = await createFakerUserTweets();
+      await Tweet.insertMany(fakerUserTweetsArray);
       
       const cherTweetsArray = await createCherTweets();
       await Tweet.insertMany(cherTweetsArray);
@@ -188,10 +196,15 @@ mongoose
       await Category.insertMany(categories);
   
       // Populate postCategories before inserting
-      await createPostCategoriesForUserTweets(cher, cherCategories);
-      await createPostCategoriesForUserTweets(cookieMonster, cookieMonsterCategories);
-      await createPostCategoriesForUserTweets(lordVoldemort, lordVoldemortCategories);
-      await PostCategory.insertMany(postCategories);
+      const cherPostCategories = await createPostCategoriesForUserTweets('cher', cherCategories);
+      await PostCategory.insertMany(cherPostCategories);
+
+      const cookieMonsterPostCategories = await createPostCategoriesForUserTweets('mecookiemonster', cherCategories);
+      await PostCategory.insertMany(cookieMonsterPostCategories);
+
+      const lordVoldemortPostCategories = await createPostCategoriesForUserTweets('lord_voldemort7', lordVoldemortCategories);
+      await PostCategory.insertMany(lordVoldemortPostCategories);
+
       console.log("Done!");
     } catch (err) {
       console.error(err.stack);
