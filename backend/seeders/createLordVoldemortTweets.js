@@ -62,7 +62,7 @@ const createLordVoldemortTweets = async () => {
       }),
       new Tweet({
         body: `Plans for world domination? Completed it, mate.`,
-        author: User.findOne({ firstName: 'Lord', lastName: 'Voldemort' })._id,
+        author: lordVoldemort._id,
         date: new Date('October 10, 2022, 9:45 AM EDT'),
         replyCount: 29,
         retweetCount: 850,
@@ -74,7 +74,7 @@ const createLordVoldemortTweets = async () => {
       
       new Tweet({
         body: `Just had a lovely stroll through the Forbidden Forest. Met a couple of Acromantulas and a unicorn. #MagicalDay`,
-        author: User.findOne({ firstName: 'Lord', lastName: 'Voldemort' })._id,
+        author: lordVoldemort._id,
         date: new Date('December 5, 2022, 3:12 PM EDT'),
         replyCount: 12,
         retweetCount: 622,
@@ -86,7 +86,7 @@ const createLordVoldemortTweets = async () => {
       
       new Tweet({
         body: `Remember, I didn't choose the Dark Lord life. The Dark Lord life chose me.`,
-        author: User.findOne({ firstName: 'Lord', lastName: 'Voldemort' })._id,
+        author: lordVoldemort._id,
         date: new Date('January 21, 2023, 7:30 AM EDT'),
         replyCount: 38,
         retweetCount: 1065,
@@ -98,7 +98,7 @@ const createLordVoldemortTweets = async () => {
       
       new Tweet({
         body: `Found this cool book on horcruxes. It's like a DIY guide to immortality. #LifeHacks`,
-        author: User.findOne({ firstName: 'Lord', lastName: 'Voldemort' })._id,
+        author: lordVoldemort._id,
         date: new Date('April 8, 2023, 11:58 AM EDT'),
         replyCount: 27,
         retweetCount: 732,
@@ -110,7 +110,7 @@ const createLordVoldemortTweets = async () => {
       
       new Tweet({
         body: `When you're about to take over the wizarding world but your favorite show drops a new season on Netflix. Decisions, decisions. 📺🔮`,
-        author: User.findOne({ firstName: 'Lord', lastName: 'Voldemort' })._id,
+        author: lordVoldemort._id,
         date: new Date('May 30, 2023, 6:05 PM EDT'),
         replyCount: 16,
         retweetCount: 586,
@@ -123,7 +123,5 @@ const createLordVoldemortTweets = async () => {
   
     return lordVoldemortTweets;
 };
-
-
 
 module.exports = createLordVoldemortTweets;
