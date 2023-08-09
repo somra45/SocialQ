@@ -4,17 +4,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import React, { useState, useRef } from "react";
 import './Calendar.css'
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 // import { events } from './events.js'
 
 const Calendar = () => {
     const calendarRef = useRef(null);
-    const [currentEvents, setCurrentEvents] = useState([]);
     const events = Object.values(useSelector(state => state.tweets.user));
 
     const renderEventContent = (eventInfo) => {
         return (
             <>
-                <div className="profile-event-div"></div>
+                <div className="profile-event-div">
+                    <i className="event-box">Tweet</i>
+                </div>
             </>
         ) 
     } 
