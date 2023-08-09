@@ -56,7 +56,7 @@ const BigCalendar = () => {
     } 
     return (
         <>
-        <NavBar />
+        <NavBar/>
         <div className="big-calendar-full-div">
             <div className="big-calendar-div">
                 <FullCalendar
