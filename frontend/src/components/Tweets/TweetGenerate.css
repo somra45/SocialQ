@@ -1,0 +1,91 @@
+.generateTweetContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.generateTweetContainerTop {
+    width: 100%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.generateTweetContainerBottom {
+    width: 100%;
+    min-height: 75px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.generateTweetContainerBottom .bottomButtonsLeft {
+    margin-top: auto;
+}
+.generateTweetContainerBottom .bottomButtonsMiddle {
+    margin-bottom: auto;
+}
+.generateTweetContainerBottom .bottomButtonsRight {
+    margin-top: auto;
+}
+.generateTweetContainer .generateLeft {
+    padding: 16px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+}
+.generateTweetContainer .generateMiddle {
+    padding: 16px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.generateTweetContainer .generateRight {
+    padding: 16px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+}
+
+.generateTweetContainer .generateLeft .generateTags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 4px;
+}
+
+.generateTweetContainer .generateLeft .generateTags .ReactTags__selected {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.generateTweetContainer .generateLeft .tag-wrapper {
+    background-color: #EFEFEF;
+    border: 1px solid #000000;
+    padding: 4px;
+    font-size: 12px;
+}
+.generateTweetContainer .generateLeft .ReactTags__remove {
+    background-color: #EFEFEF;
+    border: none;
+}
+.generateTweetContainer .generateLeft .ReactTags__tags {
+    width: 100%;
+}
+.generateTweetContainer .generateLeft .ReactTags__tagInputField {
+    width: 100%;
+}
