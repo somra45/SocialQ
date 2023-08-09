@@ -4,6 +4,7 @@ import { clearTweetErrors, fetchTweets } from '../../store/tweets';
 import TweetBox from './TweetBox';
 import Calendar from "../Calendar/Calendar";
 import NavBar from '../NavBar/NavBar';
+import "./Tweets.css";
 
 function Tweets () {
   const dispatch = useDispatch();
@@ -19,10 +20,17 @@ function Tweets () {
   return (
     <>
       <NavBar/>
-      <h2>All Tweets</h2>
-      {tweetsSortedByDate?.map(tweet => (
+      {/* <h2>Welcome</h2> */}
+      <div className='splash-page-container'>
+          
+      </div>
+
+      
+
+
+      {/* {tweetsSortedByDate?.map(tweet => (
         <TweetBox key={tweet._id} tweet={tweet} />
-      ))}
+      ))} */}
     </>
   );
 }

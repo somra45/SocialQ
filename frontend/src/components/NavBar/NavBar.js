@@ -35,6 +35,7 @@ function NavBar () {
   return (
     <>
       <div className='navbarContainer'>
+        
         <img className="navbarLogo" src='/assets/images/SocialQOffWhite.png' alt='socialQlogo'></img>
         { getLinks() }
       </div>
