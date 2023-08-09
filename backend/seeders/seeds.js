@@ -136,7 +136,7 @@ const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
 const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
 
 createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
-  const user = await User.find({username: username});
+  const user = await User.findOne({username: username});
   const userTweets = await Tweet.find({author: user._id});
   const userCategories = await Category.find({$or: userCategoryArray});
   const postCategoriesArray = [];
@@ -147,7 +147,6 @@ createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
         post: tweet._id,
         category: category._id
       });
-      console.log(postCategory)
       postCategoriesArray.push(postCategory)
     });
   });
@@ -199,7 +198,7 @@ mongoose
       const cherPostCategories = await createPostCategoriesForUserTweets('cher', cherCategories);
       await PostCategory.insertMany(cherPostCategories);
 
-      const cookieMonsterPostCategories = await createPostCategoriesForUserTweets('mecookiemonster', cherCategories);
+      const cookieMonsterPostCategories = await createPostCategoriesForUserTweets('mecookiemonster', cookieMonsterCategories);
       await PostCategory.insertMany(cookieMonsterPostCategories);
 
       const lordVoldemortPostCategories = await createPostCategoriesForUserTweets('lord_voldemort7', lordVoldemortCategories);
