@@ -7,6 +7,7 @@ import './BigCalendar.css'
 import { useSelector } from "react-redux";
 import { clearTweetErrors, fetchUserTweets } from "../../store/tweets";
 import { useEffect } from "react";
+import NavBar from "../NavBar/NavBar";
 
 const BigCalendar = () => {
     const calendarRef = useRef(null);
@@ -54,6 +55,7 @@ const BigCalendar = () => {
     } 
     return (
         <>
+        <NavBar/>
         <div className="big-calendar-full-div">
             <div className="big-calendar-div">
                 <FullCalendar

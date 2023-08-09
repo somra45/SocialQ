@@ -2,7 +2,7 @@ import "./TweetBox.css";
 import { useDispatch } from "react-redux";
 import { deleteTweet, updateTweet } from '../../store/tweets';
 
-function TweetBox ({ tweet: { _id, body, author, date, categories }, alreadyExists}) {
+function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount }, alreadyExists}) {
   const dispatch = useDispatch();
   const { username } = author;
 
@@ -23,6 +23,10 @@ function TweetBox ({ tweet: { _id, body, author, date, categories }, alreadyExis
       </div>
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
+      <div>
+        <p>{likeCount}</p>
+        <p>{retweetCount}</p>
+      </div>
 
     </div>
   );

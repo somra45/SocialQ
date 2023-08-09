@@ -27,6 +27,11 @@ function LoginForm () {
     dispatch(login({ email, password })); 
   }
 
+  const handleDemoLogin = (e) => {
+    e.preventDefault();
+    dispatch(login({ email:"demo-user@appacademy.io", password:"starwars" })); 
+  }
+
   return (
     <>
     <div className='session-form-container'>
@@ -72,6 +77,12 @@ function LoginForm () {
             value="Log In"
             disabled={!email || !password}
           />
+
+          <button
+            className='loginButton'
+            type="submit"
+            onClick={handleDemoLogin}
+          > Demo Log In</button>
           
           <div className='signupLinkContainer'>
             <p>Don't have an account?</p>
