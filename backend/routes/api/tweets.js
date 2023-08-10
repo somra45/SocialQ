@@ -16,21 +16,36 @@ const serverLogger = debug('backend:server');
 const dbLogger = debug('backend:mongodb');
 
 
-const addCategoriesToTweet = async (tweet) => {
+const addCategoriesAndImagesToTweet = async (tweet) => {
   let postCategoriesArray = await PostCategory.find({post: tweet._id}).exec();
-      const mappedCategoriesArray = []
+  const mappedCategoriesArray = []
 
 
-      while (postCategoriesArray.length) {
-        let shiftedCategory = postCategoriesArray.shift()
-        //find the category whose ID is the postCategory's categoryId, then push that into the mappedCategoriesArray
-        const category = await Category.findOne({_id: shiftedCategory._doc.category}).exec()
-        mappedCategoriesArray.push(category._doc.name)
-      }
+  while (postCategoriesArray.length) {
+    let shiftedCategory = postCategoriesArray.shift()
+    //find the category whose ID is the postCategory's categoryId, then push that into the mappedCategoriesArray
+    const category = await Category.findOne({_id: shiftedCategory._doc.category}).exec()
+    mappedCategoriesArray.push(category._doc.name)
+  }
 
-      //set the mappedCategoriesArray as the tweet's categories
-      tweet._doc.categories = mappedCategoriesArray
-      return tweet
+  //set the mappedCategoriesArray as the tweet's categories
+  tweet._doc.categories = mappedCategoriesArray
+
+  const mediaUrls = {images: {}, videos: {}}
+  
+  if (tweet.imageUrl1) mediaUrls.images[1] = {url: tweet.imageUrl1, desc: tweet.imageDesc1}
+  if (tweet.imageUrl2) mediaUrls.images[2] = {url: tweet.imageUrl2, desc: tweet.imageDesc2}
+  if (tweet.imageUrl3) mediaUrls.images[3] = {url: tweet.imageUrl3, desc: tweet.imageDesc3}
+  if (tweet.imageUrl4) mediaUrls.images[4] = {url: tweet.imageUrl4, desc: tweet.imageDesc4}
+ 
+  if (tweet.videoUrl1) mediaUrls.videos[1] = {url: tweet.videoUrl1, desc: tweet.videoDesc1}
+  if (tweet.videoUrl1) mediaUrls.videos[2] = {url: tweet.videoUrl2, desc: tweet.videoDesc2}
+  if (tweet.videoUrl1) mediaUrls.videos[3] = {url: tweet.videoUrl3, desc: tweet.videoDesc3}
+  if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4, desc: tweet.videoDesc4}
+
+  tweet._doc.mediaUrls = mediaUrls;
+
+  return tweet
 }
 
 const tweetArrayToObject = (tweetArray) => {
@@ -48,14 +63,11 @@ router.get('/', async function(req, res, next) {
   // });
   try {
     const tweets = await Tweet.find()
-                              .populate({
-                                  path: "author", 
-                                  select: "_id username profilePhotoUrl twitterHandle"
-                                })
+                              .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
                               .sort({ createdAt: -1 });
 
     const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
-          tweet = await addCategoriesToTweet(tweet)
+          tweet = await addCategoriesAndImagesToTweet(tweet)
           return tweet;
     }));
 
@@ -81,14 +93,11 @@ router.get('/user/:userId', async (req, res, next) => {
   try {
     let tweets = await Tweet.find({ author: user._id })
                               .sort({ createdAt: -1 })
-                              .populate({
-                                  path: "author", 
-                                  select: "_id username profilePhotoUrl twitterHandle"
-                                });
+                              .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
 
     //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
     const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
-      tweet = await addCategoriesToTweet(tweet)
+      tweet = await addCategoriesAndImagesToTweet(tweet)
       return tweet;
     }));
 
@@ -124,10 +133,10 @@ router.post('/', multipleMulterUpload("images"), requireUser, validateTweetInput
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
       imageUrls,
-      photoDesc1: req.body.imageDescriptions[0],
-      photoDesc2: req.body.imageDescriptions[1],
-      photoDesc3: req.body.imageDescriptions[2],
-      photoDesc4: req.body.imageDescriptions[3],
+      imageDesc1: req.body.imageDescriptions[0],
+      imageDesc2: req.body.imageDescriptions[1],
+      imageDesc3: req.body.imageDescriptions[2],
+      imageDesc4: req.body.imageDescriptions[3],
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
@@ -154,9 +163,9 @@ router.post('/', multipleMulterUpload("images"), requireUser, validateTweetInput
     })
 
     tweet = await tweet
-                      .populate('author', '_id username twitterHandle profilePhotoUrl');
+                      .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
 
-    const updatedTweet = await addCategoriesToTweet(tweet);
+    const updatedTweet = await addCategoriesAndImagesToTweet(tweet);
                         
     return res.json(updatedTweet);
   }

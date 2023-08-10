@@ -208,6 +208,7 @@ mongoose
       await Category.collection.drop();
   
       await User.insertMany(users)
+      console.log(users)
 
       const demoUserTweetsArray = await createDemoUserTweets();
       await Tweet.insertMany(demoUserTweetsArray);

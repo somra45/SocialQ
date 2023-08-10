@@ -90,7 +90,6 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
-                eventDisplay='list-item'
                 eventClick={handleEventClick}
                 
             />

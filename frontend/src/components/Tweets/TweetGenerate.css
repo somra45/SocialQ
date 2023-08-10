@@ -90,11 +90,6 @@
 .generateTweetContainer .generateLeft .ReactTags__tagInputField {
     width: 100%;
 }
-
-
-
-
-
 .compose-tweet-input{
     border-radius: 20px;
     padding: 10px;
@@ -239,4 +234,15 @@
     overflow: hidden;
     justify-content: center;
     align-items: center;
+}
+
+.modal-hide {
+    display: none;
+}
+
+.modal-show {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.55);
 }

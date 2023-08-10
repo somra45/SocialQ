@@ -19,68 +19,68 @@ const tweetSchema = new Schema({
 
 
 
-    photoUrl1: {
+    imageUrl1: {
         type: String
     },
-    photoDesc1: {
+    imageDesc1: {
         type: String,
         validate: {
             validator: function(value) {
-              // If photoUrl1 is present, photoDesc1 is required
-              if (this.photoUrl1 && !value) {
+              // If imageUrl1 is present, imageDesc1 is required
+              if (this.imageUrl1 && !value) {
                 return false;
               }
               return true;
             },
-            message: 'Description is required when photo is present'
+            message: 'Description is required when image is present'
         }
     },
-    photoUrl2: {
+    imageUrl2: {
         type: String
     },
-    photoDesc2: {
+    imageDesc2: {
         type: String,
         validate: {
             validator: function(value) {
-              // If photoUrl2 is present, photoDesc2 is required
-              if (this.photoUrl2 && !value) {
+              // If imageUrl2 is present, imageDesc2 is required
+              if (this.imageUrl2 && !value) {
                 return false;
               }
               return true;
             },
-            message: 'Description is required when photo is present'
+            message: 'Description is required when image is present'
         },
     },
-    photoUrl3: {
+    imageUrl3: {
         type: String
     },
-    photoDesc3: {
+    imageDesc3: {
         type: String,
         validate: {
             validator: function(value) {
-              // If photoUrl3 is present, photoDesc3 is required
-              if (this.photoUrl3 && !value) {
+              // If imageUrl3 is present, imageDesc3 is required
+              if (this.imageUrl3 && !value) {
                 return false;
               }
               return true;
             },
-            message: 'Description is required when photo is present'
+            message: 'Description is required when image is present'
         },
     },
-    photoUrl4: {
+    imageUrl4: {
         type: String
     },
-    photoDesc4: {
+    imageDesc4: {
         type: String,
         validate: {
             validator: function(value) {
-              // If photoUrl4 is present, photoDesc4 is required
-              if (this.photoUrl4 && !value) {
+              // If imageUrl4 is present, imageDesc4 is required
+              if (this.imageUrl4 && !value) {
                 return false;
               }
               return true;
             },
-            message: 'Description is required when photo is present'
+            message: 'Description is required when image is present'
         },
     },
 
