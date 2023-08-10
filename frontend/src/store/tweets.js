@@ -4,6 +4,7 @@ import { RECEIVE_USER_LOGOUT } from './session';
 const RECEIVE_TWEETS = "tweets/RECEIVE_TWEETS";
 const RECEIVE_USER_TWEETS = "tweets/RECEIVE_USER_TWEETS";
 const RECEIVE_NEW_TWEET = "tweets/RECEIVE_NEW_TWEET";
+const RECEIVE_UPDATED_TWEET = 'tweets/RECEIVE_UPDATED_TWEET'
 const REMOVE_TWEET = 'tweets/REMOVE_TWEET';
 const RECEIVE_TWEET_ERRORS = "tweets/RECEIVE_TWEET_ERRORS";
 const CLEAR_TWEET_ERRORS = "tweets/CLEAR_TWEET_ERRORS";
@@ -28,6 +29,11 @@ const receiveErrors = errors => ({
   errors
 });
 
+const receiveUpdatedTweet = tweet => ({
+  type: RECEIVE_UPDATED_TWEET,
+  tweet
+})
+
 const removeTweet = tweetId => ({
   type: REMOVE_TWEET,
   tweetId
@@ -37,6 +43,10 @@ export const clearTweetErrors = errors => ({
     type: CLEAR_TWEET_ERRORS,
     errors
 });
+
+export const getTweet = (tweetId) => state => {
+  return state.tweets ? state.tweets.user[tweetId] : null
+}
 
 
 export const fetchTweets = () => async dispatch => {
@@ -82,13 +92,28 @@ export const fetchTweets = () => async dispatch => {
     }
   };
 
+  export const updateTweet = updatedTweet => async dispatch => {
+    try {
+      const res = await jwtFetch(`/api/tweets/${updatedTweet._id}`, {
+        method: 'PUT',
+        body: JSON.stringify(updatedTweet)
+      });
+      const tweet = await res.json();
+      dispatch(receiveUpdatedTweet(tweet));
+    } catch(err) {
+      // TypeError: Cannot read properties of undefined (reading 'user')
+      const resBody = await err.json();
+      if (resBody.statusCode === 400) {
+        return dispatch(receiveErrors(resBody.errors));
+      }
+    }
+  }
+
   export const deleteTweet = tweetId => async dispatch => {
     try {
-      debugger
       const res = await jwtFetch(`/api/tweets/${tweetId}`, {
         method: 'DELETE'
       });
-      debugger
       const response = await res.json();
 
       debugger
@@ -120,6 +145,7 @@ export const tweetErrorsReducer = (state = nullErrors, action) => {
 };
 
 const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
+    const newState = {...state}
     switch(action.type) {
       case RECEIVE_TWEETS:
         return { ...state, all: action.tweets, new: undefined};
@@ -127,10 +153,20 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
         return { ...state, user: action.tweets, new: undefined};
       case RECEIVE_NEW_TWEET:
         return { ...state, new: action.tweet};
+        //don't we want to update this in all and user tweets as well?
+        //if so, replace with:
+        // newState.tweets.new = action.tweet;
+        // newState.tweets.user[action.tweet._id] = action.tweet;
+        // newState.tweets.all[action.tweet._id] = action.tweet;
+        // return newState
+      case RECEIVE_UPDATED_TWEET:
+        newState.user[action.tweet._id] = action.tweet
+        newState.all[action.tweet._id] = action.tweet
+        return newState
       case REMOVE_TWEET:
-          const newState = {...state}
-          debugger
+        debugger
           delete newState.user[action.tweetId]
+          delete newState.all[action.tweetId]
           return newState
       case RECEIVE_USER_LOGOUT:
         return { ...state, user: {}, new: undefined }
