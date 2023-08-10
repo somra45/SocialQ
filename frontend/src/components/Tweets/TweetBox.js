@@ -17,6 +17,28 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
     return `${timestamp.slice(11,16)} ${month} ${timestamp.slice(8,10)}, ${timestamp.slice(0,4)}`;
   }
 
+  const showEditDeleteIfInFuture = () => {
+    if (new Date(date)>new Date()) {
+      return(
+        <>
+        <button onClick={()=>setShowModal(!showModal)}>Edit</button>
+        <button onClick={e=>handleDelete(e)}>Delete</button>
+        </>
+      )} else return(<></>)
+    }
+
+  const showTweetStatsIfInPast = () => {
+    if (new Date(date)<new Date()) {
+      return(
+        <div className="tweet-icons">
+          <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
+          <p></p>
+        </div>
+      )} else return(<></>)
+  }
+
+  
+
   const handleDelete = (e) => {
     e.preventDefault()
     dispatch(deleteTweet(_id))
@@ -40,12 +62,9 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
       <br/>
-      <div className="tweet-icons">
-        <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
-        <p></p>
-      </div>
-      <button onClick={()=>setShowModal(!showModal)}>Edit</button>
-      <button onClick={e=>handleDelete(e)}>Delete</button>
+      {showTweetStatsIfInPast()}
+      {showEditDeleteIfInFuture()}
+      
     </div>
 
     <div className={showModal ? `show-modal` : `hide-modal`}>
@@ -54,6 +73,7 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       <button onClick={e=>handleUpdate(e)}>Update</button>
       <button onClick={()=>setShowModal(!showModal)}>Cancel</button>
     </div>
+    
     </>
   );
 }

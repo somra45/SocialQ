@@ -10,8 +10,6 @@ const createLordVoldemortTweets = require('./createLordVoldemortTweets.js')
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker'); 
 
-const NUM_SEED_TWEETS = 30;
-
 // Create users
 const users = [];
 
@@ -74,11 +72,21 @@ function getRandomDateWithinLast30Days() {
   return new Date(randomTimestamp);
 }
 
+function getRandomDateWithinNext30Days() {
+  const currentDate = new Date();
+  const pastDate = new Date();
+  pastDate.setDate(currentDate.getDate() + 30); // Add 30 days
+
+  const randomTimestamp = pastDate.getTime() + Math.random() * (currentDate.getTime() - pastDate.getTime());
+
+  return new Date(randomTimestamp);
+}
+
 const createDemoUserTweets = async () => {
   const demoUser = await User.findOne({ username: 'demo-user' })
   const demoUserTweets = [];
 
-  for (let i = 0; i < NUM_SEED_TWEETS; i++) {
+  for (let i = 0; i < 30; i++) { //create 30 tweets in past
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
@@ -89,6 +97,16 @@ const createDemoUserTweets = async () => {
         viewCount: Math.floor(Math.random() * 10000) + 1,
         likeCount: Math.floor(Math.random() * 1000) + 1,
         bookmarkCount: Math.floor(Math.random() * 100) + 1,
+        createdOnSocialQ: true
+        })
+    demoUserTweets.push(newTweet)
+  }
+
+  for (let i = 0; i < 10; i++) { //create 10 tweets in future
+    const newTweet = new Tweet ({
+        body: faker.hacker.phrase(),
+        author: demoUser,
+        date: getRandomDateWithinNext30Days(),
         createdOnSocialQ: true
         })
     demoUserTweets.push(newTweet)
