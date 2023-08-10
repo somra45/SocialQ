@@ -49,7 +49,7 @@ const BigCalendar = () => {
                     overflow: "wrap",
                     textOverflow: "ellipsis"
                 }}>
-                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null } tweet: ${eventInfo.event.extendedProps.body}`}
+                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : <div></div>} tweet: ${eventInfo.event.extendedProps.body}`}
                 </i>
             </div>
             </>
@@ -61,7 +61,7 @@ const BigCalendar = () => {
                 overflow: "wrap",
                 textOverflow: "ellipsis"
             }}>
-                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null }`}
+                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : <div></div> }`}
             </i>
              </div>
             </>}
