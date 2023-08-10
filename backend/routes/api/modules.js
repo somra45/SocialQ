@@ -33,7 +33,6 @@ const getSubscribedTweets = async (user) => {
     author: {$nin: user._id},
     _id: {$in: subscribedTweetIds}
   })
-  // console.log([subscribedUserTweets, subscribedCategoryTweets])
   return subscribedUserTweets.concat(subscribedCategoryTweets)
 }
 
