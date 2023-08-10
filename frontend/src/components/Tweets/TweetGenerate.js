@@ -40,6 +40,8 @@ function TweetGenerate () {
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const fileRef = useRef(null);
+  const [showGeneratedTweet,setShowGeneratedTweet] = useState(false);
+
   const [displayedImages,setDisplayedImages] = useState(imageUrls?.map((url, index) => {
     const styleObject = {
       backgroundImage: `url(${url})`,
@@ -52,9 +54,9 @@ function TweetGenerate () {
   useEffect(() => {
     const imagesDiv = document.querySelector(".generated-tweet-images")
     if (imageUrls.length === 1) {
-      imagesDiv.style.gridTemplateColumns = "1fr";
+      if (imagesDiv) imagesDiv.style.gridTemplateColumns = "1fr";
     } else {
-      imagesDiv.style.gridTemplateColumns = "1fr 1fr";
+      if (imagesDiv) imagesDiv.style.gridTemplateColumns = "1fr 1fr";
     }
     if (imageUrls.length === 3) {
       setDisplayedImages(imageUrls?.map((url, index) => {
@@ -208,7 +210,6 @@ function TweetGenerate () {
                 body: JSON.stringify({"instructions": instructions})
             })
             const aiBody = await res.json();
-            debugger
             setGeneratedBody(aiBody);
           } catch (err) {
 
@@ -261,8 +262,9 @@ function TweetGenerate () {
          
 
                 
-
-          <div className='generateMiddle'> 
+          {showGeneratedTweet ? (
+            <>
+                <div className='generateMiddle'> 
 
                 <div className='tweet-header-container'>
                   <div>
@@ -280,6 +282,7 @@ function TweetGenerate () {
                 className='generated-tweet-body'
                 type="textarea"
                 value={generatedBody}
+                onChange={(e) => {setGeneratedBody(e.target.value)}}
                 required
                 />
                 
@@ -297,12 +300,15 @@ function TweetGenerate () {
                 <p><i class="fa-solid fa-chart-simple"> 0</i></p>
                 <p><i class="fa-solid fa-arrow-up-from-bracket"></i></p>
               </div>
+              </div>
+              <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule}>Schedule Tweet</button> </div>
+              </>
+          ) : ""}
 
             
 
-          </div>
           
-          <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
+          
           
           <div className='generateLeft'>
             <textarea
@@ -348,7 +354,10 @@ function TweetGenerate () {
             <br/>
 
           </div>
-            <button className="generateButton" onClick={() => {setTriggerGeneration(true)}}>Regenerate</button>
+            <button className="generateButton" onClick={() => {
+              if(!showGeneratedTweet) setShowGeneratedTweet(true);
+              setTriggerGeneration(true)
+              }}>{showGeneratedTweet ? "Regenerate" : "Generate"}</button>
           
           <div className='generateRight'>      
             
@@ -358,13 +367,7 @@ function TweetGenerate () {
 
          </div>
 
-          <div className='generateTweetContainerBottom'>
-            <div className='bottomButtonsLeft'>        <button className='resetButton'>Reset Form</button></div>
-            <div className='bottomButtonsMiddle'> <button 
-              className="generateButton"
-              onClick={() => {setTriggerGeneration(true)}}>Regenerate</button></div>
-            <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule} >Schedule Tweet</button> </div>
-          </div>
+
 
       </div>
     </>

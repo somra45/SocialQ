@@ -1,3 +1,13 @@
 .main-page-container{
-    
+    background-image: url("./SplashMain.png");
+}
+
+.splash-page-background{
+    width: 100vw;
+    height: 100vh;
+}
+
+.splash-sign-in{
+    height: 100px;
+    width: 100px;
 }

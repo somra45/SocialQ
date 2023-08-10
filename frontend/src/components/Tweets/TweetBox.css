@@ -64,8 +64,8 @@ b {
 }
 
 .tweet-video {
-    height: 200px;
     width: 100%;
+    aspect-ratio: 1;
     margin-bottom: 5px;
     border-radius: 8px;
 }

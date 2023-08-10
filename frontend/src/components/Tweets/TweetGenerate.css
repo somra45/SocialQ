@@ -79,10 +79,15 @@
     border: 1px solid #000000;
     padding: 8px;
     font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    align-items: center;
 }
 .generateTweetContainer .generateLeft .ReactTags__remove {
     background-color: #EFEFEF;
     border: none;
+    padding-right: 0;
 }
 .generateTweetContainer .generateLeft .ReactTags__tags {
     width: 100%;
@@ -103,7 +108,7 @@
 }
 
 .tweet-replica-container{
-    background-color: blue;
+    /* background-color: blue; */
 }
 
 .twitter-icons{
@@ -201,8 +206,9 @@
     margin-left: 25%;
 }
 
-.ReactTags__tags.react-tags-wrapper{
-    color: aqua;
+.ReactTags__tags{
+    /* color: aqua; */
+    /* size: 20px; */
 }
 
 .ReactTags__selected {
@@ -218,7 +224,7 @@
 }
 
 .ReactTags__remove{
-    color: red;
+    /* color: red; */
 }
 .tweet-image {
     /* display: flex; */
