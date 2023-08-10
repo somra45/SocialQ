@@ -116,12 +116,9 @@ export const fetchTweets = () => async dispatch => {
       });
       const response = await res.json();
 
-      debugger
-
       dispatch(removeTweet(response.tweetId));
       return response.message
     } catch(err) {
-      debugger
       const resBody = await err.json();
       if (resBody.statusCode === 400) {
         return dispatch(receiveErrors(resBody.errors));

@@ -77,11 +77,11 @@ if (isProduction) {
 
 // Express custom middleware for catching all unmatched requests and formatting
 // a 404 error to be sent as the response.
-// app.use((req, res, next) => {
-//     const err = new Error('Not Found');
-//     err.statusCode = 404;
-//     next(err);
-//   });
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.statusCode = 404;
+    next(err);
+  });
   
   const serverErrorLogger = debug('backend:error');
   

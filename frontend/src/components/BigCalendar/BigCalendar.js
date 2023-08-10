@@ -1,11 +1,12 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import './BigCalendar.css'
 import { useSelector } from "react-redux";
-import { clearTweetErrors, fetchUserTweets } from "../../store/tweets";
+import { clearTweetErrors, fetchUserTweets, updateTweet } from "../../store/tweets";
 import { useEffect } from "react";
 import NavBar from "../NavBar/NavBar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -18,14 +19,6 @@ const BigCalendar = () => {
     const currentUser = useSelector(state => state.session.user);
     const userTweets = useSelector(state => Object.values(state.tweets.user))
 
-    const addEventDetails = () => {
-        return userTweets.map((tweet) => {
-            tweet.title = tweet.author.username
-            tweet.start = tweet.date
-            return tweet
-        })
-    }
-    const userEvents = addEventDetails();
 
     useEffect(() => {
       dispatch(fetchUserTweets(currentUser._id));
@@ -33,24 +26,39 @@ const BigCalendar = () => {
     }, [currentUser, dispatch]);
   
     const handleEventChange = (changeInfo) => {
-        let changedTweet = userTweets.find(tweet => tweet._id === changeInfo.event.extendedProps._id)
-        changedTweet.date = new Date(changeInfo.event.start)
-        changeInfo.event.setStart = changedTweet.date
+        let changedTweet = userTweets.find(tweet => tweet._id === changeInfo.event.extendedProps._id);
+        let newStart = changeInfo.event.start
+        changedTweet.date = newStart
+        dispatch(updateTweet({changedTweet}));
     }
 
     const renderEventContent = (eventInfo) => {
         return (
             <>
+            {eventInfo.event._context.options.type === 'timeGrid' ? 
+            <>
             <div className="event-title">
                 <i style={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
+                    whiteSpace: "wrap",
+                    overflow: "wrap",
                     textOverflow: "ellipsis"
                 }}>
-                    {`${eventInfo.event.title} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]}`}
+                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]} tweet: ${eventInfo.event.extendedProps.body}`}
                 </i>
             </div>
-                
+            </>
+            :
+            <>
+            <div className="event-title">
+            <i style={{
+                whiteSpace: "wrap",
+                overflow: "wrap",
+                textOverflow: "ellipsis"
+            }}>
+                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]}`}
+            </i>
+             </div>
+            </>}
             </>
         ) 
     } 
@@ -61,7 +69,7 @@ const BigCalendar = () => {
             <div className="big-calendar-div">
                 <FullCalendar
                     ref={calendarRef}
-                    plugins={[dayGridPlugin, interactionPlugin]}
+                    plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
                     customButtons={{
                         profile: {
                             text: 'Back to Profile',
@@ -73,7 +81,7 @@ const BigCalendar = () => {
                     headerToolbar={{
                         left: "prev,today,next",
                         center: "title",
-                        right: "dayGridMonth,dayGridWeek,dayGridDay"
+                        right: "dayGridMonth,dayGridWeek,timeGridDay"
                     }}
                     footerToolbar={{
                         center: "profile"
@@ -94,10 +102,13 @@ const BigCalendar = () => {
                     weekends={true}
                     aspectRatio='1.3'
                     handleWindowResize={true}
-                    events={userEvents}
+                    events={userTweets}
                     eventContent={renderEventContent}
                     eventChange={handleEventChange}
             />
+            </div>
+            <div className="big-calendar-analytics-div">
+
             </div>
         </div>
      

@@ -11,7 +11,6 @@ const createLordVoldemortTweets = require('./createLordVoldemortTweets.js')
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker'); 
 
-const NUM_SEED_USERS = 10;
 const NUM_SEED_TWEETS = 30;
 
 // Create users
@@ -22,6 +21,7 @@ users.push(
     firstName: 'Demo',
     lastName: 'User',
     username: 'demo-user',
+    twitterHandle: 'quoth_the_server_404',
     email: 'demo-user@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10)
   }),
@@ -62,38 +62,33 @@ users.push(
     hashedPassword: bcrypt.hashSync('starwars', 10)
   }),
 )
-
-for (let i = 1; i < NUM_SEED_USERS; i++) {
-  const firstName = faker.name.firstName();
-  const lastName = faker.name.lastName();
-  users.push(
-    new User ({
-      firstName: firstName,
-      lastName: lastName,
-      username: faker.internet.userName(firstName, lastName),
-      email: faker.internet.email(firstName, lastName),
-      hashedPassword: bcrypt.hashSync(faker.internet.password(), 10)
-    })
-  )
-}
   
 // Create tweets
 
-const createFakerUserTweets = async () => {
-  const fakerUsers = await User.find({ username: { $nin: ['cher', 'mecookiemonster', 'lord_voldemort7'] } })
-  const fakerUserTweets = [];
+function getRandomDateWithinLast30Days() {
+  const currentDate = new Date();
+  const pastDate = new Date();
+  pastDate.setDate(currentDate.getDate() - 30); // Subtract 30 days
+
+  const randomTimestamp = pastDate.getTime() + Math.random() * (currentDate.getTime() - pastDate.getTime());
+
+  return new Date(randomTimestamp);
+}
+
+const createDemoUserTweets = async () => {
+  const demoUser = await User.findOne({ username: 'demo-user' })
+  const demoUserTweets = [];
 
   for (let i = 0; i < NUM_SEED_TWEETS; i++) {
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
-        author: fakerUsers[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
-        date: new Date()
+        author: demoUser,
+        date: getRandomDateWithinLast30Days()
         })
-      console.log(newTweet)
-    fakerUserTweets.push(newTweet)
+    demoUserTweets.push(newTweet)
   }
   
-  return fakerUserTweets;
+  return demoUserTweets;
 };
 
 //create categories
@@ -134,15 +129,31 @@ categories.push(
 const cherCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}]
 const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
 const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
+const allCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}, {name: 'goofy'}, {name: 'hungry'}, {name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
+
+function pickRandomElementsFromArray(arr, count) {
+  if (count >= arr.length) {
+    return arr.slice(); // Return a copy of the entire array
+  }
+
+  const shuffled = arr.slice(); // Create a copy of the array
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
+  }
+
+  return shuffled.slice(0, count);
+}
 
 createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
   const user = await User.findOne({username: username});
   const userTweets = await Tweet.find({author: user._id});
   const userCategories = await Category.find({$or: userCategoryArray});
+  const randomCategories = await pickRandomElementsFromArray(userCategories, Math.floor(Math.random() * 3) + 1)
   const postCategoriesArray = [];
 
   userTweets.forEach(tweet => {
-    userCategories.forEach(category => {
+    randomCategories.forEach(category => {
       const postCategory = new PostCategory({
         post: tweet._id,
         category: category._id
@@ -176,8 +187,8 @@ mongoose
   
       await User.insertMany(users)
 
-      const fakerUserTweetsArray = await createFakerUserTweets();
-      await Tweet.insertMany(fakerUserTweetsArray);
+      const demoUserTweetsArray = await createDemoUserTweets();
+      await Tweet.insertMany(demoUserTweetsArray);
       
       const cherTweetsArray = await createCherTweets();
       await Tweet.insertMany(cherTweetsArray);
