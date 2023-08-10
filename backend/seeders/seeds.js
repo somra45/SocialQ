@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
-console.log ({mongoURI: db})
 const User = require('../models/User');
 const Tweet = require('../models/Tweet');
 const Category = require('../models/Category');
@@ -121,6 +120,9 @@ categories.push(
   }),
   new Category({
     name: 'clever'
+  }),
+  new Category({
+    name: 'thoughtful'
   })
 )
 
@@ -129,7 +131,7 @@ categories.push(
 const cherCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}]
 const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
 const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
-const allCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}, {name: 'goofy'}, {name: 'hungry'}, {name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
+const allCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'thoughtful'}, {name: 'spontaneous'}, {name: 'goofy'}, {name: 'excited'}, {name: 'calculated'}, {name: 'clever'}]
 
 function pickRandomElementsFromArray(arr, count) {
   if (count >= arr.length) {
@@ -149,10 +151,10 @@ createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
   const user = await User.findOne({username: username});
   const userTweets = await Tweet.find({author: user._id});
   const userCategories = await Category.find({$or: userCategoryArray});
-  const randomCategories = await pickRandomElementsFromArray(userCategories, Math.floor(Math.random() * 3) + 1)
   const postCategoriesArray = [];
 
-  userTweets.forEach(tweet => {
+  userTweets.forEach(async tweet => {
+    const randomCategories = await pickRandomElementsFromArray(userCategories, Math.floor(Math.random() * 3) + 1)
     randomCategories.forEach(category => {
       const postCategory = new PostCategory({
         post: tweet._id,
@@ -210,6 +212,10 @@ mongoose
 
       const lordVoldemortPostCategories = await createPostCategoriesForUserTweets('lord_voldemort7', lordVoldemortCategories);
       await PostCategory.insertMany(lordVoldemortPostCategories);
+
+      const demoUserPostCategories = await createPostCategoriesForUserTweets('demo-user', allCategories);
+      await PostCategory.insertMany(demoUserPostCategories);
+      console.log(demoUserPostCategories)
 
       console.log("Done!");
     } catch (err) {

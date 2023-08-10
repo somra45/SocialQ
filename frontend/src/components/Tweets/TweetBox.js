@@ -43,6 +43,7 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       <div className="tweet-icons">
         <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
         <p></p>
+      </div>
       <button onClick={()=>setShowModal(!showModal)}>Edit</button>
       <button onClick={e=>handleDelete(e)}>Delete</button>
     </div>
