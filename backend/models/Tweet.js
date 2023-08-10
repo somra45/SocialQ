@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const tweetSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     date: {
         type: Date,
@@ -14,9 +15,6 @@ const tweetSchema = new Schema({
         type: String,
         required: true
     },
-
-
-
 
 
 

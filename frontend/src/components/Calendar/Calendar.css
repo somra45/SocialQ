@@ -10,7 +10,7 @@
 
 
 .profile-event-div {
-    background-color: rgb(91, 91, 228);
+    background-color: #4682A9 ;
     min-width: 100%;
     min-height: 18px;
     border-radius: 5px;
@@ -51,4 +51,23 @@
     font-size: 12px !important;
 }
 
+.fc .fc-today-button {
+    background-color: #4682A9 !important;
+}
+
+.fc .fc-button {
+    background-color: #4682A9;
+}
+
+.fc-event-draggable {
+    cursor: pointer;
+}
+
+.fc-day {
+    cursor: default;
+}
+
+.fc-toolbar-title {
+    cursor: default;
+}
 

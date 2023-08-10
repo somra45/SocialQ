@@ -11,7 +11,7 @@ let store = configureStore({});
 function Root() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter >
         <App />
       </BrowserRouter>
     </Provider>
