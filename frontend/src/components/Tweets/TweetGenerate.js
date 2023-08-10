@@ -290,7 +290,6 @@ function TweetGenerate () {
 
             
           </div>
-      </div>
     </>
   )
 }
