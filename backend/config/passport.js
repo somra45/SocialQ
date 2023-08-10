@@ -28,7 +28,11 @@ passport.use(new LocalStrategy({
       _id: user._id,
       username: user.username,
       email: user.email,
-      profileImageUrl: user.profileImageUrl
+      profileImageUrl: user.profileImageUrl,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      twitterHandle: user.twitterHandle,
+      instagramHandle: user.instagramHandle,
     };
     const token = await jwt.sign(
       userInfo, // payload

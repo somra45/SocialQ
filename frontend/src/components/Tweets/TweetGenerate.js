@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearTweetErrors, composeTweet } from '../../store/tweets';
 import TweetBox from './TweetBox';
@@ -8,6 +8,7 @@ import { fetchGeneration } from '../../store/aiBody';
 import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
+
 
 const suggestions = [].map((string) => {
   return {
@@ -36,6 +37,12 @@ function TweetGenerate () {
   const [mediaDescArray,setMediaDescArray] = useState([]);
   const [triggerGeneration,setTriggerGeneration] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const fileRef = useRef(null);
+  const displayedImages = imageUrls?.map((url, index) => {
+    return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
+  });
 
   const [tags, setTags] = useState([
     { id: 'Sexy', text: 'Sexy' },
@@ -68,11 +75,33 @@ function TweetGenerate () {
     return () => dispatch(clearTweetErrors());
   }, [dispatch]);
 
-  // const handleGenerate = e => {
-  //   e.preventDefault();
-  //   dispatch(composeTweet({ body })); 
-  //   setBody('');
-  // };
+  const updateFiles = async e => {
+    const files = e.target.files;
+    setImages(files);
+    if (files.length !== 0) {
+      let filesLoaded = 0;
+      const urls = [];
+      Array.from(files).forEach((file, index) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          urls[index] = fileReader.result;
+          if (++filesLoaded === files.length) 
+            setImageUrls(urls);
+        }
+      });
+    }
+    else setImageUrls([]);
+  }
+
+  const handleGenerate = e => {
+    e.preventDefault();
+    dispatch(composeTweet({body, images})); 
+    setImages([]);                        
+    setImageUrls([]); 
+    setBody('');
+    fileRef.current.value = null;
+  };
 
   useEffect(() => {
     if (triggerGeneration && userInstructions) {
@@ -128,7 +157,6 @@ function TweetGenerate () {
       <div className='generateTweetContainer'>
 
         <div className='generateTweetContainerTop'>
-
           <div className='generateLeft'>
           <textarea
           
@@ -142,6 +170,15 @@ function TweetGenerate () {
                 placeholder="Give us a brief description of how you would like your Tweet to sound"
                 required
               />
+              <label>
+                Images to Upload
+                <input
+                  type="file"
+                  ref={fileRef}
+                  accept=".jpg, .jpeg, .png"
+                  multiple
+                  onChange={updateFiles} />
+              </label>
             <div className='generateTags'>
                   <ReactTags
             className="tag-buttons"
@@ -164,7 +201,7 @@ function TweetGenerate () {
 
                 <div className='tweet-header-container'>
                   <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
-                  <p className='tweet-preview-header-2'>@{author.username}</p>
+                  <p className='tweet-preview-header-2'>{author.twitterHandle}</p>
                   <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
@@ -178,6 +215,12 @@ function TweetGenerate () {
                 value={generatedBody}
                 required
                 />
+                
+                <div className="generated-tweet-images">
+                  {(imageUrls.length !== 0) ?                  
+                  displayedImages : // <-- MODIFY THIS LINE
+                  undefined}
+                </div>
               {/* </div> */}
 
               <div className='twitter-icons'>
@@ -192,6 +235,40 @@ function TweetGenerate () {
 
           </div>
           
+          <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
+          
+          <div className='generateLeft'>
+            <textarea
+          
+                  rows="9"
+                  cols="20"
+                  wrap='soft'
+                  className='compose-tweet-input'
+                  type="textarea"
+                  value={userInstructions}
+                  onChange={update}
+                  placeholder="Give us a brief description of how you would like your Tweet to sound"
+                  required
+                />
+              <div className='generateTags'>
+                    <ReactTags
+              className="tag-buttons"
+              tags={tags}
+              suggestions={suggestions}
+              delimiters={delimiters}
+              handleDelete={handleDelete}
+              handleAddition={handleAddition}
+              handleDrag={handleDrag}
+              handleTagClick={handleTagClick}
+              inputFieldPosition="bottom"
+              autocomplete
+              editable
+            />
+
+            <br/>
+
+          </div>
+            <button className="generateButton" onClick={() => {setTriggerGeneration(true)}}>Regenerate</button>
           
           <div className='generateRight'>      
             
@@ -207,7 +284,7 @@ function TweetGenerate () {
           </div>
 
             
-          
+          </div>
       </div>
     </>
   )
