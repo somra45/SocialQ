@@ -20,7 +20,8 @@ users.push(
     username: 'demo-user',
     twitterHandle: 'quoth_the_server_404',
     email: 'demo-user@appacademy.io',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
   }),
 
   new User ({
@@ -29,7 +30,8 @@ users.push(
     username: 'cher',
     twitterHandle: 'cher',
     email: 'cher@cher.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cherProfileImage.jpeg'
   }),
 
   new User ({
@@ -38,16 +40,8 @@ users.push(
     username: 'mecookiemonster',
     twitterHandle: 'mecookiemonster',
     email: 'cookie@monster.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
-  }),
-
-  new User ({
-    firstName: 'Neil',
-    lastName: 'Patel',
-    username: 'neilpatel',
-    twitterHandle: 'neilpatel',
-    email: 'neil@patel.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cookiemonsterImageUrl.jpeg'
   }),
 
   new User ({
@@ -56,7 +50,8 @@ users.push(
     username: 'lord_voldemort7',
     twitterHandle: 'lord_voldemort7',
     email: 'lord@voldemort.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/voldemortProfileImage.jpeg'
   }),
 )
   

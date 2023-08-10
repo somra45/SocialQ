@@ -150,8 +150,8 @@ function TweetGenerate () {
           <div className='generateMiddle'> 
 
                 <div className='tweet-header-container'>
-                  <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
-                  <p className='tweet-preview-header-2'>@{author.username}</p>
+                  <p className='tweet-preview-header'>{author.twitterHandle}     <i class="fa-solid fa-circle-check"></i></p>
+                  <p className='tweet-preview-header-2'>@{author.twitterHandle}</p>
                   <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
