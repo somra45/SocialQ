@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { deleteTweet, updateTweet, getTweet } from '../../store/tweets';
 
-function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, imageUrls }, alreadyExists}) {
+const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, imageUrls }, alreadyExists}) => {
   const dispatch = useDispatch();
   const { username } = author;
   const currentTweet = useSelector(getTweet(_id));
@@ -72,7 +72,6 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       {displayedImages}
       {showTweetStatsIfInPast()}
       {showEditDeleteIfInFuture()}
-      
     </div>
 
     <div className={showModal ? `show-modal` : `hide-modal`}>

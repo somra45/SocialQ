@@ -71,3 +71,16 @@
     cursor: default;
 }
 
+.event-div {
+    height: fit-content;
+}
+
+.event-div:hover {
+    background-color: #1a252f;
+}
+
+.profile-event-div:hover {
+    background-color: #1a252f;
+}
+
+

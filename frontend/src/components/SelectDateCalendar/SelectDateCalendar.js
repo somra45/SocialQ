@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { deleteTweet } from "../../store/tweets";
 
-const Calendar = () => {
+const SelectDateCalendar = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const calendarRef = useRef(null);
@@ -36,7 +36,7 @@ const Calendar = () => {
                     whiteSpace: "wrap",
                     overflow: "wrap",
                     textOverflow: "ellipsis"
-                }}>{`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText} ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null } tweet: ${eventInfo.event.extendedProps.body}`}
+                }}>{`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText} ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null }`}
                 </i>
             </div>
             </>
@@ -56,21 +56,10 @@ const Calendar = () => {
             <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-                customButtons={{
-                    bigCalendar: {
-                        text: 'Edit Calendar',
-                        click: function() {
-                            history.push('/calendar')
-                        }
-                    }
-                }}
                 headerToolbar={{
                     left: "prev,today,next",
                     center: "title",
                     right: "dayGridMonth,timeGridWeek,timeGridDay"
-                }}
-                footerToolbar={{
-                    center: "bigCalendar"
                 }}
                 buttonText={{
                     today: "Today",
@@ -99,4 +88,4 @@ const Calendar = () => {
     )
 }
 
-export default Calendar
+export default SelectDateCalendar;
