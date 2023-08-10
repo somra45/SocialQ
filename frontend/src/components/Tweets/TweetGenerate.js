@@ -50,39 +50,91 @@ function TweetGenerate () {
   }))
 
   useEffect(() => {
-    if (imageUrls.length === 3) {
-      const triImageUrls = imageUrls.map((url,index) => url)
-      debugger
-        document.querySelector(".generated-tweet-images").style.gridTemplateColumns = "2fr 1fr";
-        setDisplayedImages(
-          <>
-            <div className="tweet-image" key ={triImageUrls[0].url} style={{
-          backgroundImage: `url(${triImageUrls[0].url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }} alt={`tweetImage${0}`} />
-            <div className="tweet-image-2">
-              <div key ={triImageUrls[1].url} style={{
-          backgroundImage: `url(${triImageUrls[1].url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: ".5fr"
-        }} alt={`tweetImage${1}`} />
-              <div key ={triImageUrls[2].url} style={{
-          backgroundImage: `url(${triImageUrls[2].url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }} alt={`tweetImage${2}`} />
-            </div>
-          </>
-        )
+    const imagesDiv = document.querySelector(".generated-tweet-images")
+    if (imageUrls.length === 1) {
+      imagesDiv.style.gridTemplateColumns = "1fr";
     } else {
+      imagesDiv.style.gridTemplateColumns = "1fr 1fr";
+    }
+    if (imageUrls.length === 3) {
       setDisplayedImages(imageUrls?.map((url, index) => {
-        const styleObject = {
+        let styleObject = {
           backgroundImage: `url(${url})`,
           backgroundSize: "cover",
           backgroundPosition: "center"
         }
+        if (index === 0) {
+          return (
+            <>
+              <div className="tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
+              <div className="threet-image">
+                {imageUrls.map((url,index) => {
+                  if (index !== 0) {
+                    styleObject = {
+                      backgroundImage: `url(${url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center"
+                    }
+                    return (
+                    <div className="small-tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
+                    )
+                  }
+                })}
+              </div>
+            </>
+          )
+        }
+      }))
+    } else if (imageUrls.length === 4) {
+      setDisplayedImages(imageUrls?.map((url, index) => {
+        let styleObject = {
+          backgroundImage: `url(${url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }
+        if (index === 0) {
+          return (
+            <>
+              <div className="threet-image">
+                {imageUrls.map((url,index) => {
+                  if (index === 0 || index === 1) {
+                    styleObject = {
+                      backgroundImage: `url(${url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center"
+                    }
+                    return (
+                    <div className="small-tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
+                    )
+                  }
+                })}
+              </div>
+              <div className="threet-image">
+                {imageUrls.map((url,index) => {
+                  if (index === 2 || index === 3) {
+                    styleObject = {
+                      backgroundImage: `url(${url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center"
+                    }
+                    return (
+                    <div className="small-tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
+                    )
+                  }
+                })}
+              </div>
+            </>
+          )
+        }
+      }))
+    } else {
+      setDisplayedImages(imageUrls?.map((url, index) => {
+        let styleObject = {
+          backgroundImage: `url(${url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }
+        // if (imageUrls.length === 4) styleObject = {...styleObject, aspectRatio: 1.78}
         return <div className="tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
       }))
     }
@@ -213,8 +265,10 @@ function TweetGenerate () {
           <div className='generateMiddle'> 
 
                 <div className='tweet-header-container'>
-                  <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
-                  <p className='tweet-preview-header-2'>{author.twitterHandle}</p>
+                  <div>
+                    <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
+                    <p className='tweet-preview-header-2'>@{author.twitterHandle}</p>
+                  </div>
                   <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
                 </div>   
 

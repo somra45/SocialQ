@@ -146,17 +146,23 @@
 
 .tweet-header-container{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+.tweet-header-container > div:first-child{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+.tweet-header-container > div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.tweet-preview-header-2{
-    margin-top: 4px;
-    margin-left: 10px;
-}
-
-.tweet-header-ellipsis{
-    margin-top: 7px;
-    
-}
 
 .generateMiddle{
     border: 1px solid black;
@@ -217,14 +223,25 @@
 .tweet-image {
     /* display: flex; */
     justify-content: center;
-    height: 100%;
+    width: 100%;
     aspect-ratio: 1;
+    overflow: hidden;
 }
-.tweet-image-2 {
+.threet-image {
     /* display: flex; */
     justify-content: center;
+    align-items: center;
     width: 100%;
-    aspect-ratio: .5;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+.small-tweet-image {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 2;
+    overflow: hidden;
 }
 
 .generated-tweet-images{
@@ -235,6 +252,7 @@
     justify-content: center;
     align-items: center;
 }
+
 
 .modal-hide {
     display: none;

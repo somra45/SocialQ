@@ -130,11 +130,16 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
     </div>
     
     <div className="tweet">
-        {author.profileImageUrl ? 
-          <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
-          undefined
-        }
-      <h3 className="tweet-author">{username}</h3>
+      <div className="tweet-box-header-container">
+          {author.profileImageUrl ? 
+            <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
+            undefined
+          }
+          
+          <h3 className="tweet-author">{username}</h3>&nbsp;<i class="fa-solid fa-circle-check"></i>&nbsp;
+          <p className="tweet-auther-handle"> @{username}</p>
+        
+      </div>
       <br/>
       <p className="tweet-body">{body}</p>
       <div className="tweet-category-container">
