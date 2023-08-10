@@ -59,5 +59,15 @@
     background-color: #4682A9;
 }
 
+.fc-event-draggable {
+    cursor: pointer;
+}
 
+.fc-day {
+    cursor: default;
+}
+
+.fc-toolbar-title {
+    cursor: default;
+}
 

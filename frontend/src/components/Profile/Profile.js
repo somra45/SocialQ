@@ -10,6 +10,7 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
+  const tweetsSortedByDate = userTweets?.sort((a,b) => a.date - b.date);
   
   useEffect(() => {
     dispatch(fetchUserTweets(currentUser._id));
@@ -36,7 +37,7 @@ function Profile () {
             <h2 className='currentUserHeader'>{currentUser.username}'s Tweets</h2>
 
             <div className='tweet-container'>
-              {userTweets.map(tweet => (
+              {tweetsSortedByDate.map(tweet => (
                 <div className='individual-tweet'>
                   <TweetBox
                     key={tweet._id}

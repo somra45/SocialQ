@@ -45,7 +45,10 @@ router.get('/', async function(req, res, next) {
   // });
   try {
     const tweets = await Tweet.find()
-                              .populate("author", "_id username")
+                              .populate({
+                                  path: "author", 
+                                  select: "_id username profilePhotoUrl twitterHandle"
+                                })
                               .sort({ createdAt: -1 });
 
     const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
@@ -75,7 +78,10 @@ router.get('/user/:userId', async (req, res, next) => {
   try {
     let tweets = await Tweet.find({ author: user._id })
                               .sort({ createdAt: -1 })
-                              .populate("author", "_id username");
+                              .populate({
+                                  path: "author", 
+                                  select: "_id username profilePhotoUrl twitterHandle"
+                                });
 
     //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
     const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
@@ -140,7 +146,7 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
     })
 
     tweet = await tweet
-                      .populate('author', '_id username');
+                      .populate('author', '_id username twitterHandle profilePhotoUrl');
 
     const updatedTweet = await addCategoriesToTweet(tweet);
                         
@@ -152,8 +158,8 @@ router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
 });
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
+  console.log(req)
   try {
-
     const tweetId = req.params.id;
     const updates = req.body;
                              
@@ -177,8 +183,9 @@ router.delete('/:id', async (req, res) => {
     dbLogger('id:' + tweetId)
 
     // Find the post by its ID and delete it, and delete any associated postCategories
-    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
     PostCategory.deleteMany({post: tweetId})
+    const deletedPost = await Tweet.findByIdAndDelete(tweetId);
+    
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });

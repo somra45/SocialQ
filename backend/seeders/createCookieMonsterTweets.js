@@ -82,7 +82,7 @@ const createCookieMonsterTweets = async () => {
       }),
       new Tweet({
         body: `Me just tried to bake cookies, but me got distracted by the chocolate chips. Oops! Me think me invented a new cookie invention. 🍪🍫 #BakingAdventure`,
-        author: User.findOne({ firstName: 'Cookie', lastName: 'Monster' })._id,
+        author: cookieMonster._id,
         date: new Date(),
         replyCount: 42,
         retweetCount: 103,
@@ -95,7 +95,7 @@ const createCookieMonsterTweets = async () => {
       
       new Tweet({
         body: `Sometimes me wonder, why is it called a "computer" and not a "cookie-ter"? Me could definitely use more cookies in technology! 💻🍪 #TechThoughts`,
-        author: User.findOne({ firstName: 'Cookie', lastName: 'Monster' })._id,
+        author: cookieMonster._id,
         date: new Date(),
         replyCount: 31,
         retweetCount: 78,
@@ -108,7 +108,7 @@ const createCookieMonsterTweets = async () => {
       
       new Tweet({
         body: `Me just discovered a hidden stash of cookies! Me always knew me had a secret cookie treasure. 🏴‍☠️🍪 #CookieAdventure`,
-        author: User.findOne({ firstName: 'Cookie', lastName: 'Monster' })._id,
+        author: cookieMonster._id,
         date: new Date(),
         replyCount: 15,
         retweetCount: 55,
@@ -121,7 +121,7 @@ const createCookieMonsterTweets = async () => {
       
       new Tweet({
         body: `Me have a cookie strategy: eat one cookie, then eat another cookie, and then eat more cookies! Me call it "Strategic Cookie Consumption." 🍪🍪🍪 #CookieLife`,
-        author: User.findOne({ firstName: 'Cookie', lastName: 'Monster' })._id,
+        author: cookieMonster._id,
         date: new Date(),
         replyCount: 20,
         retweetCount: 87,
@@ -133,7 +133,7 @@ const createCookieMonsterTweets = async () => {
       }),
       new Tweet({
         body: `Today me trying to set world record for most cookies eaten in one minute. Me reached three cookies before me fell asleep. Me call it "Nap Time Records." 😴🍪 #CookieChampion`,
-        author: User.findOne({ firstName: 'Cookie', lastName: 'Monster' })._id,
+        author: cookieMonster._id,
         date: new Date(),
         replyCount: 12,
         retweetCount: 42,

@@ -15,6 +15,9 @@ const userSchema = new Schema({
       required: true,
       unique: true
     },
+    profilePhotoUrl: {
+      type: String
+    },
     username: {
       type: String,
       required: true,
@@ -26,13 +29,11 @@ const userSchema = new Schema({
     },
     twitterHandle: {
       type: String,
-      // required: true,
       unique: true,
       sparse: true
     },
     instagramHandle: {
       type: String,
-      // required: true,
       unique: true,
       sparse: true
     },
