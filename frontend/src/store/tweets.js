@@ -152,13 +152,11 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
       case RECEIVE_USER_TWEETS:
         return { ...state, user: action.tweets, new: undefined};
       case RECEIVE_NEW_TWEET:
-        return { ...state, new: action.tweet};
-        //don't we want to update this in all and user tweets as well?
-        //if so, replace with:
-        // newState.tweets.new = action.tweet;
-        // newState.tweets.user[action.tweet._id] = action.tweet;
-        // newState.tweets.all[action.tweet._id] = action.tweet;
-        // return newState
+        // return { ...state, new: action.tweet};
+        newState.tweets.new = action.tweet;
+        newState.tweets.user[action.tweet._id] = action.tweet;
+        newState.tweets.all[action.tweet._id] = action.tweet;
+        return newState
       case RECEIVE_UPDATED_TWEET:
         newState.user[action.tweet._id] = action.tweet
         newState.all[action.tweet._id] = action.tweet
