@@ -7,6 +7,7 @@ import jwtFetch from '../../store/jwt';
 import { fetchGeneration } from '../../store/aiBody';
 import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
+import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
 
 const suggestions = [].map((string) => {
   return {
@@ -34,6 +35,7 @@ function TweetGenerate () {
   const [categoryArray,setCategoryArray] = useState([]);
   const [mediaDescArray,setMediaDescArray] = useState([]);
   const [triggerGeneration,setTriggerGeneration] = useState(false);
+  const [showSelect, setShowSelect] = useState(false);
 
   const [tags, setTags] = useState([
     { id: 'Sexy', text: 'Sexy' },
@@ -109,9 +111,20 @@ function TweetGenerate () {
     setUserInstructions(e.currentTarget.value);
   }
 
+  const handleSchedule = (e) => {
+    e.preventDefault();
+    if (showSelect === false) {
+      setShowSelect(true);
+    } else {
+      setShowSelect(false);
+    }
+    
+  }
+
   return (
     <>
       <NavBar/>
+      <SelectDateCalendar showSelect={showSelect}/>
       <div className='generateTweetContainer'>
 
         <div className='generateTweetContainerTop'>
@@ -180,7 +193,9 @@ function TweetGenerate () {
           </div>
           
           
-          <div className='generateRight'>       </div>
+          <div className='generateRight'>      
+            
+          </div>
           </div>
 
           <div className='generateTweetContainerBottom'>
@@ -188,7 +203,7 @@ function TweetGenerate () {
             <div className='bottomButtonsMiddle'> <button 
               className="generateButton"
               onClick={() => {setTriggerGeneration(true)}}>Regenerate</button></div>
-            <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
+            <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule} >Schedule Tweet</button> </div>
           </div>
 
             
