@@ -152,6 +152,8 @@ function TweetGenerate () {
 
   return (
     <>
+    <div id='new-tweet-modal' className={showSelect ? 'modal-show' : 'modal-hide'} >
+    </div>
       <NavBar/>
       <SelectDateCalendar showSelect={showSelect}/>
       <div className='generateTweetContainer'>

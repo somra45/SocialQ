@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import React, {  useRef } from "react";
 import './SelectDateCalendar.css'
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { fetchUserTweets } from "../../store/tweets";
 import { clearTweetErrors } from "../../store/tweets";
@@ -15,6 +15,7 @@ const SelectDateCalendar = ({showSelect}) => {
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
     const currentUser = useSelector(state => state.session.user);
+    const [selectionDate, setSelectionDate] = useState(null);
 
     useEffect(() => {
         dispatch(fetchUserTweets(currentUser._id));
@@ -32,11 +33,34 @@ const SelectDateCalendar = ({showSelect}) => {
         ) 
     }
 
+    const handleDateClick = (dateClickInfo) => {
+        let calendarApi = calendarRef.current.getApi();
+        calendarApi.gotoDate(dateClickInfo.date)
+        if (dateClickInfo.view.type === 'dayGridMonth') {
+            calendarApi.changeView('timeGridDay');
+            window.alert('Please Select a time on day you chose')
+        }
+    }
+
+    const handleSelect = ( selectionInfo ) => {
+        if (selectionInfo.view.type === 'timeGridDay') {
+            window.selectedDate = selectionInfo.start
+            setSelectionDate(selectionInfo.start)
+        }
+    }
+
     const handleSchedule = (e) => {
         e.preventDefault();
-        let modal = document.getElementById('modal');
-        modal.classList.toggle('calendar-select-hide');
-        modal.classList.toggle('calendar-select-modal');
+        if (!window.selectedDate) {
+            window.alert('Please Select a time before proceeding')
+        } else {
+            let modal = document.getElementById('modal');
+            let parentModal = document.getElementById('new-tweet-modal');
+            modal.classList.toggle('calendar-select-hide');
+            modal.classList.toggle('calendar-select-modal');
+            parentModal.classList.add('modal-hide');
+            parentModal.classList.remove('modal-show');
+        }
     }
 
     return (
@@ -69,8 +93,15 @@ const SelectDateCalendar = ({showSelect}) => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
+                dateClick={handleDateClick}
+                select={handleSelect}
             />
-            <button className='schedule-button' onClick={handleSchedule} >Confirm Time</button>
+            <div className="bottom-div">
+                <button className='schedule-button' onClick={handleSchedule} >Confirm Time</button>
+                {window.selectedDate && 
+                    <p className="current-selection">{`Current Selection: ${selectionDate.getMonth()}/${selectionDate.getDay()} ${selectionDate.getHours()}:${selectionDate.getMinutes() === 0 ? selectionDate.getMinutes() + '0' : selectionDate.getMinutes()}`}</p>
+                }
+            </div>
         </div>
         </div>
         </>
