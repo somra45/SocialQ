@@ -9,13 +9,19 @@ const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
+const {getSubscribedUsers, getSubscribedCategories} = require('./modules.js')
 
-router.get('/current', restoreUser, (req, res) => {
+router.get('/current', restoreUser, async (req, res) => {
   if (!isProduction) {
     const csrfToken = req.csrfToken();
     res.cookie("CSRF-TOKEN", csrfToken);
   }
   if (!req.user) return res.json(null);
+
+  const subscribedUsersArray = await getSubscribedUsers(req.user);
+
+  const subscribedCategoriesArray = await getSubscribedCategories(req.user);
+  
   res.json({
     _id: req.user._id,
     username: req.user.username,
@@ -25,6 +31,8 @@ router.get('/current', restoreUser, (req, res) => {
     profileImageUrl: req.user.profileImageUrl,
     twitterHandle: req.user.twitterHandle,
     instagramHandle: req.user.instagramHandle,
+    subscribibedUsers: subscribedUsersArray,
+    subscribedCategories: subscribedCategoriesArray
   });
 });
 

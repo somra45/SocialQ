@@ -365,7 +365,7 @@ function TweetGenerate () {
               onClick={() => {setTriggerGeneration(true)}}>Regenerate</button></div>
             <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule} >Schedule Tweet</button> </div>
           </div>
-          
+
       </div>
     </>
   )

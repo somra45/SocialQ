@@ -24,7 +24,6 @@ passport.use(new LocalStrategy({
   }));
   
   exports.loginUser = async function(user) {
-    console.log(user)
     const userInfo = {
       _id: user._id,
       username: user.username,

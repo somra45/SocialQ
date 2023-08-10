@@ -23,6 +23,7 @@ function Profile () {
     return (
       <>
         <NavBar/>
+        <div id='editModal' className='hide-edit-modal'></div>
         <div className='profile-container'>
 
           <div className='left-container'>
