@@ -5,6 +5,7 @@ import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
 import './Profile.css';
+import BarChart from '../BigCalendar/BarChart';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function Profile () {
 
             <h1 className='stats-header'>{currentUser.username}'s Stats</h1>
             <div className='stats-container'>
-              
+              <BarChart userTweets={userTweets} />
             </div>
           </div>
 

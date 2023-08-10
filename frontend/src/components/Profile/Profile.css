@@ -98,6 +98,11 @@
     height: 200px;
 }
 
+.stats-container .chart-container {
+    height: 100%;
+    width: 100%;
+}
+
 .stats-header{
     margin-left: 5px;
     margin-top: 20px;

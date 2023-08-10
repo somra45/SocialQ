@@ -2,6 +2,8 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import './BigCalendar.css'
@@ -10,6 +12,8 @@ import { clearTweetErrors, fetchUserTweets, updateTweet } from "../../store/twee
 import { useEffect } from "react";
 import NavBar from "../NavBar/NavBar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import BarChart from "./BarChart";
+import {Bar} from 'react-chartjs-2'
 
 const BigCalendar = () => {
     const calendarRef = useRef(null);
@@ -18,6 +22,7 @@ const BigCalendar = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.session.user);
     const userTweets = Object.values(useSelector(state => state.tweets.user))
+
 
 
     useEffect(() => {
@@ -114,10 +119,9 @@ const BigCalendar = () => {
             />
             </div>
             <div className="big-calendar-analytics-div">
-
+            <BarChart userTweets={userTweets} />
             </div>
         </div>
-     
         </>
     )
 }
