@@ -125,3 +125,14 @@
     height: 400px;
 }
 
+.hide-edit-modal {
+    display: none;
+}
+
+.show-edit-modal {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.55);
+}

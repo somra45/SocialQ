@@ -49,6 +49,7 @@
     margin: 2px;
     justify-content: center !important;
     height: fit-content;
+    box-shadow: 0 8px 6px -1px rgba(0,0,0,.3) !important;
 }
 
 .event-div:hover {

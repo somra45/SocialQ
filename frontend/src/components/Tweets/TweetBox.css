@@ -43,11 +43,15 @@ b {
 
 
 .show-modal {
-    width: 10em;
-    height: 5em;
-    display: block;
+    width: 40vw;
+    height: 50vh;
     position: absolute;
-    background-color: lightblue;
+    left:31%;
+    background-color: #fff;
+    z-index:3;
+    border-radius: 16px;
+    box-shadow: 0 6px 6px -1px rgba(0,0,0,.3) !important;
+    padding: 20px;
 }
 
 .hide-modal {
@@ -68,4 +72,67 @@ b {
     height: 50px;
     width: 50px;
     margin: 5px;
+}
+
+.update-header {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 26px;
+}
+
+.edit-button-div {
+    display: flex;
+    flex-direction: row;
+    margin: 32px;
+    justify-content: space-between;
+}
+
+.update-button-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.update-button {
+    padding: 10px;
+    border-radius: 9999px;
+    border: 0.1px solid lightgray;
+    background-color: #4682A9;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
+
+}
+
+.edit-button {
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 9999px;
+    border: 0.1px solid lightgray;
+    background-color: #4682A9;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
+
+}
+.update-button:hover {
+    background-color: #1a252f;
+    cursor: pointer;
+}
+
+.edit-input-body {
+    width: 85%;
+    padding: 10px;
+    border: none;
+    border: 0.1px solid lightgray;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px -1px rgba(0,0,0,.2);
+}
+
+.update-outer-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

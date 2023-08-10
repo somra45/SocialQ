@@ -1,12 +1,13 @@
-.calendar-select-div {
-    max-height: 360px;
-    width: 30%;
+.calendar-update-select-div {
+    max-height: 350px;
+    width: 40%;
     background-color: #fff;
     padding: 20px;
     border-radius: 16px;
     bottom: 40%;
     left: 40%;
     position: block;
+    z-index: 20;
 }
 
 .fc .fc-col-header-cell-cushion {
@@ -73,26 +74,33 @@
     background-color: #1a252f !important;
 }
 
-.calendar-select-hide {
+.calendar-update-select-hide {
     display: none !important;
 }
 
-.calendar-select-modal {
+.calendar-update-select-modal {
     display: flex !important;
     justify-content: center;
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 27%;
+    right: -3.11%;
 }
 
-.bottom-div {
+.bottom-update-div {
     padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.schedule-button {
-    padding: 2px;
+.schedule-update-button {
+    padding: 10px;
+    border-radius: 9999px;
+    border: 0.1px solid lightgray;
+    background-color: #4682A9;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
 }
