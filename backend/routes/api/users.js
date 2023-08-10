@@ -8,7 +8,7 @@ const { loginUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
-
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
@@ -19,11 +19,16 @@ router.get('/current', restoreUser, (req, res) => {
   res.json({
     _id: req.user._id,
     username: req.user.username,
-    email: req.user.email
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    profileImageUrl: req.user.profileImageUrl,
+    twitterHandle: req.user.twitterHandle,
+    instagramHandle: req.user.instagramHandle,
   });
 });
 
-router.post('/register', validateRegisterInput,async (req, res, next) => {
+router.post('/register', singleMulterUpload("image"), validateRegisterInput,async (req, res, next) => {
 
   const user = await User.findOne({
     $or: [{ email: req.body.email }, { username: req.body.username }]
@@ -42,11 +47,16 @@ router.post('/register', validateRegisterInput,async (req, res, next) => {
     err.errors = errors;
     return next(err);
   }
+  const profileImageUrl = req.file ?
+      await singleFileUpload({ file: req.file, public: true }) :
+      'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png';
+
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    firstName: 'joe',
-    lastName: 'randazzo'
+    firstName: req.body.firstName ? req.body.firstName : 'first',
+    lastName: req.body.lastName ? req.body.lastName : 'last',
+    profileImageUrl,
   });
 
   bcrypt.genSalt(10, (err, salt) => {
@@ -65,7 +75,7 @@ router.post('/register', validateRegisterInput,async (req, res, next) => {
   });
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', singleMulterUpload(''), async (req, res, next) => {
   passport.authenticate('local', validateLoginInput, async function(err, user) {
     if (err) return next(err);
     if (!user) {

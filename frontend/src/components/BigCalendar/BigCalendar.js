@@ -17,7 +17,7 @@ const BigCalendar = () => {
     const events = Object.values(useSelector(state => state.tweets.user));
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.session.user);
-    const userTweets = useSelector(state => Object.values(state.tweets.user))
+    const userTweets = Object.values(useSelector(state => state.tweets.user))
 
 
     useEffect(() => {
@@ -26,10 +26,16 @@ const BigCalendar = () => {
     }, [currentUser, dispatch]);
   
     const handleEventChange = (changeInfo) => {
-        let changedTweet = userTweets.find(tweet => tweet._id === changeInfo.event.extendedProps._id);
-        let newStart = changeInfo.event.start
-        changedTweet.date = newStart
-        dispatch(updateTweet({changedTweet}));
+        if (changeInfo.oldEvent.start.getTime() > new Date().getTime() && changeInfo.event.start.getTime() > new Date().getTime()) {
+            let changedTweet = userTweets.find(tweet => tweet._id === changeInfo.event.extendedProps._id);
+            let newStart = changeInfo.event.start
+            changedTweet.date = newStart
+            dispatch(updateTweet(changedTweet));
+        } else {
+            window.alert('This tweet has already been posted or you are trying to schedule it for a past date, cannot edit the scheduled time')
+            window.location.reload();
+        }
+        
     }
 
     const renderEventContent = (eventInfo) => {
@@ -43,7 +49,7 @@ const BigCalendar = () => {
                     overflow: "wrap",
                     textOverflow: "ellipsis"
                 }}>
-                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]} tweet: ${eventInfo.event.extendedProps.body}`}
+                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null } tweet: ${eventInfo.event.extendedProps.body}`}
                 </i>
             </div>
             </>
@@ -55,7 +61,7 @@ const BigCalendar = () => {
                 overflow: "wrap",
                 textOverflow: "ellipsis"
             }}>
-                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0]}`}
+                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null }`}
             </i>
              </div>
             </>}
@@ -81,7 +87,7 @@ const BigCalendar = () => {
                     headerToolbar={{
                         left: "prev,today,next",
                         center: "title",
-                        right: "dayGridMonth,dayGridWeek,timeGridDay"
+                        right: "dayGridMonth,timeGridWeek,timeGridDay"
                     }}
                     footerToolbar={{
                         center: "profile"
