@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearTweetErrors, composeTweet } from '../../store/tweets';
 import TweetBox from './TweetBox';
@@ -7,6 +7,7 @@ import jwtFetch from '../../store/jwt';
 import { fetchGeneration } from '../../store/aiBody';
 import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
+
 
 const suggestions = [].map((string) => {
   return {
@@ -34,6 +35,12 @@ function TweetGenerate () {
   const [categoryArray,setCategoryArray] = useState([]);
   const [mediaDescArray,setMediaDescArray] = useState([]);
   const [triggerGeneration,setTriggerGeneration] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const fileRef = useRef(null);
+  const displayedImages = imageUrls?.map((url, index) => {
+    return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
+  });
 
   const [tags, setTags] = useState([
     { id: 'Sexy', text: 'Sexy' },
@@ -66,11 +73,33 @@ function TweetGenerate () {
     return () => dispatch(clearTweetErrors());
   }, [dispatch]);
 
-  // const handleGenerate = e => {
-  //   e.preventDefault();
-  //   dispatch(composeTweet({ body })); 
-  //   setBody('');
-  // };
+  const updateFiles = async e => {
+    const files = e.target.files;
+    setImages(files);
+    if (files.length !== 0) {
+      let filesLoaded = 0;
+      const urls = [];
+      Array.from(files).forEach((file, index) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          urls[index] = fileReader.result;
+          if (++filesLoaded === files.length) 
+            setImageUrls(urls);
+        }
+      });
+    }
+    else setImageUrls([]);
+  }
+
+  const handleGenerate = e => {
+    e.preventDefault();
+    dispatch(composeTweet({body, images})); 
+    setImages([]);                        
+    setImageUrls([]); 
+    setBody('');
+    fileRef.current.value = null;
+  };
 
   useEffect(() => {
     if (triggerGeneration && userInstructions) {
@@ -129,6 +158,15 @@ function TweetGenerate () {
                 placeholder="Give us a brief description of how you would like your Tweet to sound"
                 required
               />
+              <label>
+                Images to Upload
+                <input
+                  type="file"
+                  ref={fileRef}
+                  accept=".jpg, .jpeg, .png"
+                  multiple
+                  onChange={updateFiles} />
+              </label>
             <div className='generateTags'>
                   <ReactTags
             className="tag-buttons"
@@ -165,6 +203,12 @@ function TweetGenerate () {
                 value={generatedBody}
                 required
                 />
+                
+                <div className="generated-tweet-images">
+                  {(imageUrls.length !== 0) ?                  
+                  displayedImages : // <-- MODIFY THIS LINE
+                  undefined}
+                </div>
               {/* </div> */}
 
               <div className='twitter-icons'>

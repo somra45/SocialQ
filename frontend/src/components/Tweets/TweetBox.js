@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { deleteTweet, updateTweet, getTweet } from '../../store/tweets';
 
-function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount }, alreadyExists}) {
+function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, imageUrls }, alreadyExists}) {
   const dispatch = useDispatch();
   const { username } = author;
   const currentTweet = useSelector(getTweet(_id));
   const [showModal, setShowModal] = useState(false)
   const [tweetBody, setTweetBody] = useState(body)
+  const displayedImages = imageUrls?.map((url, index) => {
+    return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
+  });
 
   const convertTime = (timestamp) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -53,6 +56,10 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
   return (
     <>
     <div className="tweet">
+        {author.profileImageUrl ? 
+          <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
+          undefined
+        }
       <h3 className="tweet-author">{username}</h3>
       <br/>
       <p className="tweet-body">{body}</p>
@@ -62,6 +69,7 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
       <br/>
+      {displayedImages}
       {showTweetStatsIfInPast()}
       {showEditDeleteIfInFuture()}
       
