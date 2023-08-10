@@ -191,3 +191,8 @@
     color: white;
     font-size: 20px;
 }
+
+.tweet-image {
+    height: 100px;
+    margin: 5px;
+}

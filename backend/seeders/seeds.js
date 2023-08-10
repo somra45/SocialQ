@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
-console.log ({mongoURI: db})
 const User = require('../models/User');
 const Tweet = require('../models/Tweet');
 const Category = require('../models/Category');
@@ -10,8 +9,6 @@ const createCookieMonsterTweets = require('./createCookieMonsterTweets.js')
 const createLordVoldemortTweets = require('./createLordVoldemortTweets.js')
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker'); 
-
-const NUM_SEED_TWEETS = 30;
 
 // Create users
 const users = [];
@@ -23,7 +20,8 @@ users.push(
     username: 'demo-user',
     twitterHandle: 'quoth_the_server_404',
     email: 'demo-user@appacademy.io',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
   }),
 
   new User ({
@@ -32,7 +30,8 @@ users.push(
     username: 'cher',
     twitterHandle: 'cher',
     email: 'cher@cher.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cherProfileImage.jpeg'
   }),
 
   new User ({
@@ -41,16 +40,8 @@ users.push(
     username: 'mecookiemonster',
     twitterHandle: 'mecookiemonster',
     email: 'cookie@monster.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
-  }),
-
-  new User ({
-    firstName: 'Neil',
-    lastName: 'Patel',
-    username: 'neilpatel',
-    twitterHandle: 'neilpatel',
-    email: 'neil@patel.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/cookiemonsterImageUrl.jpeg'
   }),
 
   new User ({
@@ -59,7 +50,8 @@ users.push(
     username: 'lord_voldemort7',
     twitterHandle: 'lord_voldemort7',
     email: 'lord@voldemort.com',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/voldemortProfileImage.jpeg'
   }),
 )
   
@@ -75,15 +67,42 @@ function getRandomDateWithinLast30Days() {
   return new Date(randomTimestamp);
 }
 
+function getRandomDateWithinNext30Days() {
+  const currentDate = new Date();
+  const pastDate = new Date();
+  pastDate.setDate(currentDate.getDate() + 30); // Add 30 days
+
+  const randomTimestamp = pastDate.getTime() + Math.random() * (currentDate.getTime() - pastDate.getTime());
+
+  return new Date(randomTimestamp);
+}
+
 const createDemoUserTweets = async () => {
   const demoUser = await User.findOne({ username: 'demo-user' })
   const demoUserTweets = [];
 
-  for (let i = 0; i < NUM_SEED_TWEETS; i++) {
+  for (let i = 0; i < 30; i++) { //create 30 tweets in past
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
-        date: getRandomDateWithinLast30Days()
+        date: getRandomDateWithinLast30Days(),
+        replyCount: Math.floor(Math.random() * 30) + 1,
+        retweetCount: Math.floor(Math.random() * 50) + 1,
+        quoteTweetCount: Math.floor(Math.random() * 40) + 1,
+        viewCount: Math.floor(Math.random() * 10000) + 1,
+        likeCount: Math.floor(Math.random() * 1000) + 1,
+        bookmarkCount: Math.floor(Math.random() * 100) + 1,
+        createdOnSocialQ: true
+        })
+    demoUserTweets.push(newTweet)
+  }
+
+  for (let i = 0; i < 10; i++) { //create 10 tweets in future
+    const newTweet = new Tweet ({
+        body: faker.hacker.phrase(),
+        author: demoUser,
+        date: getRandomDateWithinNext30Days(),
+        createdOnSocialQ: true
         })
     demoUserTweets.push(newTweet)
   }
@@ -121,6 +140,9 @@ categories.push(
   }),
   new Category({
     name: 'clever'
+  }),
+  new Category({
+    name: 'thoughtful'
   })
 )
 
@@ -129,7 +151,7 @@ categories.push(
 const cherCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}]
 const cookieMonsterCategories = [{name: 'goofy'}, {name: 'hungry'}]
 const lordVoldemortCategories = [{name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
-const allCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'spontaneous'}, {name: 'goofy'}, {name: 'hungry'}, {name: 'devious'}, {name: 'calculated'}, {name: 'clever'}]
+const allCategories = [{name: 'funny'}, {name: 'witty'}, {name: 'thoughtful'}, {name: 'spontaneous'}, {name: 'goofy'}, {name: 'excited'}, {name: 'calculated'}, {name: 'clever'}]
 
 function pickRandomElementsFromArray(arr, count) {
   if (count >= arr.length) {
@@ -149,10 +171,10 @@ createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
   const user = await User.findOne({username: username});
   const userTweets = await Tweet.find({author: user._id});
   const userCategories = await Category.find({$or: userCategoryArray});
-  const randomCategories = await pickRandomElementsFromArray(userCategories, Math.floor(Math.random() * 3) + 1)
   const postCategoriesArray = [];
 
-  userTweets.forEach(tweet => {
+  userTweets.forEach(async tweet => {
+    const randomCategories = await pickRandomElementsFromArray(userCategories, Math.floor(Math.random() * 3) + 1)
     randomCategories.forEach(category => {
       const postCategory = new PostCategory({
         post: tweet._id,
@@ -210,6 +232,9 @@ mongoose
 
       const lordVoldemortPostCategories = await createPostCategoriesForUserTweets('lord_voldemort7', lordVoldemortCategories);
       await PostCategory.insertMany(lordVoldemortPostCategories);
+
+      const demoUserPostCategories = await createPostCategoriesForUserTweets('demo-user', allCategories);
+      await PostCategory.insertMany(demoUserPostCategories);
 
       console.log("Done!");
     } catch (err) {

@@ -56,5 +56,7 @@ module.exports = {
   s3,
   singleFileUpload,
   multipleFilesUpload,
-  retrievePrivateFile
+  retrievePrivateFile,
+  singleMulterUpload,
+  multipleMulterUpload
 };

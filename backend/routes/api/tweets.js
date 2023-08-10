@@ -8,6 +8,9 @@ const Category = mongoose.model('Category');
 const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
+const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
+
+
 var debug = require('debug');
 const serverLogger = debug('backend:server');
 const dbLogger = debug('backend:mongodb');
@@ -114,17 +117,22 @@ router.get('/user/:userId', async (req, res, next) => {
 //   }
 // })
 
-router.post('/', requireUser, validateTweetInput, async (req, res, next) => {
+router.post('/', multipleMulterUpload("images"), requireUser, validateTweetInput, async (req, res, next) => {
+  const imageUrls = await multipleFilesUpload({ files: req.files, public: true });
   try {
-    let newTweetCategories = ['funny', 'cool', 'unique'];
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
+      imageUrls,
+      photoDesc1: req.body.imageDescriptions[0],
+      photoDesc2: req.body.imageDescriptions[1],
+      photoDesc3: req.body.imageDescriptions[2],
+      photoDesc4: req.body.imageDescriptions[3],
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
       date: new Date(),
-      categories: newTweetCategories
+      categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
     });
 
     let tweet = await newTweet.save();

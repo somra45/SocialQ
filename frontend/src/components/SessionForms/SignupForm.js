@@ -9,6 +9,7 @@ function SignupForm () {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [image, setImage] = useState(null)
   const errors = useSelector(state => state.errors.session);
   const dispatch = useDispatch();
 
@@ -41,12 +42,15 @@ function SignupForm () {
     return e => setState(e.currentTarget.value);
   }
 
+  const updateFile = e => setImage(e.target.files[0]);
+
   const handleSubmit = e => {
     e.preventDefault();
     const user = {
       email,
       username,
-      password
+      password,
+      image
     };
 
     dispatch(signup(user)); 
@@ -110,6 +114,11 @@ function SignupForm () {
                 onChange={update('password2')}
                 placeholder="Confirm Password"
               />
+            </label>
+
+            <label>
+              Profile Image
+              <input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
             </label>
 
             <input
