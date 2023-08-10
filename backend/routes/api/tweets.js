@@ -83,32 +83,45 @@ router.get('/', requireUser, async function(req, res, next) {
 });
 
 router.get('/user/:userId', async (req, res, next) => {
-  let user;
+  
   try {
-    user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.userId)
+    try {
+      const userTweets = await Tweet.find({ author: user._id })
+                                .sort({ createdAt: -1 })
+                                .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
+  
+      //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
+      const userTweetsWithCategories = await Promise.all(userTweets.map(async tweet => {
+        tweet = await addCategoriesAndImagesToTweet(tweet)
+        return tweet;
+      }));
+  
+      const userTweetObjects = tweetArrayToObject(userTweetsWithCategories)
+
+      const subscribedTweets = await getSubscribedTweets(user)
+      
+      const subscribedTweetsWithCategories = await Promise.all(subscribedTweets.map(async tweet => {
+            tweet = await addCategoriesAndImagesToTweet(tweet)
+            return tweet;
+      }));
+
+      const subscribedTweetObjects = tweetArrayToObject(subscribedTweetsWithCategories)
+                            
+      const tweets = {subscribed: subscribedTweetObjects, user: userTweetObjects}
+
+      return res.json(tweets);
+    }
+    catch(err) {
+      console.log(err)
+      return res.json([]);
+    }
+
   } catch(err) {
     const error = new Error('User not found');
     error.statusCode = 404;
     error.errors = { message: "No user found with that id" };
     return next(error);
-  }
-  try {
-    let tweets = await Tweet.find({ author: user._id })
-                              .sort({ createdAt: -1 })
-                              .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
-
-    //need Promise.all for all promises to resolve before tweet._doc.categories is assigned, otherwise it assigns and moves on before waiting for the promise to resolve
-    const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
-      tweet = await addCategoriesAndImagesToTweet(tweet)
-      return tweet;
-    }));
-
-    const tweetObjects = tweetArrayToObject(tweetsWithCategories)
-                          
-    return res.json(tweetObjects);
-  }
-  catch(err) {
-    return res.json([]);
   }
 })
 
