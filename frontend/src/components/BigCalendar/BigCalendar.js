@@ -6,7 +6,7 @@ import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import './BigCalendar.css'
 import { useSelector } from "react-redux";
-import { clearTweetErrors, fetchUserTweets } from "../../store/tweets";
+import { clearTweetErrors, fetchUserTweets, updateTweet } from "../../store/tweets";
 import { useEffect } from "react";
 import NavBar from "../NavBar/NavBar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -27,8 +27,9 @@ const BigCalendar = () => {
   
     const handleEventChange = (changeInfo) => {
         let changedTweet = userTweets.find(tweet => tweet._id === changeInfo.event.extendedProps._id);
-        let newStart = changeInfo.event._instance.start
-        
+        let newStart = changeInfo.event.start
+        changedTweet.date = newStart
+        dispatch(updateTweet({changedTweet}));
     }
 
     const renderEventContent = (eventInfo) => {
