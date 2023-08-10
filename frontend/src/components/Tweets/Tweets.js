@@ -39,7 +39,7 @@ function Tweets () {
               <p>I love hiking, gaming, and traveling, pursuing my dream of  </p>
               <p>traveling the world while I contribute to making it better</p>
               <br/>
-              <i class="fa-brands fa-github fa-2xl"></i> <i class="fa-brands fa-linkedin fa-2xl"></i>
+              < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
             </div>
 
           </div>
@@ -55,7 +55,7 @@ function Tweets () {
                     <br/>
                     <p></p>
                     <br/>
-                    <i class="fa-brands fa-github fa-2xl"></i> <i class="fa-brands fa-linkedin fa-2xl"></i>
+                    < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                   </div>
       
           </div>
@@ -71,7 +71,7 @@ function Tweets () {
                     <br/>
                     <p></p>
                     <br/>
-                    <i class="fa-brands fa-github fa-2xl"></i> <i class="fa-brands fa-linkedin fa-2xl"></i>
+                    < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                   </div>
       
           </div>
@@ -87,7 +87,7 @@ function Tweets () {
                     <br/>
                     <p></p>
                     <br/>
-                    <i class="fa-brands fa-github fa-2xl"></i> <i class="fa-brands fa-linkedin fa-2xl"></i>
+                    < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                   </div>
       
           </div>
