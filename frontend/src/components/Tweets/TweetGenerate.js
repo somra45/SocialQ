@@ -259,7 +259,7 @@ function TweetGenerate () {
           
           </div>
 
-         
+         </div>
 
             
           
