@@ -116,34 +116,6 @@ function TweetGenerate () {
 
         <div className='generateTweetContainerTop'>
 
-          <div className='generateLeft'>
-          <textarea
-          
-                rows="9"
-                cols="20"
-                wrap='soft'
-                className='compose-tweet-input'
-                type="textarea"
-                value={userInstructions}
-                onChange={update}
-                placeholder="Give us a brief description of how you would like your Tweet to sound"
-                required
-              />
-            <div className='generateTags'>
-                  <ReactTags
-            className="tag-buttons"
-            tags={tags}
-            suggestions={suggestions}
-            delimiters={delimiters}
-            handleDelete={handleDelete}
-            handleAddition={handleAddition}
-            handleDrag={handleDrag}
-            handleTagClick={handleTagClick}
-            inputFieldPosition="bottom"
-            autocomplete
-            editable
-          />
-          </div>
 
           </div>
 
@@ -151,7 +123,7 @@ function TweetGenerate () {
 
                 <div className='tweet-header-container'>
                   <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
-                  <p className='tweet-preview-header-2'>@{author.username}</p>
+                  <p className='tweet-preview-header-2'>{author.twitterHandle}</p>
                   <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
@@ -179,17 +151,44 @@ function TweetGenerate () {
 
           </div>
           
+          <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
           
-          <div className='generateRight'>       </div>
+          <div className='generateLeft'>
+            <textarea
+          
+                  rows="9"
+                  cols="20"
+                  wrap='soft'
+                  className='compose-tweet-input'
+                  type="textarea"
+                  value={userInstructions}
+                  onChange={update}
+                  placeholder="Give us a brief description of how you would like your Tweet to sound"
+                  required
+                />
+              <div className='generateTags'>
+                    <ReactTags
+              className="tag-buttons"
+              tags={tags}
+              suggestions={suggestions}
+              delimiters={delimiters}
+              handleDelete={handleDelete}
+              handleAddition={handleAddition}
+              handleDrag={handleDrag}
+              handleTagClick={handleTagClick}
+              inputFieldPosition="bottom"
+              autocomplete
+              editable
+            />
+
+            <br/>
+
+          </div>
+            <button className="generateButton" onClick={() => {setTriggerGeneration(true)}}>Regenerate</button>
+          
           </div>
 
-          <div className='generateTweetContainerBottom'>
-            <div className='bottomButtonsLeft'>        <button className='resetButton'>Reset Form</button></div>
-            <div className='bottomButtonsMiddle'> <button 
-              className="generateButton"
-              onClick={() => {setTriggerGeneration(true)}}>Regenerate</button></div>
-            <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
-          </div>
+         
 
             
           

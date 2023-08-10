@@ -1,9 +1,9 @@
 .splash-page-container{
     width: 100% !important;
-    height: 100vh;
+    height: 90vh;
     /* background-color:#91C8E4; */
     box-sizing: border-box;
-    background-image: url("./splashPage4.png");
+    background-image: url("./SplashMain.png");
     background-repeat: no-repeat;
     background-position: 0 0;
     /* background-size: 90% 95%; */
@@ -15,7 +15,8 @@
 }
 
 .splash-inner-container{
-    border: 1px solid red;
+    /* margin-top: 30px; */
+    border: 1px solid transparent;
 }
 
 .splash-page-footer{
@@ -35,4 +36,25 @@
     margin-right: 20px;
     width: 300px;
     height: 100px
+}
+
+
+.team-member-container{
+    margin-top: 20px;
+    margin-left: 10px;
+    /* border: 2px solid black; */
+    display: flex;
+}
+
+.team-member-picture{
+    width:10%;
+    margin-right: 10px;
+}
+
+.team-member-name{
+    font-size: 30px;
+}
+
+.team-member-role{
+    font-size: 20px;
 }

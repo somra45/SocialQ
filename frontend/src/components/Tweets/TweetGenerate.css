@@ -5,14 +5,14 @@
     justify-content: space-around;
     align-items: center;
 }
-.generateTweetContainerTop {
+/* .generateTweetContainerTop {
     width: 100%;
     min-height: 250px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-}
+} */
 .generateTweetContainerBottom {
     width: 100%;
     min-height: 75px;
@@ -39,7 +39,7 @@
 
 }
 .generateTweetContainer .generateMiddle {
-    margin-top: 10%;
+    margin-top: 4%;
     padding: 16px;
     width: 40%;
     display: flex;
@@ -77,7 +77,7 @@
 .generateTweetContainer .generateLeft .tag-wrapper {
     background-color: #EFEFEF;
     border: 1px solid #000000;
-    padding: 4px;
+    padding: 8px;
     font-size: 12px;
 }
 .generateTweetContainer .generateLeft .ReactTags__remove {
@@ -97,6 +97,9 @@
 
 .compose-tweet-input{
     border-radius: 20px;
+    padding: 10px;
+    font-family: DMSans;
+    resize: none;
     
 }
 
@@ -118,7 +121,7 @@
 }
 
 .generateButton{
-    margin-top: 30px;
+    margin-top: 3%px;
     background-color: black;
     border: none;
     border-radius: 5px;
@@ -135,8 +138,8 @@
 .generated-tweet-body{
     border: none;
     background-color: transparent;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
-    
+    font-family: DMSans;    
+    resize: none;
 }
 
 .tweet-preview-header{
@@ -169,7 +172,7 @@
     border-radius: 5px;
     height: 10px;
     font-size: 20px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;     */
 }
 
 .resetButton{
@@ -183,6 +186,7 @@
 }
 
 .scheduleTweetButton{
+    margin-top: 10px;
     background-color: black;
     border: none;
     border-radius: 5px;
@@ -190,4 +194,23 @@
     width: 100%;
     color: white;
     font-size: 20px;
+}
+
+.ReactTags__tags.react-tags-wrapper{
+    color: aqua;
+}
+
+.ReactTags__selected {
+    margin-bottom: 5px;
+}
+
+.ReactTags__tagInputField {
+    color: blue;
+    background-color: transparent;
+    border-radius: 5px;
+    height: 30px;
+}
+
+.ReactTags__remove{
+    color: red;
 }
