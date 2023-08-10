@@ -40,15 +40,59 @@ function TweetGenerate () {
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const fileRef = useRef(null);
-  const displayedImages = imageUrls?.map((url, index) => {
-    return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
-  });
+  const [displayedImages,setDisplayedImages] = useState(imageUrls?.map((url, index) => {
+    const styleObject = {
+      backgroundImage: `url(${url})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }
+    return <div className="tweet-image" key={url} style={styleObject} alt={`tweetImage${index}`} />
+  }))
+
+  useEffect(() => {
+    if (imageUrls.length === 3) {
+      const triImageUrls = imageUrls.map((url,index) => url)
+      debugger
+        document.querySelector(".generated-tweet-images").style.gridTemplateColumns = "2fr 1fr";
+        setDisplayedImages(
+          <>
+            <div className="tweet-image" key ={triImageUrls[0].url} style={{
+          backgroundImage: `url(${triImageUrls[0].url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }} alt={`tweetImage${0}`} />
+            <div className="tweet-image-2">
+              <div key ={triImageUrls[1].url} style={{
+          backgroundImage: `url(${triImageUrls[1].url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: ".5fr"
+        }} alt={`tweetImage${1}`} />
+              <div key ={triImageUrls[2].url} style={{
+          backgroundImage: `url(${triImageUrls[2].url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }} alt={`tweetImage${2}`} />
+            </div>
+          </>
+        )
+    } else {
+      setDisplayedImages(imageUrls?.map((url, index) => {
+        const styleObject = {
+          backgroundImage: `url(${url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }
+        return <div className="tweet-image" key ={url} style={styleObject} alt={`tweetImage${index}`} />
+      }))
+    }
+  },[imageUrls.length])
 
   const [tags, setTags] = useState([
     { id: 'Sexy', text: 'Sexy' },
     { id: 'Dark', text: 'Dark' },
     { id: 'Businesslike', text: 'Businesslike' },
-    { id: 'Promotional', text: 'Promotional' },
+    { id: 'Promotional', text: 'Promotional' }
   ]);
 
   const handleDelete = (i) => {
@@ -152,50 +196,19 @@ function TweetGenerate () {
 
   return (
     <>
+    <div id='new-tweet-modal' className={showSelect ? 'modal-show' : 'modal-hide'} >
+    </div>
       <NavBar/>
       <SelectDateCalendar showSelect={showSelect}/>
       <div className='generateTweetContainer'>
 
-        <div className='generateTweetContainerTop'>
-          <div className='generateLeft'>
-          <textarea
-          
-                rows="9"
-                cols="20"
-                wrap='soft'
-                className='compose-tweet-input'
-                type="textarea"
-                value={userInstructions}
-                onChange={update}
-                placeholder="Give us a brief description of how you would like your Tweet to sound"
-                required
-              />
-              <label>
-                Images to Upload
-                <input
-                  type="file"
-                  ref={fileRef}
-                  accept=".jpg, .jpeg, .png"
-                  multiple
-                  onChange={updateFiles} />
-              </label>
-            <div className='generateTags'>
-                  <ReactTags
-            className="tag-buttons"
-            tags={tags}
-            suggestions={suggestions}
-            delimiters={delimiters}
-            handleDelete={handleDelete}
-            handleAddition={handleAddition}
-            handleDrag={handleDrag}
-            handleTagClick={handleTagClick}
-            inputFieldPosition="bottom"
-            autocomplete
-            editable
-          />
-          </div>
+          <div className='generateTweetContainerTop'>
+            
+            
+            
+         
 
-          </div>
+                
 
           <div className='generateMiddle'> 
 
@@ -250,6 +263,19 @@ function TweetGenerate () {
                   placeholder="Give us a brief description of how you would like your Tweet to sound"
                   required
                 />
+
+                <div className='display-box-image'>
+                  <label>
+                    Images to Upload
+                    <input
+                      type="file"
+                      ref={fileRef}
+                      accept=".jpg, .jpeg, .png"
+                      multiple
+                      onChange={updateFiles} />
+                  </label>
+                </div>
+
               <div className='generateTags'>
                     <ReactTags
               className="tag-buttons"
@@ -286,7 +312,6 @@ function TweetGenerate () {
             <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule} >Schedule Tweet</button> </div>
           </div>
 
-            
       </div>
     </>
   )

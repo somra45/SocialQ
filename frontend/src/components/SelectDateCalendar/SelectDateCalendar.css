@@ -84,3 +84,14 @@
     position: absolute;
     top: 27%;
 }
+
+.bottom-div {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.schedule-button {
+    padding: 2px;
+}
