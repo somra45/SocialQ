@@ -9,6 +9,8 @@ const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
 const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
+const {getSubscribedUsers, getSubscribedCategories, getSubscribedTweets} = require('./modules.js')
+const axios = require('axios');
 
 
 var debug = require('debug');
@@ -57,14 +59,14 @@ const tweetArrayToObject = (tweetArray) => {
   return tweetObjects
 }
 
-router.get('/', async function(req, res, next) {
+router.get('/', requireUser, async function(req, res, next) {
   // res.json({
   //   message: "GET /api/tweets"
   // });
   try {
-    const tweets = await Tweet.find()
-                              .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
-                              .sort({ createdAt: -1 });
+    const currentUser = req.user
+    const tweets = await getSubscribedTweets(currentUser)
+                              // .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
 
     const tweetsWithCategories = await Promise.all(tweets.map(async tweet => {
           tweet = await addCategoriesAndImagesToTweet(tweet)

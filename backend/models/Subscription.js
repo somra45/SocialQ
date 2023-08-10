@@ -15,7 +15,7 @@ const subscriptionSchema = new Schema({
     subscribableType: {
         type: String,
         required : true,
-        enum: ['User','Category']
+        enum: ['user','category']
     }
     }, {
     timestamps: true
