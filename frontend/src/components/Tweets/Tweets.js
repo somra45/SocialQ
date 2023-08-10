@@ -15,7 +15,7 @@ function Tweets () {
     return () => dispatch(clearTweetErrors());
   }, [dispatch])
 
-  if (tweets.length === 0) return <div>There are no Tweets</div>;
+  // if (tweets.length === 0) return <div>There are no Tweets</div>;
   
   return (
     <>

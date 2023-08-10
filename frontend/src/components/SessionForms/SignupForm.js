@@ -57,10 +57,10 @@ function SignupForm () {
   }
 
   return (
-    <div className='session-form-container'>
-        <form className="session-form" onSubmit={handleSubmit}>
+    <div className='signup-session-form-container'>
+        <form className="signup-session-form" onSubmit={handleSubmit}>
           
-            <img className="socialQBlackLogo" src='/assets/images/SocialQBlackLogo.png' alt='socialQlogo'></img>
+            <img className="socialQBlackLogoSignUp" src='/assets/images/SocialQBlackLogo.png' alt='socialQlogo'></img>
             
             <div className="errors">{errors?.email}</div>
             
@@ -116,9 +116,9 @@ function SignupForm () {
               />
             </label>
 
+            <p className='inputHeader'>Profile Picture</p>
             <label>
-              Profile Image
-              <input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
+              <input  className="formInput"type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
             </label>
 
             <input

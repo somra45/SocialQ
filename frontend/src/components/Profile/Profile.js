@@ -18,9 +18,9 @@ function Profile () {
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);
 
-  if (userTweets.length === 0) {
-    return <div>{currentUser.username} has no Tweets</div>;
-  } else {
+  // if (userTweets.length === 0) {
+  //   return <div>{currentUser.username} has no Tweets</div>;
+  // } else {
     return (
       <>
         <NavBar/>
@@ -68,7 +68,7 @@ function Profile () {
        </div>
       </>
     );
-  }
+  
 }
 
 export default Profile;
