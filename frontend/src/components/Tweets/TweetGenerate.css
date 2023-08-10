@@ -39,6 +39,7 @@
 
 }
 .generateTweetContainer .generateMiddle {
+    margin-top: 10%;
     padding: 16px;
     width: 40%;
     display: flex;
@@ -88,4 +89,105 @@
 }
 .generateTweetContainer .generateLeft .ReactTags__tagInputField {
     width: 100%;
+}
+
+
+
+
+
+.compose-tweet-input{
+    border-radius: 20px;
+    
+}
+
+.tag-buttons{
+    border-radius: 10px;
+}
+
+.tweet-replica-container{
+    background-color: blue;
+}
+
+.twitter-icons{
+    background-color: transparent;
+}
+
+.twitter-icons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.generateButton{
+    margin-top: 30px;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+}
+
+.generateButton:hover{
+    background-color: lightslategray;
+}
+
+.generated-tweet-body{
+    border: none;
+    background-color: transparent;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
+    
+}
+
+.tweet-preview-header{
+    font-size: 20px;
+    /* font-weight: bolder; */
+}
+
+.tweet-header-container{
+    display: flex;
+}
+
+.tweet-preview-header-2{
+    margin-top: 4px;
+    margin-left: 10px;
+}
+
+.tweet-header-ellipsis{
+    margin-top: 7px;
+    
+}
+
+.generateMiddle{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.tag-wrapper{
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    height: 10px;
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
+}
+
+.resetButton{
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+}
+
+.scheduleTweetButton{
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
 }

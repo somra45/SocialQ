@@ -84,7 +84,7 @@ function TweetGenerate () {
             debugger
             setGeneratedBody(aiBody);
           } catch (err) {
-            debugger
+
           }
       }
       let categoryString = ""
@@ -99,7 +99,7 @@ function TweetGenerate () {
         `Please respond to this with a tweet written according to the following instructions: ${userInstructions}.
         ${categoryString ? `Also, please write the tweet so that its tone and content lines up with all of the following categories: ${categoryString}` : ""}
         ${mediaDescString ? `Also, keep in mind that photos/videos with the following descriptions will be attached to the tweet: ${mediaDescString}` : ""}`
-      debugger
+    
       fetchGeneration(aiInstructions)();
     }
     if (triggerGeneration) setTriggerGeneration(false);
@@ -113,9 +113,12 @@ function TweetGenerate () {
     <>
       <NavBar/>
       <div className='generateTweetContainer'>
+
         <div className='generateTweetContainerTop'>
+
           <div className='generateLeft'>
           <textarea
+          
                 rows="9"
                 cols="20"
                 wrap='soft'
@@ -128,6 +131,7 @@ function TweetGenerate () {
               />
             <div className='generateTags'>
                   <ReactTags
+            className="tag-buttons"
             tags={tags}
             suggestions={suggestions}
             delimiters={delimiters}
@@ -142,8 +146,16 @@ function TweetGenerate () {
           </div>
 
           </div>
-          <div className='generateMiddle'>   
-          
+
+          <div className='generateMiddle'> 
+
+                <div className='tweet-header-container'>
+                  <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
+                  <p className='tweet-preview-header-2'>@{author.username}</p>
+                  <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
+                </div>   
+
+              {/* <div className='tweet-replica-container'> */}
                 <textarea
                 rows="9"
                 cols="20"
@@ -153,19 +165,30 @@ function TweetGenerate () {
                 value={generatedBody}
                 required
                 />
+              {/* </div> */}
+
+              <div className='twitter-icons'>
+                <p><i class="fa-solid fa-comment"> 0</i></p>
+                <p><i class="fa-solid fa-retweet"> 0</i></p>
+                <p><i class="fa-solid fa-heart"> 0</i></p>
+                <p><i class="fa-solid fa-chart-simple"> 0</i></p>
+                <p><i class="fa-solid fa-arrow-up-from-bracket"></i></p>
+              </div>
 
             
 
-              </div>
+          </div>
+          
+          
           <div className='generateRight'>       </div>
           </div>
 
           <div className='generateTweetContainerBottom'>
-            <div className='bottomButtonsLeft'>        <button>Reset Form</button></div>
+            <div className='bottomButtonsLeft'>        <button className='resetButton'>Reset Form</button></div>
             <div className='bottomButtonsMiddle'> <button 
               className="generateButton"
               onClick={() => {setTriggerGeneration(true)}}>Regenerate</button></div>
-            <div className='bottomButtonsRight'><button>Schedule Tweet</button> </div>
+            <div className='bottomButtonsRight'><button className='scheduleTweetButton'>Schedule Tweet</button> </div>
           </div>
 
             

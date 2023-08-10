@@ -1,15 +1,16 @@
 .splash-page-container{
     width: 100% !important;
-    height: 90vh;
+    height: 100vh;
     /* background-color:#91C8E4; */
     box-sizing: border-box;
     background-image: url("./splashPage4.png");
     background-repeat: no-repeat;
     background-position: 0 0;
-    background-size: 90% 95%;
-    margin-top: 15px;
+    /* background-size: 90% 95%; */
+    background-size: cover;
+    /* margin-top: 15px;
     margin-left: 70px;
-    margin-right: 70px;
+    margin-right: 70px; */
     
 }
 

@@ -33,5 +33,13 @@ b {
     /* border: 1px solid black; */
 }
 
+.tweet-icons{
+    display: flex;
+}
+
+.tweet-icon-row{
+    color: #4682A9;
+}
+
 
 

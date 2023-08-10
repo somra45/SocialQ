@@ -1,11 +1,14 @@
-
+import "./MainPage.css"
 function MainPage() {
     return (
       <>
-        <p>SocialQ</p>
+      <div className="main-page-container">
+
+      </div>
+        {/* <p>SocialQ</p>
         <footer>
           Copyright &copy; 2022 SocialQ
-        </footer>
+        </footer> */}
       </>
     );
   }
