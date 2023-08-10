@@ -84,19 +84,14 @@ export const fetchTweets = () => async dispatch => {
 
   export const deleteTweet = tweetId => async dispatch => {
     try {
-      debugger
       const res = await jwtFetch(`/api/tweets/${tweetId}`, {
         method: 'DELETE'
       });
-      debugger
       const response = await res.json();
-
-      debugger
 
       dispatch(removeTweet(response.tweetId));
       return response.message
     } catch(err) {
-      debugger
       const resBody = await err.json();
       if (resBody.statusCode === 400) {
         return dispatch(receiveErrors(resBody.errors));
