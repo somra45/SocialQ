@@ -1,9 +1,13 @@
 .big-calendar-full-div {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .big-calendar-div {
+    width: 68vw !important;
     margin: 50px;
     border: 2px solid lightgray;
     border-radius: 15px;
@@ -37,7 +41,7 @@
 
 
 .event-div {
-    background-color: cornflowerblue;
+    background-color: #4682A9 ;
     color: #fff;
     border-radius: 10px;
     padding: 4px;
@@ -47,7 +51,7 @@
 }
 
 .event-div:hover {
-    background-color: rgb(62, 62, 121);
+    background-color: #1a252f;
 }
 
 .fc .fc-scrollgrid-sync-inner {
@@ -57,4 +61,23 @@
 
 .fc .fc-scrollgrid-sync-inner::-webkit-scrollbar {
     display: none;
+}
+
+.fc .fc-today-button {
+    background-color: #4682A9 !important;
+}
+
+.fc .fc-button {
+    background-color: #4682A9;
+}
+
+.big-calendar-analytics-div {
+    background-color: #1a252f;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px -1px rgba(0,0,0,.3);
+    height: 40vh;
+    width: 29vw;
+    margin-right: 60px;
+    margin-left: 30px;
+    align-self: center;
 }
