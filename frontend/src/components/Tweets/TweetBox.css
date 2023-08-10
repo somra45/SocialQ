@@ -55,17 +55,27 @@ b {
 }
 
 .tweet-image {
-    height: 100px;
-    margin: 5px;
+    /* height: 100px; */
+    /* margin: 5px; */
 }
 
 .tweet-video {
     height: 200px;
-    width: 200px;
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 8px;
 }
 
 .profile-image {
     height: 50px;
     width: 50px;
     margin: 5px;
+    border-radius: 50%;
 }
+
+.tweet-box-header-container{
+    display: flex;
+}
+
+
+

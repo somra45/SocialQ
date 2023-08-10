@@ -26,7 +26,10 @@ function Profile () {
         <div className='profile-container'>
 
           <div className='left-container'>
-            <i class="fa-regular fa-circle-user fa-2xl" style={{color: "#749bc2"}}></i>
+          {currentUser.profileImageUrl ? 
+            <img className="profile-image-main" src={currentUser.profileImageUrl} alt="profile"/> :
+            undefined
+          }
             <h2 className='currentUserProfile'>{currentUser.username}'s Profile</h2>
             <div className='profile-subs-container'>
               
