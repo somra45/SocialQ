@@ -82,7 +82,14 @@ const createDemoUserTweets = async () => {
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
-        date: getRandomDateWithinLast30Days()
+        date: getRandomDateWithinLast30Days(),
+        replyCount: Math.floor(Math.random() * 30) + 1,
+        retweetCount: Math.floor(Math.random() * 50) + 1,
+        quoteTweetCount: Math.floor(Math.random() * 40) + 1,
+        viewCount: Math.floor(Math.random() * 10000) + 1,
+        likeCount: Math.floor(Math.random() * 1000) + 1,
+        bookmarkCount: Math.floor(Math.random() * 100) + 1,
+        createdOnSocialQ: true
         })
     demoUserTweets.push(newTweet)
   }
@@ -215,7 +222,6 @@ mongoose
 
       const demoUserPostCategories = await createPostCategoriesForUserTweets('demo-user', allCategories);
       await PostCategory.insertMany(demoUserPostCategories);
-      console.log(demoUserPostCategories)
 
       console.log("Done!");
     } catch (err) {
