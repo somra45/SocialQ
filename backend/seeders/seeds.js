@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Tweet = require('../models/Tweet');
 const Category = require('../models/Category');
 const PostCategory = require('../models/PostCategory');
+const Subscription = require('../models/Subscription');
 const createCherTweets = require('./createCherTweets.js')
 const createCookieMonsterTweets = require('./createCookieMonsterTweets.js')
 const createLordVoldemortTweets = require('./createLordVoldemortTweets.js')
@@ -186,6 +187,22 @@ createPostCategoriesForUserTweets = async (username, userCategoryArray) => {
   return postCategoriesArray
 };
 
+
+// create subscriptions
+createDemoUserSubscription = async (subscribable, subscribableType) => {
+  const demoUser = await User.findOne({username: 'demo-user'});
+  const subscribableItem = subscribableType === 'category' ?
+        await Category.findOne({name: subscribable}) :
+        await User.findOne({username: subscribable})
+  
+  const subscription = new Subscription({
+    subscriber: demoUser._id,
+    subscribable: subscribableItem._id,
+    subscribableType: subscribableType
+  })
+  await subscription.save()
+}
+
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => {
@@ -206,9 +223,9 @@ mongoose
       await Tweet.collection.drop();
       await PostCategory.collection.drop();
       await Category.collection.drop();
+      await Subscription.collection.drop();
   
       await User.insertMany(users)
-      console.log(users)
 
       const demoUserTweetsArray = await createDemoUserTweets();
       await Tweet.insertMany(demoUserTweetsArray);
@@ -223,6 +240,9 @@ mongoose
       await Tweet.insertMany(lordVoldemortTweetsArray);
 
       await Category.insertMany(categories);
+
+      await createDemoUserSubscription('cher', 'user')
+      await createDemoUserSubscription('goofy', 'category')
   
       // Populate postCategories before inserting
       const cherPostCategories = await createPostCategoriesForUserTweets('cher', cherCategories);
