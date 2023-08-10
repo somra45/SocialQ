@@ -3,15 +3,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { deleteTweet, updateTweet, getTweet } from '../../store/tweets';
 
-const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, imageUrls }, alreadyExists}) => {
+const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, mediaUrls }, alreadyExists}) => {
   const dispatch = useDispatch();
   const { username } = author;
+  // const currentUser = useSelecor
   const currentTweet = useSelector(getTweet(_id));
   const [showModal, setShowModal] = useState(false)
   const [tweetBody, setTweetBody] = useState(body)
-  const displayedImages = imageUrls?.map((url, index) => {
-    return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
-  });
+  // const displayedImages = (mediaUrls ? map((url, index) => {
+  //   return <img className="tweet-image" key ={url} src={url} alt={`tweetImage${index}`} />
+  // });)
+
+  const separateMediaTags = () => {
+    const imageTags = () => {
+      if (mediaUrls.images) {
+        Object.values(mediaUrls.images).map((image) => {
+          return <img className='tweet-image' key={image.url} src={image.url} alt={image.desc} />
+        })
+      } else return (<></>)
+    }
+
+    const videoTags = () => {
+      if (mediaUrls.videos) {
+        return Object.values(mediaUrls.videos).map((video) => {
+          let videoTag = (<video className='tweet-video' key={video.url} alt={video.desc} controls>
+                              <source src={video.url} type="video/mp4" />
+                          </video>)
+          return videoTag
+        })
+      } else return (<></>)
+    }
+
+    return(
+      <>
+      {imageTags()}
+      {videoTags()}
+      </>
+    )
+  }
+
+  const displayedMedia = mediaUrls ? separateMediaTags() : (<></>)
 
   const convertTime = (timestamp) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -69,7 +100,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
       <br/>
-      {displayedImages}
+      {displayedMedia}
       {showTweetStatsIfInPast()}
       {showEditDeleteIfInFuture()}
     </div>

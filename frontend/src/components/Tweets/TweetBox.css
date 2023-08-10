@@ -57,4 +57,15 @@ b {
 .tweet-image {
     height: 100px;
     margin: 5px;
-  }
+}
+
+.tweet-video {
+    height: 200px;
+    width: 200px;
+}
+
+.profile-image {
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+}

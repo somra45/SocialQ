@@ -275,6 +275,9 @@ function TweetGenerate () {
           </div>
           </div>
 
+
+         </div>
+
           <div className='generateTweetContainerBottom'>
             <div className='bottomButtonsLeft'>        <button className='resetButton'>Reset Form</button></div>
             <div className='bottomButtonsMiddle'> <button 
