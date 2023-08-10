@@ -39,10 +39,10 @@ function TweetBox ({ tweet: { _id, body, author, date, categories,likeCount, ret
       </div>
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>
-      <div>
-        <p>likes: {likeCount}</p>
-        <p>retweets: {retweetCount}</p>
-      </div>
+      <br/>
+      <div className="tweet-icons">
+        <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
+        <p></p>
       <button onClick={()=>setShowModal(!showModal)}>Edit</button>
       <button onClick={e=>handleDelete(e)}>Delete</button>
     </div>

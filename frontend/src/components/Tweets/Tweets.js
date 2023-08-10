@@ -19,8 +19,8 @@ function Tweets () {
   
   return (
     <>
-      <NavBar/>
       {/* <h2>Welcome</h2> */}
+      <NavBar/>
       <div className='splash-page-container'>
           
       </div>
