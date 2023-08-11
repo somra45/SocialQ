@@ -78,6 +78,7 @@ export const fetchTweets = () => async dispatch => {
   export const composeTweet = data => async dispatch => {
     const formData = new FormData();
     formData.append("body", data.body);
+    formData.append("date", data.date);
     Array.from(data.images).forEach(image => formData.append("images", image));
     try {
       const res = await jwtFetch('/api/tweets/', {

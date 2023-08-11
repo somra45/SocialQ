@@ -8,6 +8,7 @@ import { fetchGeneration } from '../../store/aiBody';
 import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const suggestions = [].map((string) => {
@@ -194,11 +195,16 @@ function TweetGenerate () {
 
   const handleGenerate = e => {
     e.preventDefault();
-    dispatch(composeTweet({body, images})); 
+    dispatch(composeTweet({
+      body, 
+      images,
+      date: window.selectedDate
+    })); 
     setImages([]);                        
     setImageUrls([]); 
     setBody('');
     fileRef.current.value = null;
+    return <Redirect to='/profile' />
   };
 
   useEffect(() => {
@@ -301,7 +307,10 @@ function TweetGenerate () {
                 <p><i class="fa-solid fa-arrow-up-from-bracket"></i></p>
               </div>
               </div>
-              <div className='bottomButtonsRight'><button className='scheduleTweetButton' onClick={handleSchedule}>Schedule Tweet</button> </div>
+              <div className='bottomButtonsRight'>
+                <button className='scheduleTweetButton' onClick={handleSchedule}>Schedule Tweet</button> 
+                <button className='scheduleTweetButton' onClick={handleGenerate} >Confirm</button>
+              </div>
               </>
           ) : ""}
 

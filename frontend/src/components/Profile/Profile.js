@@ -10,16 +10,12 @@ import BarChart from '../BigCalendar/BarChart';
 function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
-  const tweets = useSelector(state => Object.values(state.tweets.all));
   const userTweets = useSelector(state => Object.values(state.tweets.user))
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => a.date - b.date);
-  const tweetsSortedByDate = userTweets?.sort((a,b) => a.date - b.date);
-  // debugger
 
 
   
   useEffect(() => {
-    dispatch(fetchTweets());
     dispatch(fetchUserTweets(currentUser._id));
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);

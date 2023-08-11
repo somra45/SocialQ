@@ -34,16 +34,25 @@ const addCategoriesAndImagesToTweet = async (tweet) => {
   tweet._doc.categories = mappedCategoriesArray
 
   const mediaUrls = {images: {}, videos: {}}
-  
-  if (tweet.imageUrl1) mediaUrls.images[1] = {url: tweet.imageUrl1, desc: tweet.imageDesc1}
-  if (tweet.imageUrl2) mediaUrls.images[2] = {url: tweet.imageUrl2, desc: tweet.imageDesc2}
-  if (tweet.imageUrl3) mediaUrls.images[3] = {url: tweet.imageUrl3, desc: tweet.imageDesc3}
-  if (tweet.imageUrl4) mediaUrls.images[4] = {url: tweet.imageUrl4, desc: tweet.imageDesc4}
+  if (tweet.imageUrl1) mediaUrls.images[1] = {url: tweet.imageUrl1}
+  if (tweet.imageUrl2) mediaUrls.images[2] = {url: tweet.imageUrl2}
+  if (tweet.imageUrl3) mediaUrls.images[3] = {url: tweet.imageUrl3}
+  if (tweet.imageUrl4) mediaUrls.images[4] = {url: tweet.imageUrl4}
  
-  if (tweet.videoUrl1) mediaUrls.videos[1] = {url: tweet.videoUrl1, desc: tweet.videoDesc1}
-  if (tweet.videoUrl1) mediaUrls.videos[2] = {url: tweet.videoUrl2, desc: tweet.videoDesc2}
-  if (tweet.videoUrl1) mediaUrls.videos[3] = {url: tweet.videoUrl3, desc: tweet.videoDesc3}
-  if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4, desc: tweet.videoDesc4}
+  if (tweet.videoUrl1) mediaUrls.videos[1] = {url: tweet.videoUrl1}
+  if (tweet.videoUrl1) mediaUrls.videos[2] = {url: tweet.videoUrl2}
+  if (tweet.videoUrl1) mediaUrls.videos[3] = {url: tweet.videoUrl3}
+  if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4}
+
+  // if (tweet.imageUrl1) mediaUrls.images[1] = {url: tweet.imageUrl1, desc: tweet.imageDesc1}
+  // if (tweet.imageUrl2) mediaUrls.images[2] = {url: tweet.imageUrl2, desc: tweet.imageDesc2}
+  // if (tweet.imageUrl3) mediaUrls.images[3] = {url: tweet.imageUrl3, desc: tweet.imageDesc3}
+  // if (tweet.imageUrl4) mediaUrls.images[4] = {url: tweet.imageUrl4, desc: tweet.imageDesc4}
+ 
+  // if (tweet.videoUrl1) mediaUrls.videos[1] = {url: tweet.videoUrl1, desc: tweet.videoDesc1}
+  // if (tweet.videoUrl1) mediaUrls.videos[2] = {url: tweet.videoUrl2, desc: tweet.videoDesc2}
+  // if (tweet.videoUrl1) mediaUrls.videos[3] = {url: tweet.videoUrl3, desc: tweet.videoDesc3}
+  // if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4, desc: tweet.videoDesc4}
 
   tweet._doc.mediaUrls = mediaUrls;
 
@@ -141,21 +150,21 @@ router.get('/user/:userId', async (req, res, next) => {
 //   }
 // })
 
-router.post('/', multipleMulterUpload("images"), requireUser, validateTweetInput, async (req, res, next) => {
+router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, next) => {
   const imageUrls = await multipleFilesUpload({ files: req.files, public: true });
   try {
     const newTweet = new Tweet({
       body: req.body.body, /*make sure this matches what's coming in from front end*/
       author: req.user._id,
       imageUrls,
-      imageDesc1: req.body.imageDescriptions[0],
-      imageDesc2: req.body.imageDescriptions[1],
-      imageDesc3: req.body.imageDescriptions[2],
-      imageDesc4: req.body.imageDescriptions[3],
+      // imageDesc1: req.body.imageDescriptions[0],
+      // imageDesc2: req.body.imageDescriptions[1],
+      // imageDesc3: req.body.imageDescriptions[2],
+      // imageDesc4: req.body.imageDescriptions[3],
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
-      date: new Date(),
+      // date: req.body.date,
       categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
     });
 

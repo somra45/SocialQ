@@ -5,6 +5,7 @@ const handleValidationErrors = (req, res, next) => {
   if (!validationErrors.isEmpty()) {
     const errorFormatter = ({ msg }) => msg;
     const errors = validationErrors.formatWith(errorFormatter).mapped();
+    console.log(errors)
 
     const err = Error("Validation Error");
     err.errors = errors;
