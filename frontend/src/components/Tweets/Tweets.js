@@ -35,7 +35,6 @@ function Tweets () {
               <h2 className='team-member-role'>Project Manager</h2>
               <br/>
               <p>About Me:</p>
-              <br/>
               <p>I love hiking, gaming, and traveling, pursuing my dream of  </p>
               <p>traveling the world while I contribute to making it better</p>
               <br/>
@@ -52,8 +51,7 @@ function Tweets () {
                     <h1 className='team-member-name'>Max Carpenter</h1>
                     <h2 className='team-member-role'>Full Stack Support Engineer</h2>
                     <p>About Me:</p>
-                    <br/>
-                    <p></p>
+                    <p>I love word games and allowing mind to wonder</p>
                     <br/>
                     < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                   </div>
@@ -68,8 +66,7 @@ function Tweets () {
                     <h1 className='team-member-name'>Theofanis Neofotistos</h1>
                     <h2 className='team-member-role'>Frontend Engineer & UX/UI</h2>
                     <p>About Me:</p>
-                    <br/>
-                    <p></p>
+                    <p>I love playing trading card games and doing crossfit on my free time</p>
                     <br/>
                     < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                   </div>

@@ -9,6 +9,7 @@ import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 
 const suggestions = [].map((string) => {
@@ -42,6 +43,7 @@ function TweetGenerate () {
   const [imageUrls, setImageUrls] = useState([]);
   const fileRef = useRef(null);
   const [showGeneratedTweet,setShowGeneratedTweet] = useState(false);
+  const history = useHistory();
 
   const [displayedImages,setDisplayedImages] = useState(imageUrls?.map((url, index) => {
     const styleObject = {
@@ -196,7 +198,7 @@ function TweetGenerate () {
   const handleGenerate = e => {
     e.preventDefault();
     dispatch(composeTweet({
-      body, 
+      body: generatedBody, 
       images,
       date: window.selectedDate
     })); 
@@ -204,7 +206,7 @@ function TweetGenerate () {
     setImageUrls([]); 
     setBody('');
     fileRef.current.value = null;
-    return <Redirect to='/profile' />
+    history.push('/profile')
   };
 
   useEffect(() => {

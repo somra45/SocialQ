@@ -99,7 +99,7 @@ const SelectDateCalendar = ({showSelect}) => {
             <div className="bottom-div">
                 <button className='schedule-button' onClick={handleSchedule} >Confirm Time</button>
                 {window.selectedDate && 
-                    <p className="current-selection">{`Current Selection: ${selectionDate.getMonth()}/${selectionDate.getDay()} ${selectionDate.getHours()}:${selectionDate.getMinutes() === 0 ? selectionDate.getMinutes() + '0' : selectionDate.getMinutes()}`}</p>
+                    <p className="current-selection">{`Current Selection: ${selectionDate?.getMonth()}/${selectionDate?.getDay()} ${selectionDate?.getHours()}:${selectionDate?.getMinutes() === 0 ? selectionDate?.getMinutes() + '0' : selectionDate?.getMinutes()}`}</p>
                 }
             </div>
         </div>
