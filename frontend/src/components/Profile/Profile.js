@@ -12,6 +12,7 @@ function Profile () {
   const currentUser = useSelector(state => state.session.user);
   const tweets = useSelector(state => Object.values(state.tweets.all));
   const userTweets = useSelector(state => Object.values(state.tweets.user))
+  const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => a.date - b.date);
   const tweetsSortedByDate = userTweets?.sort((a,b) => a.date - b.date);
   // debugger
 
@@ -22,6 +23,10 @@ function Profile () {
     dispatch(fetchUserTweets(currentUser._id));
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);
+
+  if (userTweets.length === 0) {
+    return <div>{currentUser.username} has no Tweets</div>;
+  } else {
   
   // const userSubs = Object.values(useSelector(state => state.tweets.subscribed)) <-----QUESTION FOR JOE
   // if (userTweets.length === 0) {
@@ -97,7 +102,7 @@ function Profile () {
        </div>
       </>
     );
-  
+              }
 }
 
 export default Profile;

@@ -7,7 +7,7 @@ import './SelectEditDateCalendar.css'
 import { useSelector } from "react-redux";
 import { useState} from "react";
 
-const SelectEditDateCalendar = ({showSelect}) => {
+const SelectEditDateCalendar = () => {
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
     const [selectionDate, setSelectionDate] = useState(null);
@@ -40,18 +40,14 @@ const SelectEditDateCalendar = ({showSelect}) => {
 
     const handleSchedule = (e) => {
         e.preventDefault();
-        if (!window.selectedUpdatedDate) {
-            window.alert('Please Select a time before proceeding')
-        } else {
             let modal = document.getElementById('modal');
-            modal.classList.toggle('calendar-update-select-hide');
-            modal.classList.toggle('calendar-update-select-modal');
-        }
+            modal.classList.add('calendar-update-select-hide');
+            modal.classList.remove('calendar-update-select-modal');
     }
 
     return (
         <>
-        <div id='modal' className={ showSelect ? "calendar-update-select-modal" : "calendar-update-select-hide"} >
+        <div id='modal' className="calendar-update-select-hide" >
         <div className="calendar-update-select-div">
             <FullCalendar
                 ref={calendarRef}
@@ -70,6 +66,7 @@ const SelectEditDateCalendar = ({showSelect}) => {
                 }}
                 eventClassNames={"event-select-div"}
                 initialView="dayGridMonth"
+                initialDate={new Date()}
                 editable={false}
                 selectable={true}
                 dayMaxEvents={false}
@@ -84,7 +81,7 @@ const SelectEditDateCalendar = ({showSelect}) => {
             />
             <div className="bottom-update-div">
                 <button className='schedule-update-button' onClick={handleSchedule} >Confirm Time</button>
-                {window.selectedUpdatedDate && 
+                {window.selectedUpdatedDate === selectionDate && 
                     <p className="current-selection">{`Current Selection: ${selectionDate?.getMonth()}/${selectionDate?.getDay()} ${selectionDate?.getHours()}:${selectionDate?.getMinutes() === 0 ? selectionDate?.getMinutes() + '0' : selectionDate?.getMinutes()}`}</p>
                 }
             </div>

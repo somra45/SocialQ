@@ -71,6 +71,7 @@
 
 .event-select-div:hover {
     background-color: #1a252f !important;
+    cursor: pointer;
 }
 
 .calendar-select-hide {
