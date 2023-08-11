@@ -45,8 +45,9 @@ b {
 .show-modal {
     width: 40vw;
     height: 50vh;
-    position: absolute;
-    left:31%;
+    position: fixed !important;
+    top: 27%;
+    left: 31%;
     background-color: #fff;
     z-index:3;
     border-radius: 16px;

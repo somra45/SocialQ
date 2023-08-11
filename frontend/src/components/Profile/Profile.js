@@ -11,16 +11,16 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
-  const tweetsSortedByDate = userTweets?.sort((a,b) => a.date - b.date);
+  const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => a.date - b.date);
   
   useEffect(() => {
     dispatch(fetchUserTweets(currentUser._id));
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);
 
-  // if (userTweets.length === 0) {
-  //   return <div>{currentUser.username} has no Tweets</div>;
-  // } else {
+  if (userTweets.length === 0) {
+    return <div>{currentUser.username} has no Tweets</div>;
+  } else {
     return (
       <>
         <NavBar/>
@@ -68,7 +68,7 @@ function Profile () {
        </div>
       </>
     );
-  
+              }
 }
 
 export default Profile;

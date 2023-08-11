@@ -48,6 +48,9 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   const displayedMedia = mediaUrls ? separateMediaTags() : (<></>)
 
   const convertTime = (timestamp) => {
+    if (typeof timestamp !== 'string') {
+      return timestamp.toString();
+    }
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     timestamp = timestamp.slice(0, 16);
     let month = months[parseInt(timestamp.slice(5, 7)) - 1];
@@ -96,6 +99,9 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   const handleUpdate = (e) => {
     e.preventDefault()
     currentTweet.body = tweetBody;
+    currentTweet.author = author;
+    currentTweet.date = window.selectedUpdatedDate;
+    date = window.selectedUpdatedDate;
     dispatch(updateTweet(currentTweet))
     setShowModal(!showModal)
     let parentModal = document.getElementById('editModal');
@@ -111,12 +117,15 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   }
 
   const handleScheduleTime = (e) => {
-    setShowSelect(!showSelect);
+    e.preventDefault();
+    let modal = document.getElementById('modal');
+    modal.classList.remove('calendar-update-select-hide');
+    modal.classList.add('calendar-update-select-modal');
   }
 
   return (
     <>
-    < SelectEditDateCalendar showSelect={showSelect}/>
+    < SelectEditDateCalendar />
     <div className={showModal ? `show-modal` : `hide-modal`}>
       <div className="update-outer-div">
         <h1 className='update-header' >Update Tweet</h1>

@@ -7,7 +7,7 @@
     bottom: 40%;
     left: 40%;
     position: block;
-    z-index: 20;
+    z-index: 200;
 }
 
 .fc .fc-col-header-cell-cushion {
@@ -103,4 +103,9 @@
     box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
     color: #fff;
     font-weight: 700;
+}
+
+.schedule-update-button:hover {
+    background-color: #1a252f !important;
+    cursor: pointer;
 }
