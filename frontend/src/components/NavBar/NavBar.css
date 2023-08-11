@@ -39,11 +39,12 @@
 .navbarLogout{
     margin-top: 20px;
     height: 40px;
-    width: 100px;
-    border-radius: 5px;
+    width: 150px;
+    border-radius: 20px;
     border: none;
     background-color: #f6f4eb;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .navbarLogout:hover{
