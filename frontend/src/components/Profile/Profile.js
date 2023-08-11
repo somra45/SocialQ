@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserTweets, clearTweetErrors } from '../../store/tweets';
+import { fetchUserTweets, clearTweetErrors, fetchTweets } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
@@ -10,14 +10,20 @@ import BarChart from '../BigCalendar/BarChart';
 function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
+  const tweets = useSelector(state => Object.values(state.tweets.all));
   const userTweets = useSelector(state => Object.values(state.tweets.user))
   const tweetsSortedByDate = userTweets?.sort((a,b) => a.date - b.date);
+  // debugger
+
+
   
   useEffect(() => {
+    dispatch(fetchTweets());
     dispatch(fetchUserTweets(currentUser._id));
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);
-
+  
+  // const userSubs = Object.values(useSelector(state => state.tweets.subscribed)) <-----QUESTION FOR JOE
   // if (userTweets.length === 0) {
   //   return <div>{currentUser.username} has no Tweets</div>;
   // } else {
@@ -34,7 +40,30 @@ function Profile () {
           }
             <h2 className='currentUserProfile'>{currentUser.username}'s Profile</h2>
             <div className='profile-subs-container'>
-              
+              <h1 className='subs-header'>Subscribers</h1>
+              <br/>
+              <p className='subs'>@Peter-GPT</p>
+              <br/>
+              <p className='subs'>@Amin-B-RightBack</p>
+              <br/>
+              <p className='subs'>@SteveTheDream</p>
+              <br/>
+              <p className='subs'>@ClarenceS</p>
+              <br/>
+              <p className='subs'>@MaxCarp</p>
+              <br/>
+              <p className='subs'>@HarveyS</p>
+              <br/>
+              <p className='subs'>@TheoNeo23</p>
+              <br/>
+              <p className='subs'>@JoeRandazzleme</p>
+              <br/>
+              <p className='subs'>@HulkHoganBrother</p>
+              <br/>
+              <p className='subs'>@Cher</p>
+            {/* {userSubs && userSubs.map(subscriber => (   
+                <p>{subscriber.author.twitterHandle}</p>
+                ))} */}
             </div>
           </div>
 

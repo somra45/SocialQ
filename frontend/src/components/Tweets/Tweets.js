@@ -66,7 +66,7 @@ function Tweets () {
                 
                   <div className='team-member-bio'>
                     <h1 className='team-member-name'>Theofanis Neofotistos</h1>
-                    <h2 className='team-member-role'>Frontend Engineer</h2>
+                    <h2 className='team-member-role'>Frontend Engineer & UX/UI</h2>
                     <p>About Me:</p>
                     <br/>
                     <p></p>

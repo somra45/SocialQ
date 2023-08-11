@@ -142,3 +142,19 @@
     background-color: rgba(0,0,0,0.55);
 }
 
+.subs-header{
+    font-family: DMSans;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 60px;
+    text-decoration: underline;
+}
+
+.subs{
+    font-family: DMSans;
+    font-weight: bold;
+    color: white;
+    margin-left: 10px;
+}
+
+
