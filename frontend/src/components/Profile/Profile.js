@@ -6,6 +6,7 @@ import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
 import './Profile.css';
 import BarChart from '../BigCalendar/BarChart';
+import LoadingPage from '../LoadingPage';
 
 function Profile () {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function Profile () {
   }, [currentUser, dispatch]);
 
   if (userTweets.length === 0) {
-    return <div>{currentUser.username} has no Tweets</div>;
+    return <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
   } else {
   
   // const userSubs = Object.values(useSelector(state => state.tweets.subscribed)) <-----QUESTION FOR JOE

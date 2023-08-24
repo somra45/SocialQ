@@ -196,7 +196,7 @@ function TweetGenerate () {
   const handleGenerate = e => {
     e.preventDefault();
     dispatch(composeTweet({
-      body, 
+      body: generatedBody, 
       images,
       date: window.selectedDate
     })); 
@@ -204,7 +204,7 @@ function TweetGenerate () {
     setImageUrls([]); 
     setBody('');
     fileRef.current.value = null;
-    return <Redirect to='/profile' />
+    
   };
 
   useEffect(() => {
