@@ -157,4 +157,9 @@
     margin-left: 10px;
 }
 
-
+.loading-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 220px;
+}

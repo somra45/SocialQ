@@ -6,12 +6,9 @@ b {
     display: flex;
     flex-direction: column;
 }
+
 .tweet-author{
     font-weight: bold;
-    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;     */
-}
-
-.tweet-date{
     /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;     */
 }
 
@@ -59,11 +56,6 @@ b {
     display: none;
 }
 
-.tweet-image {
-    /* height: 100px; */
-    /* margin: 5px; */
-}
-
 .tweet-video {
     width: 100%;
     aspect-ratio: 1;
@@ -109,7 +101,11 @@ b {
     box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
     color: #fff;
     font-weight: 700;
+}
 
+.update-button:hover {
+    background-color: #1a252f;
+    cursor: pointer;
 }
 
 .edit-button {
@@ -122,9 +118,9 @@ b {
     box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
     color: #fff;
     font-weight: 700;
-
 }
-.update-button:hover {
+
+.edit-button:hover {
     background-color: #1a252f;
     cursor: pointer;
 }

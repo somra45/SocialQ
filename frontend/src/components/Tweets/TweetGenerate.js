@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 
+
 const suggestions = [].map((string) => {
   return {
     name: string
@@ -200,7 +201,8 @@ function TweetGenerate () {
     dispatch(composeTweet({
       body: generatedBody, 
       images,
-      date: window.selectedDate
+      date: window.selectedDate,
+      categories: tags.map(tag => tag.text)
     })); 
     setImages([]);                        
     setImageUrls([]); 
