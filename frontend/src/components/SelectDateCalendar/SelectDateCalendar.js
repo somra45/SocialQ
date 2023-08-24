@@ -6,22 +6,11 @@ import React, {  useRef } from "react";
 import './SelectDateCalendar.css'
 import { useSelector } from "react-redux";
 import { useEffect, useState} from "react";
-import { useDispatch } from "react-redux";
-import { fetchUserTweets } from "../../store/tweets";
-import { clearTweetErrors } from "../../store/tweets";
 
 const SelectDateCalendar = ({showSelect}) => {
-    const dispatch = useDispatch();
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
-    // const currentUser = useSelector(state => state.session.user);
     const [selectionDate, setSelectionDate] = useState(null);
-
-    // useEffect(() => {
-    //     dispatch(fetchUserTweets(currentUser._id));
-    //     return () => dispatch(clearTweetErrors());
-    //   }, [currentUser, dispatch]);
-    
       
     const renderEventContent = (eventInfo) => {
         return (

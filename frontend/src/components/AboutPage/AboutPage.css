@@ -1,0 +1,64 @@
+.splash-page-container{
+    width: 100% !important;
+    height: 90vh;
+    /* background-color:#91C8E4; */
+    box-sizing: border-box;
+    background-image: url("./SplashMain.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    /* background-size: 90% 95%; */
+    background-size: cover;
+    /* margin-top: 15px;
+    margin-left: 70px;
+    margin-right: 70px; */
+    
+}
+
+.splash-inner-container{
+    /* margin-top: 30px; */
+    border: 1px solid transparent;
+}
+
+.splash-page-footer{
+    height: 50px;
+    width: 100%;
+    background-color: #4682A9;
+}
+
+.splashpageLogo{
+    border: 2px solid black;
+    width: 25%;
+    margin-top: 4%;
+    
+}
+.splash-signup{
+    margin-left: 25%;
+    margin-right: 20px;
+    width: 300px;
+    height: 100px
+}
+
+
+.team-member-container{
+    margin-top: 20px;
+    margin-left: 40px;
+    /* border: 2px solid black; */
+    display: flex;
+}
+
+.team-member-picture{
+    width:11%;
+    margin-right: 10px;
+}
+
+.team-member-name{
+    font-size: 30px;
+}
+
+.team-member-role{
+    font-size: 20px;
+}
+
+a{
+    text-decoration: none;
+}
