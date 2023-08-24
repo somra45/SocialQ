@@ -23,8 +23,6 @@ const BigCalendar = () => {
     const currentUser = useSelector(state => state.session.user);
     const userTweets = Object.values(useSelector(state => state.tweets.user))
 
-
-
     useEffect(() => {
       dispatch(fetchUserTweets(currentUser._id));
       return () => dispatch(clearTweetErrors());
@@ -54,7 +52,7 @@ const BigCalendar = () => {
                     overflow: "wrap",
                     textOverflow: "ellipsis"
                 }}>
-                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : <div></div>} tweet: ${eventInfo.event.extendedProps.body}`}
+                    {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories.length > 0 ? eventInfo.event.extendedProps.categories[0] : <div></div>} tweet: ${eventInfo.event.extendedProps.body}`}
                 </i>
             </div>
             </>
@@ -66,7 +64,7 @@ const BigCalendar = () => {
                 overflow: "wrap",
                 textOverflow: "ellipsis"
             }}>
-                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : <div></div> }`}
+                {`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText}m ${eventInfo.event.extendedProps.categories.length > 0 ? eventInfo.event.extendedProps.categories[0] : <div></div> }`}
             </i>
              </div>
             </>}

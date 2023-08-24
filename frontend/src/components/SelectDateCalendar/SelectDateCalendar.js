@@ -32,7 +32,7 @@ const SelectDateCalendar = ({showSelect}) => {
     }
 
     const handleSelect = ( selectionInfo ) => {
-        if (selectionInfo.view.type === 'timeGridDay') {
+        if (selectionInfo.view.type === 'timeGridDay' || selectionInfo.view.type === 'timeGridWeek') {
             window.selectedDate = selectionInfo.start
             setSelectionDate(selectionInfo.start)
         }

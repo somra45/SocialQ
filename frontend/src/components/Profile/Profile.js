@@ -22,13 +22,16 @@ function Profile () {
   }, [currentUser, dispatch]);
 
   if (userTweets.length === 0) {
-    return <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
+    return (
+      <>
+      <div className='loading-div'>
+        <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
+      </div>
+        
+      </>
+    )
   } else {
   
-  // const userSubs = Object.values(useSelector(state => state.tweets.subscribed)) <-----QUESTION FOR JOE
-  // if (userTweets.length === 0) {
-  //   return <div>{currentUser.username} has no Tweets</div>;
-  // } else {
     return (
       <>
         <NavBar/>
