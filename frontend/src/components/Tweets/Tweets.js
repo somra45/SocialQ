@@ -21,7 +21,6 @@ function Tweets () {
     <>
       {/* <h2>Welcome</h2> */}
       <NavBar/>
-
       {/* {tweetsSortedByDate?.map(tweet => (
         <TweetBox key={tweet._id} tweet={tweet} />
       ))} */}

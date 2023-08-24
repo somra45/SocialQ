@@ -8,7 +8,9 @@ import { fetchGeneration } from '../../store/aiBody';
 import './TweetGenerate.css'
 import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
-import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+
 
 
 const suggestions = [].map((string) => {
