@@ -13,17 +13,20 @@ function SignupForm () {
   const [emailExists, setEmailExists] = useState(false);
   const [fullNameExists,setFullNameExists] = useState(false);
   const [passwordExists, setPasswordExists] = useState(false);
+  const [password2Exists, setPassword2Exists] = useState(false);
   const [image, setImage] = useState(null)
   const [errors, setErrors] = useState(null)
   const [emailErrors, setEmailErrors] = useState(false);
   const [usernameErrors, setUsernameErrors] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearSessionErrors());
-    };
-  }, [dispatch]);
+  function validateEmail(email) {
+    // Define the regex pattern for email validation
+    const pattern = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$/;
+  
+    // Test the email against the pattern
+    return pattern.test(email);
+  }
 
   const update = field => {
     let setState;
@@ -77,14 +80,14 @@ function SignupForm () {
                 className={`formInput ${(emailExists && !email.length) || emailErrors ? 'errors-div' : ''}`}
                 type="text"
                 value={email}
-                onChange={e=>{update('email')(e);setEmailExists(true); setEmailErrors(false)}}
+                onChange={e=>{update('email')(e);setEmailExists(true); setEmailErrors(false); validateEmail(email) ? setEmailErrors(false) : setEmailErrors(true)}}
                 placeholder="Email"
               />
             </label>
             <div className="signupErrors">{errors?.email}</div>
 
             <div className="signupErrors">
-              <p>{emailExists && !email.length && 'Email can\'t be blank'}</p><br/>
+              <p>{emailExists && !email.length && 'Email can\'t be blank'} {email && !validateEmail(email) && 'Invalid email address'}</p>
             </div>
             
             <label>
@@ -124,13 +127,13 @@ function SignupForm () {
                 className={`formInput ${passwordExists && (password.length < 8 || password !== password2) ? 'errors-div' : ''}`}
                 type="password"
                 value={password2}
-                onChange={update('password2')}
+                onChange={e=>{update('password2')(e); setPassword2Exists(true)}}
                 placeholder="Confirm Password"
               />
             </label>
 
             <div className="signupErrors">
-              <p>{password2 && password !== password2 && 'Passwords must match'}</p>
+              <p>{password2Exists && password !== password2 && 'Passwords must match'}</p>
             </div>
 
             <p className='inputHeader'>Profile Picture</p>
