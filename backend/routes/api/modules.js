@@ -22,6 +22,9 @@ const getSubscribedCategories = async (user) => {
 };
 
 const getSubscribedTweets = async (user) => {
+  const userOwnTweets = await Tweet.find({author: user.id})
+          .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
+
   const subscribedUsers = await getSubscribedUsers(user)
   const subscribedUserTweets = await Tweet.find({author: {$in: subscribedUsers}})
           .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
@@ -33,7 +36,7 @@ const getSubscribedTweets = async (user) => {
     author: {$nin: user._id},
     _id: {$in: subscribedTweetIds}
   })
-  return subscribedUserTweets.concat(subscribedCategoryTweets)
+  return userOwnTweets.concat(subscribedUserTweets).concat(subscribedCategoryTweets)
 }
 
 module.exports = {

@@ -88,7 +88,7 @@ router.post('/login', singleMulterUpload(''), async (req, res, next) => {
     if (err) return next(err);
     if (!user) {
       const err = new Error('Invalid credentials');
-      err.statusCode = 400;
+      err.statusCode = 422;
       err.errors = { email: "Invalid credentials" };
       return next(err);
     }
