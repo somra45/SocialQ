@@ -8,7 +8,10 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 function LoginForm () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector(state => state.errors.session);
+  // const errors = useSelector(state => state.errors.session);
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [emailErrors, setEmailErrors] = useState(false)
+  const [passwordErrors, setPasswordErrors] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,9 +25,16 @@ function LoginForm () {
     return e => setState(e.currentTarget.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password })); 
+    const resErrors = await dispatch(login({ email, password })); 
+    debugger
+    if (resErrors.statusCode === 422) {
+      setErrorMessage(resErrors.message)
+      setEmailErrors(true)
+      setPasswordErrors(true)
+    }
+    
   }
 
   const handleDemoLogin = (e) => {
@@ -41,30 +51,30 @@ function LoginForm () {
           <img className="socialQBlackLogo" src='/assets/images/SocialQBlackLogo.png' alt='socialQlogo'></img>
           <br/>
 
-          <div className="errors">{errors?.email}</div>
+          <div className="errors">{errorMessage}</div>
           
           <label>
-            <p className='inputHeader'>Email</p>
+            <p className={`inputHeader ${emailErrors ? 'errors-text' : ''}`}>Email</p>
           
             <input 
-              className='formInput'
+              className={`formInput ${emailErrors ? 'errors-div' : ''}`}
               type="text"
               value={email}
-              onChange={update('email')}
+              onChange={(e)=>{update('email')(e); setEmailErrors(false)}}
               placeholder="Email"
             />
           </label>
 
-          <div className="errors">{errors?.password}</div>
+          {/* <div className="errors">{errors?.password}</div> */}
 
           <label>
-            <p className='inputHeader'>Password</p>
+            <p className={`inputHeader ${passwordErrors ? 'errors-text' : ''}`}>Password</p>
           
             <input 
-              className='formInput'
+              className={`formInput ${passwordErrors ? 'errors-div' : ''}`}
               type="password"
               value={password}
-              onChange={update('password')}
+              onChange={(e)=>{update('password')(e); setPasswordErrors(false)}}
               placeholder="Password"
             />
           </label>
@@ -85,9 +95,9 @@ function LoginForm () {
           > Demo Log In</button>
           
           <div className='signupLinkContainer'>
-            <p>Don't have an account?</p>
+            <p>Don't have an account?</p> <br/>
           
-            <Link to="/signup"className="sinupLink">Sign Up</Link>
+            <p><Link to="/signup"className="sinupLink">Sign Up</Link></p>
           </div>
 
         </form>
