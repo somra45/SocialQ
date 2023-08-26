@@ -1,0 +1,14 @@
+.tweet-feed-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    
+}
+.middle-container {
+    /* margin-left: 10em; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+}

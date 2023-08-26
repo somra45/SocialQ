@@ -91,3 +91,24 @@
     width: 100% !important;
     height: 100% !important;
 }
+
+
+
+/* Change cursor to grab on hover over the .fc-event */
+.fc-event:hover, .fc-event-draggable:hover {
+    cursor: grab;
+}
+
+/*I can't figure out why, but as soon as the mouse moves, the :active => cursor: grabbing gets overridden by the :hover effect above*/
+.fc-event:active, .fc-event-draggable:active, .fc-event-start:active, .fc-event-resizable:active, .fc-event-past:active, .fc-daygrid-event:active, 
+.fc-daygrid-dot-event:active, .event-div:active, .fc-event-end:active {
+    cursor: grabbing !important;
+    position: relative;
+    z-index: 2;
+}
+
+/* /*this is a decent alternative/*
+.fc-event, .fc-event-draggable, .fc-event-start, .fc-event-resizable, .fc-event-past, .fc-daygrid-event, 
+.fc-daygrid-dot-event, .event-div, .fc-event-end {
+    cursor: move !important;
+} */

@@ -48,9 +48,9 @@
     background-color: #4682A9;
 }
 
-.fc-event-draggable {
+/* .fc-event-draggable {
     cursor: pointer;
-}
+} */
 
 .fc-day {
     cursor: default;

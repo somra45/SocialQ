@@ -77,7 +77,7 @@ const BarChart = ({userTweets}) => {
         })
     }, [basicChartData.length])
 
-    console.log(chartData)
+    // console.log(chartData)
 
     const option={
         indexAxis:'y',

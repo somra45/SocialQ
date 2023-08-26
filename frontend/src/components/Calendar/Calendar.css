@@ -84,4 +84,7 @@
     background-color: #1a252f;
 }
 
+.fc-daygrid-event-harness {
+    cursor: pointer;
+}
 
