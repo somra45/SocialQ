@@ -44,7 +44,7 @@ router.post('/register', singleMulterUpload("image"), validateRegisterInput,asyn
 
   if (user) {
     const err = new Error("Validation Error");
-    err.statusCode = 400;
+    err.statusCode = 422;
     const errors = {};
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
@@ -89,7 +89,8 @@ router.post('/login', singleMulterUpload(''), async (req, res, next) => {
     if (!user) {
       const err = new Error('Invalid credentials');
       err.statusCode = 422;
-      err.errors = { email: "Invalid credentials" };
+      err.email= true;
+      err.password= true;
       return next(err);
     }
     return res.json(await loginUser(user));
