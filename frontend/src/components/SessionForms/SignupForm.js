@@ -11,7 +11,7 @@ function SignupForm () {
   const [password2, setPassword2] = useState('');
 
   const [emailExists, setEmailExists] = useState(false);
-  const [fullNameExists,setFullNameExists] = useState(false);
+  const [usernameExists,setUsernameExists] = useState(false);
   const [passwordExists, setPasswordExists] = useState(false);
   const [password2Exists, setPassword2Exists] = useState(false);
   const [image, setImage] = useState(null)
@@ -80,7 +80,8 @@ function SignupForm () {
                 className={`formInput ${(emailExists && !email.length) || emailErrors ? 'errors-div' : ''}`}
                 type="text"
                 value={email}
-                onChange={e=>{update('email')(e);setEmailExists(true); setEmailErrors(false); validateEmail(email) ? setEmailErrors(false) : setEmailErrors(true)}}
+                onBlur={()=>setEmailExists(true)}
+                onChange={e=>{update('email')(e); setEmailErrors(false); validateEmail(email) ? setEmailErrors(false) : setEmailErrors(true)}}
                 placeholder="Email"
               />
             </label>
@@ -91,19 +92,20 @@ function SignupForm () {
             </div>
             
             <label>
-              <p className={`inputHeader ${(fullNameExists && !username.length) || usernameErrors ? 'errors-text' : ''}`}>Full Name</p>
+              <p className={`inputHeader ${(usernameExists && !username.length) || usernameErrors ? 'errors-text' : ''}`}>Full Name</p>
               <input 
-                className={`formInput ${(fullNameExists && !username.length) || usernameErrors ? 'errors-div' : ''}`}
+                className={`formInput ${(usernameExists && !username.length) || usernameErrors ? 'errors-div' : ''}`}
                 type="text"
                 value={username}
-                onChange={e=>{update('username')(e);setFullNameExists(true); setUsernameErrors(false)}}
+                onBlur={()=>setUsernameExists(true)}
+                onChange={e=>{update('username')(e); setUsernameErrors(false)}}
                 placeholder="Full Name"
               />
             </label>
 
             <div className="signupErrors">{errors?.username}</div>
             <div className="signupErrors">
-              <p>{fullNameExists && !username.length && 'Full Name can\'t be blank'}</p><br/>
+              <p>{usernameExists && !username.length && 'Full Name can\'t be blank'}</p><br/>
             </div>
             
             <label>
@@ -112,7 +114,8 @@ function SignupForm () {
                 className={`formInput ${passwordExists && (password.length < 8 || password !== password2) ? 'errors-div' : ''}`}
                 type="password"
                 value={password}
-                onChange={(e)=>{update('password')(e); setPasswordExists(true)}}
+                onBlur={()=>setPasswordExists(true)}
+                onChange={(e)=>update('password')(e)}
                 placeholder="Password"
               />
             </label>
@@ -127,13 +130,14 @@ function SignupForm () {
                 className={`formInput ${passwordExists && (password.length < 8 || password !== password2) ? 'errors-div' : ''}`}
                 type="password"
                 value={password2}
-                onChange={e=>{update('password2')(e); setPassword2Exists(true)}}
+                onBlur={()=>setPasswordExists(true)}
+                onChange={e=>update('password2')(e)}
                 placeholder="Confirm Password"
               />
             </label>
 
             <div className="signupErrors">
-              <p>{password2Exists && password !== password2 && 'Passwords must match'}</p>
+              <p>{passwordExists && password !== password2 && 'Passwords must match'}</p>
             </div>
 
             <p className='inputHeader'>Profile Picture</p>
@@ -142,7 +146,7 @@ function SignupForm () {
             </label>
 
             <input
-              className={`loginButton ${email && username && password && password === password2 ? '' : 'sign-up-greyed-out'}`}
+              className={`loginButton ${email && username && password && password === password2 ? '' : 'auth-greyed-out'}`}
               type="submit"
               value="Sign Up"
               disabled={!email || !username || !password || password !== password2}

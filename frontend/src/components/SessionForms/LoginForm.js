@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 function LoginForm () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const errors = useSelector(state => state.errors.session);
+  const [emailExists, setEmailExists] = useState('');
+  const [passwordExists, setPasswordExists] = useState('');
   const [errorMessage, setErrorMessage] = useState(null)
   const [emailErrors, setEmailErrors] = useState(false)
   const [passwordErrors, setPasswordErrors] = useState(false)
@@ -28,7 +29,6 @@ function LoginForm () {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const resErrors = await dispatch(login({ email, password })); 
-    debugger
     if (resErrors.statusCode === 422) {
       setErrorMessage(resErrors.message)
       setEmailErrors(true)
@@ -54,35 +54,39 @@ function LoginForm () {
           <div className="errors">{errorMessage}</div>
           
           <label>
-            <p className={`inputHeader ${emailErrors ? 'errors-text' : ''}`}>Email</p>
+            <p className={`inputHeader ${(emailExists && !email.length) || emailErrors ? 'errors-text' : ''}`}>Email</p>
           
             <input 
-              className={`formInput ${emailErrors ? 'errors-div' : ''}`}
+              className={`formInput ${(emailExists && !email.length) || emailErrors ? 'errors-div' : ''}`}
               type="text"
               value={email}
-              onChange={(e)=>{update('email')(e); setEmailErrors(false)}}
+              onBlur={()=>setEmailExists(true)}
+              onChange={(e)=>{update('email')(e); setEmailExists(true); setEmailErrors(false)}}
               placeholder="Email"
             />
           </label>
 
-          {/* <div className="errors">{errors?.password}</div> */}
+          <div className="signupErrors">{emailExists && !email.length ? 'Email can\'t be blank' : ''}</div>
 
           <label>
-            <p className={`inputHeader ${passwordErrors ? 'errors-text' : ''}`}>Password</p>
+            <p className={`inputHeader ${(passwordExists && !password.length) || passwordErrors ? 'errors-text' : ''}`}>Password</p>
           
             <input 
-              className={`formInput ${passwordErrors ? 'errors-div' : ''}`}
+              className={`formInput ${(passwordExists && !password.length) || passwordErrors ? 'errors-div' : ''}`}
               type="password"
               value={password}
+              onBlur={()=>setPasswordExists(true)}
               onChange={(e)=>{update('password')(e); setPasswordErrors(false)}}
               placeholder="Password"
             />
           </label>
 
+          <div className="signupErrors">{passwordExists && !password.length ? 'Password can\'t be blank' : ''}</div>
+
           <br/>
 
           <input
-            className='loginButton'
+            className={`loginButton ${email && password ? '' : 'auth-greyed-out'}`}
             type="submit"
             value="Log In"
             disabled={!email || !password}

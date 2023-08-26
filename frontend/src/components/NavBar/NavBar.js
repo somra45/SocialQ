@@ -19,7 +19,7 @@ function NavBar () {
           
           <Link to={'/profile'}><i className="fa-solid fa-user fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
           <Link to={'/tweets/new'}><i className="fa-solid fa-circle-plus fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
-          <Link to={'/calendar'}><i class="fa-solid fa-calendar-days fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
+          <Link to={'/calendar'}><i className="fa-solid fa-calendar-days fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
           <Link to={'/about'}><i className="fa-solid fa-info fa-2xl" style={{color: "#f6f4eb"}}></i></Link>
           <button className="navbarLogout" onClick={logoutUser}>Logout</button>
         </div>
@@ -37,7 +37,7 @@ function NavBar () {
   return (
     <>
       <div className='navbarContainer'>
-        <Link to="/profile"><img className="navbarLogo" src='/assets/images/SocialQOffWhite.png' alt='socialQlogo'></img></Link>
+        <Link to="/tweets"><img className="navbarLogo" src='/assets/images/SocialQOffWhite.png' alt='socialQlogo'></img></Link>
         
         { getLinks() }
       </div>
