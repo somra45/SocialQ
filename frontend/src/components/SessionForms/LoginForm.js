@@ -99,7 +99,7 @@ function LoginForm () {
           > Demo Log In</button>
           
           <div className='signupLinkContainer'>
-            <p>Don't have an account?</p> <br/>
+            <p className='signup-link' >Don't have an account?</p> <br/>
           
             <p><Link to="/signup"className="sinupLink">Sign Up</Link></p>
           </div>

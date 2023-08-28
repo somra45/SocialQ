@@ -28,15 +28,18 @@ const SelectEditDateCalendar = () => {
         if (dateClickInfo.view.type === 'dayGridMonth') {
             calendarApi.changeView('timeGridDay');
             window.alert('Please Select a time on day you chose')
+        } else {
+            window.selectedUpdatedDate = dateClickInfo.date
+            setSelectionDate(dateClickInfo.date)
         }
     }
 
-    const handleSelect = ( selectionInfo ) => {
-        if (selectionInfo.view.type === 'timeGridDay' || selectionInfo.view.type === 'timeGridWeek') {
-            window.selectedUpdatedDate = selectionInfo.start
-            setSelectionDate(selectionInfo.start)
-        }
-    }
+    // const handleSelect = ( selectionInfo ) => {
+    //     if (selectionInfo.view.type === 'timeGridDay' || selectionInfo.view.type === 'timeGridWeek') {
+    //         window.selectedUpdatedDate = selectionInfo.start
+    //         setSelectionDate(selectionInfo.start)
+    //     }
+    // }
 
     const handleSchedule = (e) => {
         e.preventDefault();
@@ -68,7 +71,7 @@ const SelectEditDateCalendar = () => {
                 initialView="dayGridMonth"
                 initialDate={new Date()}
                 editable={false}
-                selectable={true}
+                selectable={false}
                 dayMaxEvents={false}
                 weekends={true}
                 aspectRatio='3.3'
@@ -77,12 +80,12 @@ const SelectEditDateCalendar = () => {
                 events={events}
                 eventContent={renderEventContent}
                 dateClick={handleDateClick}
-                select={handleSelect}
+                // select={handleSelect}
             />
             <div className="bottom-update-div">
                 <button className='schedule-update-button' onClick={handleSchedule} >Confirm Time</button>
                 {window.selectedUpdatedDate === selectionDate && 
-                    <p className="current-selection">{`Current Selection: ${selectionDate?.getMonth()}/${selectionDate?.getDay()} ${selectionDate?.getHours()}:${selectionDate?.getMinutes() === 0 ? selectionDate?.getMinutes() + '0' : selectionDate?.getMinutes()}`}</p>
+                    <p className="current-selection">{`Current Selection: ${selectionDate?.toISOString().replace('-', '/').split('T')[0].replace('-', '/')} ${selectionDate?.getHours()}:${selectionDate?.getMinutes() === 0 ? selectionDate?.getMinutes() + '0' : selectionDate?.getMinutes()}`}</p>
                 }
             </div>
         </div>

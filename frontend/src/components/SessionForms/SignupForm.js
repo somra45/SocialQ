@@ -142,7 +142,7 @@ function SignupForm () {
 
             <p className='inputHeader'>Profile Picture</p>
             <label>
-              <input  className="formInput"type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
+              <input  className="formInput upload-button"type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
             </label>
 
             <input
@@ -153,7 +153,7 @@ function SignupForm () {
             />
 
             <div className='signupLinkContainer'>
-              <p>Already have an account?</p>
+              <p className='signup-link'>Already have an account?</p>
             
               <Link to="/login"className="sinupLink">Sign in</Link>
             </div>

@@ -1,17 +1,23 @@
 .session-form{
-    margin-top: 150px;
-    /* border: 3px solid black; */
-    
-    
+    margin-top: 60px;
+    background-color: #fff;
+    padding: 30px;
+    margin-bottom: 60px;
+    border-radius: 16px;
+    box-shadow: 0 16px 16px -1px rgba(0,0,0,.3) !important;
 }
 
 .signup-session-form{
-
+    margin-top: 60px;
+    background-color: #fff;
+    padding: 30px;
+    margin-bottom: 60px;
+    border-radius: 16px;
+    box-shadow: 0 16px 16px -1px rgba(0,0,0,.3) !important;
 }
 
 .socialQBlackLogo{
     width: 350px;
-    
 }
 
 .socialQBlackLogoSignUp{
@@ -21,8 +27,7 @@
 
 .session-form-container{
     display: flex;
-    justify-content: center;
-    
+    justify-content: center; 
 }
 
 .signup-session-form-container{
@@ -35,7 +40,7 @@
     /* border: 2px solid blue; */
     margin-left: 30px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     border-radius: 5px;
     height: 50px;
     width: 80%;
@@ -124,4 +129,7 @@
     /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;     */
 }
 
+.signup-link {
+    margin-right: 7px;
+}
 
