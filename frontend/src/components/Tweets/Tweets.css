@@ -3,12 +3,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: 600px;
+    overflow-y: scroll;
     /* justify-content: center; */
-    
 }
-.middle-container {
-    /* margin-left: 10em; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
+
+.individual-tweet {
+    width: 95%;
 }

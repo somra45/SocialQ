@@ -95,5 +95,16 @@
 }
 
 .schedule-button {
-    padding: 2px;
+    padding: 10px;
+    border-radius: 9999px;
+    border: 0.1px solid lightgray;
+    background-color: #4682A9;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
+}
+
+.schedule-button:hover {
+    background-color: #1a252f !important;
+    cursor: pointer;
 }

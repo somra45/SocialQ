@@ -18,7 +18,13 @@ function Tweets () {
     return () => dispatch(clearTweetErrors());
   }, [dispatch])
 
-  // if (tweets.length === 0) return <div>There are no Tweets</div>;
+  if (tweetsSortedByDate.length === 0) { return (
+      <>
+      <div className='loading-div'>
+        <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
+      </div>
+      </>
+      )}
   
   return (
     <>

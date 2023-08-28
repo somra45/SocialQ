@@ -133,6 +133,7 @@
 
 .generateButton:hover{
     background-color: lightslategray;
+    cursor: pointer;
 }
 
 .generated-tweet-body{
@@ -204,6 +205,11 @@
     color: white;
     font-size: 20px;
     margin-left: 25%;
+}
+
+.scheduleTweetButton:hover {
+    cursor: pointer;
+    background-color: lightslategray;
 }
 
 .ReactTags__tags{
