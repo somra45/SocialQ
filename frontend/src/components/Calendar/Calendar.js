@@ -2,29 +2,16 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import './Calendar.css'
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { deleteTweet } from "../../store/tweets";
+import { useSelector } from "react-redux";
+
 
 const Calendar = () => {
-    const dispatch = useDispatch();
     const history = useHistory();
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
-
-    const deleteEvent = (clickInfo) => {
-        dispatch(deleteTweet(clickInfo.event.extendedProps._id));
-    };
-
-    const handleEventClick = (clickInfo) => {
-        if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-          clickInfo.event.remove();
-          deleteEvent(clickInfo);
-        }
-      }
 
     const renderEventContent = (eventInfo) => {
         return (
@@ -43,7 +30,7 @@ const Calendar = () => {
             :
             <>
                 <div className="profile-event-div">
-                    <i className="event-box">Tweet</i>
+                   <a href={`#${eventInfo.event.extendedProps._id}`}><i className="event-box">Tweet</i></a>
                 </div>
             </>
             } 
@@ -90,7 +77,6 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
-                eventClick={handleEventClick}
                 
             />
         </div>
