@@ -21,16 +21,6 @@ function Profile () {
     return () => dispatch(clearTweetErrors());
   }, [currentUser, dispatch]);
 
-  // if (userTweets.length === 0) {
-  //   return (
-  //     <>
-  //     <div className='loading-div'>
-  //       <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
-  //     </div>
-        
-  //     </>
-  //   )
-  // } else {
   
     return (
       <>
@@ -81,7 +71,7 @@ function Profile () {
 
                 <div className='tweet-container'>
                   {tweetsSortedByDate.map(tweet => (
-                    <div className='individual-tweet'>
+                    <div className='individual-tweet' id={tweet._id}>
                       <TweetBox
                         key={tweet._id}
                         tweet={tweet}
