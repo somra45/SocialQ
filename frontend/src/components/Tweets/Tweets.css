@@ -11,3 +11,43 @@
 .individual-tweet {
     width: 95%;
 }
+
+#tweets-full-page-div {
+    width: 100%;
+    max-height: 600px;
+    display: flex !important;
+    flex-direction: row;
+}
+
+.navbar-instructions-div {
+    padding: 20px;
+    display: flex;
+    width: 22%;
+    flex-direction: column;
+    background-color: #fff;
+    margin: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 12px -1px rgba(0,0,0,.3) !important;
+}
+
+.middle-container {
+    width: 46%;
+}
+
+.icon-instruction {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 25px;
+    padding-left: 19px;
+}
+
+.navbar-instruction {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.navbar-instructions-header {
+    align-self: center;
+    font-size: 28px;
+}
