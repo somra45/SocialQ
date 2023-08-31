@@ -120,7 +120,6 @@ router.get('/user/:userId', async (req, res, next) => {
       return res.json(tweets);
     }
     catch(err) {
-      console.log(err)
       return res.json([]);
     }
 
@@ -163,13 +162,15 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
       // date: req.body.date,
-      categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
+      // categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
     });
 
     let tweet = await newTweet.save();
     
     //create new categories for anything not already in db
-    if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
+    const newTweetCategories = req.body.newTweetCategories?.split(',')
+    if (newTweetCategories?.length) {
+      newTweetCategories.forEach(async catEl => {
       const category = await Category.findOne({name: catEl.toLowerCase()})
       if (!category) {
         let cat = await new Category({name: catEl.toLowerCase()});
@@ -179,15 +180,20 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     });
 
     //create new postCategory for each category, now that categories have been created
-    let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
+    newTweetCategories.forEach(async catEl =>{
+      console.log(`catEl: ${catEl}`)
       const category = await Category.findOne({name: catEl.toLowerCase()})
+      console.log(`category: ${category}`)
       PostCategory.create({category: category._id, post: tweet._id});
     })
+  }
+    
 
     tweet = await tweet
                       .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
 
     const updatedTweet = await addCategoriesAndImagesToTweet(tweet);
+    console.log(updatedTweet)
                         
     return res.json(updatedTweet);
   }
@@ -197,7 +203,6 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
 });
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
-  console.log(req)
   try {
     const tweetId = req.params.id;
     const updates = req.body;
