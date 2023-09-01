@@ -167,26 +167,30 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
 
     let tweet = await newTweet.save();
     
-    //create new categories for anything not already in db
     const newTweetCategories = req.body.newTweetCategories?.split(',')
     if (newTweetCategories?.length) {
-      newTweetCategories.forEach(async catEl => {
-      const category = await Category.findOne({name: catEl.toLowerCase()})
-      if (!category) {
-        let cat = await new Category({name: catEl.toLowerCase()});
-        cat.save();
-        cat = await Category.find({name: catEl.toLowerCase()});
+      // Use a for...of loop to ensure proper order and await inside a try-catch block
+      try {
+        console.log(newTweetCategories)
+        for (const catEl of newTweetCategories) {
+          const category = await Category.findOne({ name: catEl.toLowerCase() });
+          
+          if (!category) {
+            //create new categories for anything not already in db
+            const newCategory = new Category({ name: catEl.toLowerCase() });
+            await newCategory.save();
+            console.log(`saved cat: ${newCategory}`);
+            // Now you have the newly created category
+            await PostCategory.create({ category: newCategory._id, post: tweet._id });
+          } else {
+            // Category already exists, create the PostCategory
+            await PostCategory.create({ category: category._id, post: tweet._id });
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
-    });
-
-    //create new postCategory for each category, now that categories have been created
-    newTweetCategories.forEach(async catEl =>{
-      console.log(`catEl: ${catEl}`)
-      const category = await Category.findOne({name: catEl.toLowerCase()})
-      console.log(`category: ${category}`)
-      PostCategory.create({category: category._id, post: tweet._id});
-    })
-  }
+    }
     
 
     tweet = await tweet
@@ -201,6 +205,8 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     next(err);
   }
 });
+
+
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
   try {

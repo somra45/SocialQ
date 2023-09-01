@@ -87,7 +87,6 @@ export const fetchTweets = () => async dispatch => {
         body: formData
       });
       const tweet = await res.json();
-      debugger
       dispatch(receiveNewTweet(tweet));
     } catch(err) {
       // TypeError: Cannot read properties of undefined (reading 'user')
@@ -148,7 +147,7 @@ export const tweetErrorsReducer = (state = nullErrors, action) => {
   }
 };
 
-const tweetsReducer = (state = { all: {}, user: {}, new: {} }, action) => {
+const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
     const newState = {...state}
     switch(action.type) {
       case RECEIVE_TWEETS:
@@ -158,10 +157,10 @@ const tweetsReducer = (state = { all: {}, user: {}, new: {} }, action) => {
       case RECEIVE_NEW_TWEET:
         // return { ...state, new: action.tweet};
         debugger
-        newState.tweets.new = action.tweet;
+        newState.new = action.tweet;
         debugger
-        newState.tweets.user[action.tweet._id] = action.tweet;
-        newState.tweets.all[action.tweet._id] = action.tweet;
+        newState.user[action.tweet._id] = action.tweet;
+        newState.all[action.tweet._id] = action.tweet;
         debugger
         return newState
       case RECEIVE_UPDATED_TWEET:

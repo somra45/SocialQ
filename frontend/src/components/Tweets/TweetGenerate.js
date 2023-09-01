@@ -198,7 +198,6 @@ function TweetGenerate () {
 
   const handleGenerate = e => {
     e.preventDefault();
-    debugger
     dispatch(composeTweet({
       body: generatedBody.slice(1, -1), // slice to get rid of extra quotation marks
       images,
