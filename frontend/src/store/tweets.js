@@ -90,6 +90,7 @@ export const fetchTweets = () => async dispatch => {
       dispatch(receiveNewTweet(tweet));
     } catch(err) {
       // TypeError: Cannot read properties of undefined (reading 'user')
+      debugger
       const resBody = await err.json();
       if (resBody.statusCode === 400) {
         return dispatch(receiveErrors(resBody.errors));
@@ -155,16 +156,18 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
         return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user, new: undefined};
       case RECEIVE_NEW_TWEET:
         // return { ...state, new: action.tweet};
-        newState.tweets.new = action.tweet;
-        newState.tweets.user[action.tweet._id] = action.tweet;
-        newState.tweets.all[action.tweet._id] = action.tweet;
+        debugger
+        newState.new = action.tweet;
+        debugger
+        newState.user[action.tweet._id] = action.tweet;
+        newState.all[action.tweet._id] = action.tweet;
+        debugger
         return newState
       case RECEIVE_UPDATED_TWEET:
         newState.user[action.tweet._id] = action.tweet
         newState.all[action.tweet._id] = action.tweet
         return newState
       case REMOVE_TWEET:
-        debugger
           delete newState.user[action.tweetId]
           delete newState.all[action.tweetId]
           return newState

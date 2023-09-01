@@ -199,7 +199,7 @@ function TweetGenerate () {
   const handleGenerate = e => {
     e.preventDefault();
     dispatch(composeTweet({
-      body: generatedBody, 
+      body: generatedBody.slice(1, -1), // slice to get rid of extra quotation marks
       images,
       date: window.selectedDate,
       categories: tags.map(tag => tag.text)
@@ -278,10 +278,10 @@ function TweetGenerate () {
 
                 <div className='tweet-header-container'>
                   <div>
-                    <p className='tweet-preview-header'>{author.username}     <i class="fa-solid fa-circle-check"></i></p>
+                    <p className='tweet-preview-header'>{author.username}     <i className="fa-solid fa-circle-check"></i></p>
                     <p className='tweet-preview-header-2'>@{author.twitterHandle}</p>
                   </div>
-                  <div className='tweet-header-ellipsis'><i class="fa-solid fa-ellipsis"></i></div>
+                  <div className='tweet-header-ellipsis'><i className="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
               {/* <div className='tweet-replica-container'> */}
@@ -304,11 +304,11 @@ function TweetGenerate () {
               {/* </div> */}
 
               <div className='twitter-icons'>
-                <p><i class="fa-solid fa-comment"> 0</i></p>
-                <p><i class="fa-solid fa-retweet"> 0</i></p>
-                <p><i class="fa-solid fa-heart"> 0</i></p>
-                <p><i class="fa-solid fa-chart-simple"> 0</i></p>
-                <p><i class="fa-solid fa-arrow-up-from-bracket"></i></p>
+                <p><i className="fa-solid fa-comment"> 0</i></p>
+                <p><i className="fa-solid fa-retweet"> 0</i></p>
+                <p><i className="fa-solid fa-heart"> 0</i></p>
+                <p><i className="fa-solid fa-chart-simple"> 0</i></p>
+                <p><i className="fa-solid fa-arrow-up-from-bracket"></i></p>
               </div>
               </div>
               <div className='bottomButtonsRight'>

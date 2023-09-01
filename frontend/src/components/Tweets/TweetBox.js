@@ -83,7 +83,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
     if (new Date(date)<new Date()) {
       return(
         <div className="tweet-icons">
-          <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
+          <p className="tweet-icon-row"><i className="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i className="fa-solid fa-retweet"> {retweetCount}</i></p>
           <p></p>
         </div>
       )} else return(<></>)
@@ -145,7 +145,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
             undefined
           }
           
-          <h3 className="tweet-author">{username}</h3>&nbsp;<i class="fa-solid fa-circle-check"></i>&nbsp;
+          <h3 className="tweet-author">{username}</h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
           <p className="tweet-auther-handle"> @{username}</p>
         
       </div>

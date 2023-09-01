@@ -120,7 +120,6 @@ router.get('/user/:userId', async (req, res, next) => {
       return res.json(tweets);
     }
     catch(err) {
-      console.log(err)
       return res.json([]);
     }
 
@@ -163,31 +162,42 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
       // date: req.body.date,
-      categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
+      // categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
     });
 
     let tweet = await newTweet.save();
     
-    //create new categories for anything not already in db
-    if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
-      const category = await Category.findOne({name: catEl.toLowerCase()})
-      if (!category) {
-        let cat = await new Category({name: catEl.toLowerCase()});
-        cat.save();
-        cat = await Category.find({name: catEl.toLowerCase()});
+    const newTweetCategories = req.body.newTweetCategories?.split(',')
+    if (newTweetCategories?.length) {
+      // Use a for...of loop to ensure proper order and await inside a try-catch block
+      try {
+        console.log(newTweetCategories)
+        for (const catEl of newTweetCategories) {
+          const category = await Category.findOne({ name: catEl.toLowerCase() });
+          
+          if (!category) {
+            //create new categories for anything not already in db
+            const newCategory = new Category({ name: catEl.toLowerCase() });
+            await newCategory.save();
+            console.log(`saved cat: ${newCategory}`);
+            // Now you have the newly created category
+            await PostCategory.create({ category: newCategory._id, post: tweet._id });
+          } else {
+            // Category already exists, create the PostCategory
+            await PostCategory.create({ category: category._id, post: tweet._id });
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
-    });
-
-    //create new postCategory for each category, now that categories have been created
-    let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
-      const category = await Category.findOne({name: catEl.toLowerCase()})
-      PostCategory.create({category: category._id, post: tweet._id});
-    })
+    }
+    
 
     tweet = await tweet
                       .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
 
     const updatedTweet = await addCategoriesAndImagesToTweet(tweet);
+    console.log(updatedTweet)
                         
     return res.json(updatedTweet);
   }
@@ -196,8 +206,9 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
   }
 });
 
+
+
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
-  console.log(req)
   try {
     const tweetId = req.params.id;
     const updates = req.body;
