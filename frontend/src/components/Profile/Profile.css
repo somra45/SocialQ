@@ -164,3 +164,7 @@
     align-items: center;
     margin-top: 220px;
 }
+
+a {
+    cursor: pointer;
+}

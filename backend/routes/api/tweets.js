@@ -122,7 +122,12 @@ router.get('/user/:userId', async (req, res, next) => {
                             
       const tweets = {subscribed: subscribedTweetObjects, user: userTweetObjects}
 
-      return res.json(tweets);
+      const userSubscriptions = await getSubscribedUsers(user)
+      const categorySubscriptions = await getSubscribedCategories(user)
+      const subscriptions = {users: tweetArrayToObject(userSubscriptions), categories: tweetArrayToObject(categorySubscriptions)}
+      
+      const response = {tweets, subscriptions}
+      return res.json(response);
     }
     catch(err) {
       console.log(err)

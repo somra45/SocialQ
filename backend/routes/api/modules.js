@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Subscription = mongoose.model('Subscription');
 const Tweet = mongoose.model('Tweet');
+const User = mongoose.model('User');
+const Category = mongoose.model('Category')
 const PostCategory = mongoose.model('PostCategory');
 
 const getSubscribedUsers = async (user) => {
@@ -8,8 +10,9 @@ const getSubscribedUsers = async (user) => {
       subscribableType: 'user',
       subscriber: user._id,
       })
-      const array = subscriptions.map(sub => sub.subscribable)
-      return array
+      const userPromises = subscriptions.map(async sub => await User.findById(sub.subscribable))
+      const usersArray = await Promise.all(userPromises)
+      return usersArray
 };
 
 const getSubscribedCategories = async (user) => {
@@ -17,8 +20,9 @@ const getSubscribedCategories = async (user) => {
       subscribableType: 'category',
       subscriber: user._id,
       })
-      const array = subscriptions.map(sub => sub.subscribable)
-      return array
+      const categoryPromises = subscriptions.map(async sub => await Category.findById(sub.subscribable))
+      const categoriesArray = await Promise.all(categoryPromises)
+      return categoriesArray
 };
 
 const getSubscribedTweets = async (user) => {

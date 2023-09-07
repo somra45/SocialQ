@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchUserTweets, clearTweetErrors, fetchTweets } from '../../store/tweets';
 import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
@@ -12,6 +13,8 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
+  const subscribedUsers = useSelector(state => Object.values(state.subscriptions.users))
+  const subscribedCategories = useSelector(state => Object.values(state.subscriptions.categories))
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => new Date(b.date) - new Date(a.date));
 
 
@@ -41,28 +44,16 @@ function Profile () {
                   <div className='profile-subs-container'>
                   <h1 className='subs-header'>Subscriptions</h1>
                   <br/>
-                  <p className='subs'>@Peter-GPT</p>
+                  <h2 className='subscribed-users'>Users</h2>
+                    {subscribedUsers && subscribedUsers.map(user => (   
+                      <p><Link target='_blank' to={`/users/${user._id}`}>@{user.username}</Link></p>
+                    ))}
+
                   <br/>
-                  <p className='subs'>@Amin-B-RightBack</p>
-                  <br/>
-                  <p className='subs'>@SteveTheDream</p>
-                  <br/>
-                  <p className='subs'>@ClarenceS</p>
-                  <br/>
-                  <p className='subs'>@MaxCarp</p>
-                  <br/>
-                  <p className='subs'>@HarveyS</p>
-                  <br/>
-                  <p className='subs'>@TheoNeo23</p>
-                  <br/>
-                  <p className='subs'>@JoeRandazzleme</p>
-                  <br/>
-                  <p className='subs'>@HulkHoganBrother</p>
-                  <br/>
-                  <p className='subs'>@Cher</p>
-                  {/* {userSubs && userSubs.map(subscriber => (   
-                      <p>{subscriber.author.twitterHandle}</p>
-                      ))} */}
+                  <h2 className='subscribed-categories'>Categories</h2>
+                  {subscribedCategories && subscribedCategories.map(category => (   
+                      <p>#{category.name}</p>
+                    ))}
                 </div>
               </div>
 

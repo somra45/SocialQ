@@ -1,4 +1,5 @@
 import jwtFetch from './jwt';
+
 import { RECEIVE_USER_LOGOUT } from './session';
 
 const RECEIVE_TWEETS = "tweets/RECEIVE_TWEETS";
@@ -8,6 +9,8 @@ const RECEIVE_UPDATED_TWEET = 'tweets/RECEIVE_UPDATED_TWEET'
 const REMOVE_TWEET = 'tweets/REMOVE_TWEET';
 const RECEIVE_TWEET_ERRORS = "tweets/RECEIVE_TWEET_ERRORS";
 const CLEAR_TWEET_ERRORS = "tweets/CLEAR_TWEET_ERRORS";
+
+const RECEIVE_SUBSCRIPTIONS = "RECEIVE_SUBSCRIPTIONS";
 
 const receiveTweets = tweets => ({
   type: RECEIVE_TWEETS,
@@ -48,6 +51,14 @@ export const getTweet = (tweetId) => state => {
   return state.tweets ? state.tweets.user[tweetId] : null
 }
 
+const receiveSubscriptions = subscriptions => ({
+  type: RECEIVE_SUBSCRIPTIONS,
+  subscriptions
+});
+
+
+
+
 
 export const fetchTweets = () => async dispatch => {
     try {
@@ -65,8 +76,10 @@ export const fetchTweets = () => async dispatch => {
   export const fetchUserTweets = id => async dispatch => {
     try {
       const res = await jwtFetch(`/api/tweets/user/${id}`);
-      const tweets = await res.json();
-      dispatch(receiveUserTweets(tweets));
+      // const {tweets,subscriptions} = await res.json();
+      const response = await res.json();
+      dispatch(receiveUserTweets(response.tweets));
+      dispatch(receiveSubscriptions(response.subscriptions))
     } catch(err) {
       const resBody = await err.json();
       if (resBody.statusCode === 400) {
@@ -164,7 +177,6 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
         newState.all[action.tweet._id] = action.tweet
         return newState
       case REMOVE_TWEET:
-        debugger
           delete newState.user[action.tweetId]
           delete newState.all[action.tweetId]
           return newState
