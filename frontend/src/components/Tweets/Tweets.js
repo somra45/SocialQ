@@ -33,7 +33,7 @@ function Tweets () {
         <div className='navbar-instructions-div'>
           <h1 className='navbar-instructions-header'>Navigation</h1>
           <div className='navbar-instruction'>
-            <i class="fa-solid fa-home fa-2xl" style={{color: "#4682A9"}}></i>
+            <i className="fa-solid fa-home fa-2xl" style={{color: "#4682A9"}}></i>
             <p className='icon-instruction'>This button navigates you back to this page, where you can view all of your tweets as well as all the tweets from users you are subscribed to!</p>
           </div>
           <div className='navbar-instruction'>
@@ -62,11 +62,12 @@ function Tweets () {
                     :
                     (<div className='tweet-feed-container'>
                       {tweetsSortedByDate.map(tweet => (
-                        <div className='individual-tweet'>
+                        <div className='individual-tweet' key={`allTweets${tweet._id}`}>
                           <TweetBox
-                            key={tweet._id}
+                            key={`tweetBox_${tweet._id}`}
                             tweet={tweet}
-                            alreadyExists={true}
+                            alreadyExists={new Date(tweet.date)<new Date()}
+                            userOwnTweet = {tweet.author._id === currentUser._id}
                           />
                         </div>
                       ))}

@@ -150,7 +150,7 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
     const newState = {...state}
     switch(action.type) {
       case RECEIVE_TWEETS:
-        return { ...state, subscribed: action.tweets, new: undefined};
+        return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user, new: undefined};
       case RECEIVE_USER_TWEETS:
         return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user, new: undefined};
       case RECEIVE_NEW_TWEET:

@@ -22,7 +22,7 @@ const AboutPage = () => {
             <p>I love hiking and gaming, and pursuing my dream of  </p>
             <p>traveling the world while I contribute to making it better</p>
             <br/>
-            < a href="https://github.com/somra45" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/harvinder-somra-39ba536a/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
+            < a href="https://github.com/somra45" className="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/harvinder-somra-39ba536a/" className="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
             </div>
 
         </div>
@@ -42,7 +42,7 @@ const AboutPage = () => {
                     <br/>
                     <p></p>
                     <br/>
-                    < a href="https://github.com/jprandazzo" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/jprandazzo/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
+                    < a href="https://github.com/jprandazzo" className="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/jprandazzo/" className="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                 </div>
 
         </div>
@@ -58,7 +58,7 @@ const AboutPage = () => {
                     <br/>
                     <p></p>
                     <br/>
-                    < a href="https://github.com/TheofanisNeofotistos" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
+                    < a href="https://github.com/TheofanisNeofotistos" className="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" className="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                 </div>
 
         </div>
@@ -75,7 +75,7 @@ const AboutPage = () => {
                     <p>Max is a software engineer, crossword constructor, film programmer,</p>
                     <p> and writer based in New York.</p>
                     <br/>
-                    < a href="https://github.com/mxcrpntr" class="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/max-carpenter-245746288/" class="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
+                    < a href="https://github.com/mxcrpntr" className="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/max-carpenter-245746288/" className="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                 </div>
 
         </div>

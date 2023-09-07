@@ -10,6 +10,7 @@ import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import Tweets from './components/Tweets/Tweets';
 import Profile from './components/Profile/Profile';
+import otherUserProfile from './components/Profile/OtherUserProfile';
 
 import { getCurrentUser } from './store/session';
 import TweetGenerate from './components/Tweets/TweetGenerate';
@@ -34,6 +35,7 @@ function App() {
         <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/about" component={AboutPage} />
         <ProtectedRoute exact path="/profile" component={Profile} />
+        <ProtectedRoute exact path="/users/:userId" component={otherUserProfile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetGenerate} />
         <ProtectedRoute exact path="/calendar" component={BigCalendar} />
       </Switch>

@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTweets, clearTweetErrors, fetchTweets } from '../../store/tweets';
+import { useParams } from 'react-router-dom/';
 import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
-import './Profile.css';
+import './OtherUserProfile.css';
 import BarChart from '../BigCalendar/BarChart';
 import LoadingPage from '../LoadingPage';
 
@@ -12,15 +13,19 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
+  const author = Object.values(userTweets)[0]?.author
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => new Date(b.date) - new Date(a.date));
-
+  const {userId} = useParams();
 
   
   useEffect(() => {
-    dispatch(fetchUserTweets(currentUser._id));
+    dispatch(fetchUserTweets(userId));
     return () => dispatch(clearTweetErrors());
-  }, [currentUser, dispatch]);
+  }, [userId, dispatch]);
 
+  const handleSubscribe = () => {
+    // dispatch(subscribeToUser(userId))
+  }
   
     return (
       <>
@@ -33,11 +38,11 @@ function Profile () {
             :
             (<div className='profile-container'>
                 <div className='left-container'>
-                  {currentUser.profileImageUrl ? 
-                      <img className="profile-image-main" src={currentUser.profileImageUrl} alt="profile"/> :
+                  {author.profileImageUrl ? 
+                      <img className="profile-image-main" src={author.profileImageUrl} alt="profile"/> :
                         undefined
                   }
-                  <h2 className='currentUserProfile'>{currentUser.username}'s Profile</h2>
+                  <h2 className='currentUserProfile'>{author.username}'s Profile</h2>
                   <div className='profile-subs-container'>
                   <h1 className='subs-header'>Subscriptions</h1>
                   <br/>
@@ -67,8 +72,8 @@ function Profile () {
               </div>
 
               <div className='middle-container'>
-                <h2 className='currentUserHeader'>{currentUser.username}'s Tweets</h2>
-
+                <h2 className='currentUserHeader'>{author.username}'s Tweets</h2>
+                      <button className='subscribe-button' onClick={handleSubscribe}>Subscribe</button>
                 <div className='tweet-container'>
                   {tweetsSortedByDate.map(tweet => (
                     <div className='individual-tweet' key={tweet._id} id={tweet._id}>
@@ -76,7 +81,7 @@ function Profile () {
                         key={tweet._id}
                         tweet={tweet}
                         alreadyExists={new Date(tweet.date)<new Date()}
-                        userOwnTweet = {true}
+                        userOwnTweet = {false}
                       />
                     </div>
                   ))}
@@ -88,7 +93,7 @@ function Profile () {
                 < Calendar />
                 </div>
 
-                <h1 className='stats-header'>{currentUser.username}'s Stats</h1>
+                <h1 className='stats-header'>{author.username}'s Stats</h1>
                 <div className='stats-container'>
                   <BarChart userTweets={userTweets} />
                 </div>

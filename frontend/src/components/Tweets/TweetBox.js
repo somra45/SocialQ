@@ -2,13 +2,15 @@ import "./TweetBox.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { deleteTweet, updateTweet, getTweet } from '../../store/tweets';
+import { Link } from "react-router-dom/";
 import SelectEditDateCalendar from "./SelectEditDateCalendar.js";
 
 
-const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, mediaUrls }, alreadyExists}) => {
+const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, mediaUrls }, alreadyExists, userOwnTweet}) => {
   const dispatch = useDispatch();
-  const { username } = author;
-  // const currentUser = useSelecor
+  const authorName = author.username
+  const authorId = author._id.toString();
+  const currentUser = useSelector(state => state.session.user);
   const currentTweet = useSelector(getTweet(_id));
   const [showModal, setShowModal] = useState(false)
   const [tweetBody, setTweetBody] = useState(body)
@@ -67,7 +69,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   }
 
   const showEditDeleteIfInFuture = () => {
-    if (new Date(date)>new Date()) {
+    if (!alreadyExists && userOwnTweet) {
       return(
         <>
         <div className="update-button-div">
@@ -80,10 +82,10 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
     }
 
   const showTweetStatsIfInPast = () => {
-    if (new Date(date)<new Date()) {
+    if (alreadyExists) {
       return(
         <div className="tweet-icons">
-          <p className="tweet-icon-row"><i class="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-retweet"> {retweetCount}</i></p>
+          <p className="tweet-icon-row"><i className="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i className="fa-solid fa-retweet"> {retweetCount}</i></p>
           <p></p>
         </div>
       )} else return(<></>)
@@ -138,15 +140,15 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
         </div>
     </div>
     
-    <div className="tweet">
+    <div className={`tweet ${alreadyExists ? '' : 'future-tweet'}`}>
       <div className="tweet-box-header-container">
           {author.profileImageUrl ? 
             <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
             undefined
           }
           
-          <h3 className="tweet-author">{username}</h3>&nbsp;<i class="fa-solid fa-circle-check"></i>&nbsp;
-          <p className="tweet-auther-handle"> @{username}</p>
+          <h3 className="tweet-author"><Link to={`/users/${author._id.toString()}`} target='_blank'>{authorName}</Link></h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
+          <p className="tweet-author-handle">@{authorName}</p>
         
       </div>
       <br/>
