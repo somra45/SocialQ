@@ -15,13 +15,13 @@ function Profile () {
   const userTweets = useSelector(state => Object.values(state.tweets.user))
   const author = Object.values(userTweets)[0]?.author
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => new Date(b.date) - new Date(a.date));
-  const {userId} = useParams();
+  const {username} = useParams();
 
   
   useEffect(() => {
-    dispatch(fetchUserTweets(userId));
+    dispatch(fetchUserTweets(username));
     return () => dispatch(clearTweetErrors());
-  }, [userId, dispatch]);
+  }, [username, dispatch]);
 
   const handleSubscribe = () => {
     // dispatch(subscribeToUser(userId))

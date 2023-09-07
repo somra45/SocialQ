@@ -97,7 +97,18 @@ router.get('/', requireUser, async function(req, res, next) {
 router.get('/user/:userId', async (req, res, next) => {
   
   try {
-    const user = await User.findById(req.params.userId)
+    let user;
+    
+    // Check if req.params.userId is a valid ObjectId
+    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      user = await User.findOne({ _id: req.params.userId });
+    } else {
+      user = await User.findOne({ username: req.params.userId });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     try {
       const userTweets = await Tweet.find({ author: user._id })
                                 .sort({ createdAt: -1 })

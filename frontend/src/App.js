@@ -35,7 +35,7 @@ function App() {
         <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/about" component={AboutPage} />
         <ProtectedRoute exact path="/profile" component={Profile} />
-        <ProtectedRoute exact path="/users/:userId" component={otherUserProfile} />
+        <ProtectedRoute exact path="/users/:username" component={otherUserProfile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetGenerate} />
         <ProtectedRoute exact path="/calendar" component={BigCalendar} />
       </Switch>
