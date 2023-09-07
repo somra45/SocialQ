@@ -10,6 +10,7 @@ import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import LoadingPage from '../LoadingPage';
 
 
 
@@ -284,24 +285,26 @@ function TweetGenerate () {
                   <div className='tweet-header-ellipsis'><i className="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
-              {/* <div className='tweet-replica-container'> */}
-                <textarea
-                rows="9"
-                cols="20"
-                wrap='soft'
-                className='generated-tweet-body'
-                type="textarea"
-                value={generatedBody}
-                onChange={(e) => {setGeneratedBody(e.target.value)}}
-                required
-                />
+                {generatedBody ? <textarea
+                  rows="9"
+                  cols="20"
+                  wrap='soft'
+                  className='generated-tweet-body'
+                  type="textarea"
+                  value={generatedBody}
+                  onChange={(e) => {setGeneratedBody(e.target.value)}}
+                  required
+                /> : 
+                <div className='ai-loading-div'>
+                  < LoadingPage type={'bubbles'} color={'#91C8E4'} height={'15vh'} width={'19vw'}/> 
+                </div>
+                }
                 
                 <div className="generated-tweet-images">
                   {(imageUrls.length !== 0) ?                  
                   displayedImages : // <-- MODIFY THIS LINE
                   undefined}
                 </div>
-              {/* </div> */}
 
               <div className='twitter-icons'>
                 <p><i className="fa-solid fa-comment"> 0</i></p>

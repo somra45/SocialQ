@@ -1,9 +1,9 @@
 import ReactLoading from 'react-loading';
 
-const LoadingPage = ({ type, color}) => {
+const LoadingPage = ({ type, color, height, width}) => {
     return (
         <>
-            <ReactLoading type={type} color={color} height={'23vh'} width={'23vw'} />
+            <ReactLoading type={type} color={color} height={height} width={width} />
         </>
     )
 }

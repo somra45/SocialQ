@@ -28,7 +28,7 @@ function Profile () {
         <div id='editModal' className='hide-edit-modal'></div>
         {userTweets.length === 0 ? 
             (<div className='loading-div'>
-              <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
+              <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} height={'23vh'} width={'23vw'} />
             </div>) 
             :
             (<div className='profile-container'>
