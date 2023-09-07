@@ -75,14 +75,19 @@ router.get('/', requireUser, async function(req, res, next) {
   try {
     const currentUser = req.user
     const subscribedTweets = await getSubscribedTweets(currentUser)
-                              // .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
     const tweetsWithCategories = await Promise.all(subscribedTweets.map(async tweet => {
           tweet = await addCategoriesAndImagesToTweet(tweet)
           return tweet;
     }));
 
+    const userOwnTweets = tweetsWithCategories.filter(tweet => tweet.author._id.toString() === currentUser._id.toString())
+
+    const userOwnTweetObjects = tweetArrayToObject(userOwnTweets)
     const subscribedTweetObjects = tweetArrayToObject(tweetsWithCategories)
-    return res.json(subscribedTweetObjects);
+
+    const tweets = {subscribed: subscribedTweetObjects, user: userOwnTweetObjects}
+
+    return res.json(tweets);
   }
   catch(err) {
     return res.json([]);
