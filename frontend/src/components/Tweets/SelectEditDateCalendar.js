@@ -24,13 +24,18 @@ const SelectEditDateCalendar = () => {
 
     const handleDateClick = (dateClickInfo) => {
         let calendarApi = calendarRef.current.getApi();
-        calendarApi.gotoDate(dateClickInfo.date)
-        if (dateClickInfo.view.type === 'dayGridMonth') {
-            calendarApi.changeView('timeGridDay');
-            window.alert('Please Select a time on day you chose')
+
+        if (Date.now() < dateClickInfo.date) {
+            calendarApi.gotoDate(dateClickInfo.date)
+            if (dateClickInfo.view.type === 'dayGridMonth') {
+                calendarApi.changeView('timeGridDay');
+                window.alert('Please Select a time on day you chose')
+            } else {
+                window.selectedUpdatedDate = dateClickInfo.date
+                setSelectionDate(dateClickInfo.date)
+            }
         } else {
-            window.selectedUpdatedDate = dateClickInfo.date
-            setSelectionDate(dateClickInfo.date)
+            window.alert('Please select a date and time that is in the future')
         }
     }
 

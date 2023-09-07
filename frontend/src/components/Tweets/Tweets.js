@@ -21,7 +21,7 @@ function Tweets () {
   if (tweetsSortedByDate.length === 0) { return (
       <>
       <div className='loading-div'>
-        <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
+        <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} height={'23vh'} width={'23vw'} />
       </div>
       </>
       )}
