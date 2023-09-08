@@ -273,7 +273,7 @@
 .modal-show {
     position: absolute;
     width: 100vw;
-    height: 125vh;
+    height: 135vh;
     background-color: rgba(0,0,0,0.55);
 }
 
@@ -285,4 +285,11 @@
     height: 1vh;
     width: 100%;
     margin-bottom: 155px;
+}
+
+.generate-error {
+    color: maroon;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 8px;
 }
