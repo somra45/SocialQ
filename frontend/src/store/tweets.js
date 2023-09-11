@@ -1,6 +1,7 @@
 import jwtFetch from './jwt';
 
 import { RECEIVE_USER_LOGOUT } from './session';
+// import receiveSubscriptions from './subscriptions';
 
 const RECEIVE_TWEETS = "tweets/RECEIVE_TWEETS";
 const RECEIVE_USER_TWEETS = "tweets/RECEIVE_USER_TWEETS";
@@ -10,7 +11,7 @@ const REMOVE_TWEET = 'tweets/REMOVE_TWEET';
 const RECEIVE_TWEET_ERRORS = "tweets/RECEIVE_TWEET_ERRORS";
 const CLEAR_TWEET_ERRORS = "tweets/CLEAR_TWEET_ERRORS";
 
-const RECEIVE_SUBSCRIPTIONS = "RECEIVE_SUBSCRIPTIONS";
+
 
 const receiveTweets = tweets => ({
   type: RECEIVE_TWEETS,
@@ -51,13 +52,6 @@ export const getTweet = (tweetId) => state => {
   return state.tweets ? state.tweets.user[tweetId] : null
 }
 
-const receiveSubscriptions = subscriptions => ({
-  type: RECEIVE_SUBSCRIPTIONS,
-  subscriptions
-});
-
-
-
 
 
 export const fetchTweets = () => async dispatch => {
@@ -77,9 +71,9 @@ export const fetchTweets = () => async dispatch => {
     try {
       const res = await jwtFetch(`/api/tweets/user/${id}`);
       // const {tweets,subscriptions} = await res.json();
-      const response = await res.json();
-      dispatch(receiveUserTweets(response.tweets));
-      dispatch(receiveSubscriptions(response.subscriptions))
+      const {tweets} = await res.json();
+      dispatch(receiveUserTweets(tweets));
+      // dispatch(receiveCurrentPageSubscriptions(currentPageSubscriptions))
     } catch(err) {
       const resBody = await err.json();
       if (resBody.statusCode === 400) {

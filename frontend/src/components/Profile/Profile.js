@@ -13,11 +13,11 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
-  const subscribedUsers = useSelector(state => Object.values(state.subscriptions.users))
-  const subscribedCategories = useSelector(state => Object.values(state.subscriptions.categories))
+  const subscribedUsers = useSelector(state => state.subscriptions.currentPage ? Object.values(state.subscriptions.currentPage.users) : null)
+  const subscribedCategories = useSelector(state => state.subscriptions.currentPage ? Object.values(state.subscriptions.currentPage.categories) : null)
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => new Date(b.date) - new Date(a.date));
 
-
+  
   
   useEffect(() => {
     dispatch(fetchUserTweets(currentUser._id));

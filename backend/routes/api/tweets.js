@@ -9,7 +9,7 @@ const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
 const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
-const {getSubscribedUsers, getSubscribedCategories, getSubscribedTweets} = require('./modules.js')
+const {getSubscribedUsers, getSubscribedCategories, getSubscribedTweets, responseArrayToObject} = require('./modules.js')
 const axios = require('axios');
 
 
@@ -59,14 +59,7 @@ const addCategoriesAndImagesToTweet = async (tweet) => {
   return tweet
 }
 
-const tweetArrayToObject = (tweetArray) => {
-  const tweetObjects = {}
-  tweetArray.forEach(tweet => {
-    const tweetId = tweet._id.toString()
-    tweetObjects[tweetId] = tweet
-  })
-  return tweetObjects
-}
+
 
 router.get('/', requireUser, async function(req, res, next) {
   // res.json({
@@ -82,8 +75,8 @@ router.get('/', requireUser, async function(req, res, next) {
 
     const userOwnTweets = tweetsWithCategories.filter(tweet => tweet.author._id.toString() === currentUser._id.toString())
 
-    const userOwnTweetObjects = tweetArrayToObject(userOwnTweets)
-    const subscribedTweetObjects = tweetArrayToObject(tweetsWithCategories)
+    const userOwnTweetObjects = responseArrayToObject(userOwnTweets)
+    const subscribedTweetObjects = responseArrayToObject(tweetsWithCategories)
 
     const tweets = {subscribed: subscribedTweetObjects, user: userOwnTweetObjects}
 
@@ -120,7 +113,7 @@ router.get('/user/:userId', async (req, res, next) => {
         return tweet;
       }));
   
-      const userTweetObjects = tweetArrayToObject(userTweetsWithCategories)
+      const userTweetObjects = responseArrayToObject(userTweetsWithCategories)
 
       const subscribedTweets = await getSubscribedTweets(user)
       
@@ -129,15 +122,15 @@ router.get('/user/:userId', async (req, res, next) => {
             return tweet;
       }));
 
-      const subscribedTweetObjects = tweetArrayToObject(subscribedTweetsWithCategories)
+      const subscribedTweetObjects = responseArrayToObject(subscribedTweetsWithCategories)
                             
       const tweets = {subscribed: subscribedTweetObjects, user: userTweetObjects}
 
       const userSubscriptions = await getSubscribedUsers(user)
       const categorySubscriptions = await getSubscribedCategories(user)
-      const subscriptions = {users: tweetArrayToObject(userSubscriptions), categories: tweetArrayToObject(categorySubscriptions)}
+      const currentPageSubscriptions = {users: responseArrayToObject(userSubscriptions), categories: responseArrayToObject(categorySubscriptions)}
       
-      const response = {tweets, subscriptions}
+      const response = {tweets, currentPageSubscriptions}
       return res.json(response);
     }
     catch(err) {

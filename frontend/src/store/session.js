@@ -5,6 +5,12 @@ const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
 export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
 
+const RECEIVE_SUBSCRIPTIONS = "RECEIVE_SUBSCRIPTIONS";
+const receiveSubscriptions = subscriptions => ({
+  type: RECEIVE_SUBSCRIPTIONS,
+  subscriptions
+});
+
 // Dispatch receiveCurrentUser when a user logs in.
 const receiveCurrentUser = currentUser => ({
   type: RECEIVE_CURRENT_USER,
@@ -44,9 +50,11 @@ const startSession = (userInfo, route) => async dispatch => {
       method: "POST",
       body: formData
     });
-    const { user, token } = await res.json();
+    const { user, token, subscriptions } = await res.json();
     localStorage.setItem('jwtToken', token);
-    return dispatch(receiveCurrentUser(user));
+    debugger
+    dispatch(receiveCurrentUser(user));
+    dispatch(receiveSubscriptions(subscriptions))
   } catch(err) {
     const res = await err.json();
     if (res.statusCode === 422) {

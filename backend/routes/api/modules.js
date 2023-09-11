@@ -5,6 +5,15 @@ const User = mongoose.model('User');
 const Category = mongoose.model('Category')
 const PostCategory = mongoose.model('PostCategory');
 
+const responseArrayToObject = (tweetArray) => {
+  const tweetObjects = {}
+  tweetArray.forEach(tweet => {
+    const tweetId = tweet._id.toString()
+    tweetObjects[tweetId] = tweet
+  })
+  return tweetObjects
+}
+
 const getSubscribedUsers = async (user) => {
     const subscriptions = await Subscription.find({
       subscribableType: 'user',
@@ -50,5 +59,6 @@ const getSubscribedTweets = async (user) => {
 module.exports = {
     getSubscribedUsers,
     getSubscribedCategories,
-    getSubscribedTweets
+    getSubscribedTweets,
+    responseArrayToObject
 }
