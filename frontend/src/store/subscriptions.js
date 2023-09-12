@@ -30,9 +30,8 @@ export const subscribeToUser = username => async dispatch => {
       const res = await jwtFetch(`/api/subscriptions/userSubscriptions/${username}`, {
         method: 'POST'
       });
-      const updatedUser = await res.json();
-
-      debugger
+      const {updatedUser, message} = await res.json();
+      console.log(message)
       dispatch(receiveCurrentUser(updatedUser));
       
     } catch(err) {
@@ -50,8 +49,8 @@ export const unsubscribeFromUser = username => async dispatch => {
       const res = await jwtFetch(`/api/subscriptions/userSubscriptions/${username}`, {
         method: 'DELETE'
       });
-      debugger
-      const updatedUser = await res.json();
+      const {updatedUser, message} = await res.json();
+      console.log(message)
       debugger
       dispatch(receiveCurrentUser(updatedUser));
       // dispatch(receiveCurrentPageSubscriptions(currentPageSubscriptions))
@@ -69,7 +68,8 @@ export const subscribeToCategory = categoryName => async dispatch => {
       const res = await jwtFetch(`/api/subscriptions/categorySubscriptions/${categoryName}`, {
         method: 'POST'
       });
-      const updatedUser = await res.json();
+      const {updatedUser, message} = await res.json();
+      console.log(message)
       dispatch(receiveCurrentUser(updatedUser));
       
     } catch(err) {
@@ -87,7 +87,8 @@ export const unsubscribeFromCategory = categoryName => async dispatch => {
       const res = await jwtFetch(`/api/subscriptions/categorySubscriptions/${categoryName}`, {
         method: 'DELETE'
       });
-      const updatedUser = await res.json();
+      const {updatedUser, message} = await res.json();
+      console.log(message)
       dispatch(receiveCurrentUser(updatedUser));
       // dispatch(receiveCurrentPageSubscriptions(currentPageSubscriptions))
     } catch(err) {

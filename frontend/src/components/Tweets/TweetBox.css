@@ -16,9 +16,12 @@ b {
     width: 100%;
 }
 
-.future-tweet {
-    filter: brightness(90%);
-    background-color: #ffffff;
+.future-tweet-body, .future-tweet-date {
+    color: grey;
+}
+
+.future-tweet-category a {
+    color: rgb(76, 76, 225);
 }
 
 .tweet-author{

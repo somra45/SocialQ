@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
@@ -70,7 +71,7 @@ users.push(
     lastName: 'User 2',
     username: 'fake-user-2',
     twitterHandle: 'fake-user-2',
-    email: 'fake-user-3@appacademy.io',
+    email: 'fake-user-2@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
     profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
   }),
@@ -193,7 +194,7 @@ const createFakerUserTweets = async () => {
           date: getRandomDateWithinNext90Days(),
           createdOnSocialQ: true
           })
-      demoUserTweets.push(newTweet)
+      fakerUserTweets.push(newTweet)
     }
 
   })
@@ -330,7 +331,7 @@ mongoose
       await Tweet.insertMany(lordVoldemortTweetsArray);
 
       const fakerUserTweetsArray = await createFakerUserTweets();
-      await Tweet.inserMany(fakerUserTweetsArray)
+      await Tweet.insertMany(fakerUserTweetsArray)
 
       await Category.insertMany(categories);
 

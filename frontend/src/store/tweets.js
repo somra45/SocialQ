@@ -75,7 +75,6 @@ export const fetchTweets = () => async dispatch => {
   
   export const fetchUserTweets = id => async dispatch => {
     try {
-      debugger
       const res = await jwtFetch(`/api/tweets/user/${id}`);
       // const {tweets,subscriptions} = await res.json();
       const {tweets} = await res.json();
@@ -93,7 +92,6 @@ export const fetchTweets = () => async dispatch => {
     try {
       const res = await jwtFetch(`/api/postCategories/${categoryName}`);
       const tweets = await res.json();
-      debugger
       dispatch(receiveCategoryTweets(tweets));
     } catch(err) {
       console.log(err)
@@ -112,10 +110,9 @@ export const fetchTweets = () => async dispatch => {
         body: formData
       });
       const tweet = await res.json();
-      debugger
       dispatch(receiveNewTweet(tweet));
+
     } catch(err) {
-      debugger
       console.log(err)
       // const resBody = await err.json();
       // if (resBody.statusCode === 400) {
@@ -181,11 +178,9 @@ const tweetsReducer = (state = { all: {}, user: {}, category: {} }, action) => {
       case RECEIVE_USER_TWEETS:
         return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user};
       case RECEIVE_CATEGORY_TWEETS:
-        debugger
         return {...state, category: action.tweets}
       case RECEIVE_NEW_TWEET:
         // return { ...state, new: action.tweet};
-        debugger
         // newState.tweets.new = action.tweet;
         newState.user[action.tweet._id] = action.tweet;
         newState.all[action.tweet._id] = action.tweet;

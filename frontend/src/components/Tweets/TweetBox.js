@@ -152,12 +152,12 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
         
       </div>
       <br/>
-      <p className="tweet-body">{body}</p>
+      <p className={`tweet-body ${alreadyExists ? '' : 'future-tweet-body'}`}>{body}</p>
       <div className="tweet-category-container">
-        <ul className="tweet-categories">{categories?.map(cat => <li><b><Link to={`/categories/${cat}`} target='_blank'>{cat}&nbsp;</Link></b></li>)} </ul>
+        <ul className={`tweet-categories ${alreadyExists ? '' : 'future-tweet-category'}`}>{categories?.map(cat => <li><b><Link to={`/categories/${cat}`} target='_blank'>{cat}&nbsp;</Link></b></li>)} </ul>
       </div>
       <br/>
-      <p className="tweet-date">{convertTime(date)}</p>
+      <p className={`tweet-date ${alreadyExists ? '' : 'future-tweet-date'}`}>{convertTime(date)}{alreadyExists ? '' : ' (Scheduled)'}</p>
       <br/>
       {displayedMedia}
       {showTweetStatsIfInPast()}

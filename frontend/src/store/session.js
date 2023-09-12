@@ -72,10 +72,8 @@ export const logout = () => dispatch => {
   };
   
   const sessionReducer = (state = initialState, action) => {
-    debugger
     switch (action.type) {
       case RECEIVE_CURRENT_USER:
-        debugger
         return { user: action.currentUser };
       case RECEIVE_USER_LOGOUT:
         return initialState;
