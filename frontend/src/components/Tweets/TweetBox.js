@@ -2,13 +2,15 @@ import "./TweetBox.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { deleteTweet, updateTweet, getTweet } from '../../store/tweets';
+import { Link } from "react-router-dom/";
 import SelectEditDateCalendar from "./SelectEditDateCalendar.js";
 
 
-const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, mediaUrls }, alreadyExists}) => {
+const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retweetCount, mediaUrls }, alreadyExists, userOwnTweet}) => {
   const dispatch = useDispatch();
-  const { username } = author;
-  // const currentUser = useSelecor
+  const authorName = author.username
+  const authorId = author._id.toString();
+  const currentUser = useSelector(state => state.session.user);
   const currentTweet = useSelector(getTweet(_id));
   const [showModal, setShowModal] = useState(false)
   const [tweetBody, setTweetBody] = useState(body)
@@ -67,7 +69,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   }
 
   const showEditDeleteIfInFuture = () => {
-    if (new Date(date)>new Date()) {
+    if (!alreadyExists && userOwnTweet) {
       return(
         <>
         <div className="update-button-div">
@@ -80,7 +82,7 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
     }
 
   const showTweetStatsIfInPast = () => {
-    if (new Date(date)<new Date()) {
+    if (alreadyExists) {
       return(
         <div className="tweet-icons">
           <p className="tweet-icon-row"><i className="fa-solid fa-heart"> {likeCount}</i>&nbsp;&nbsp;&nbsp;<i className="fa-solid fa-retweet"> {retweetCount}</i></p>
@@ -138,24 +140,24 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
         </div>
     </div>
     
-    <div className="tweet">
+    <div className={`tweet ${alreadyExists ? '' : 'future-tweet'}`}>
       <div className="tweet-box-header-container">
           {author.profileImageUrl ? 
             <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
             undefined
           }
           
-          <h3 className="tweet-author">{username}</h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
-          <p className="tweet-auther-handle"> @{username}</p>
+          <h3 className="tweet-author"><Link to={`/users/${author.username.toString()}`} target='_blank'>{authorName}</Link></h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
+          <p className="tweet-author-handle">@{authorName}</p>
         
       </div>
       <br/>
-      <p className="tweet-body">{body}</p>
+      <p className={`tweet-body ${alreadyExists ? '' : 'future-tweet-body'}`}>{body}</p>
       <div className="tweet-category-container">
-        <ul className="tweet-categories">{categories?.map(cat => <li><b>{cat}&nbsp;</b></li>)} </ul>
+        <ul className={`tweet-categories ${alreadyExists ? '' : 'future-tweet-category'}`}>{categories?.map(cat => <li><b><Link to={`/categories/${cat}`} target='_blank'>{cat}&nbsp;</Link></b></li>)} </ul>
       </div>
       <br/>
-      <p className="tweet-date">{convertTime(date)}</p>
+      <p className={`tweet-date ${alreadyExists ? '' : 'future-tweet-date'}`}>{convertTime(date)}{alreadyExists ? '' : ' (Scheduled)'}</p>
       <br/>
       {displayedMedia}
       {showTweetStatsIfInPast()}

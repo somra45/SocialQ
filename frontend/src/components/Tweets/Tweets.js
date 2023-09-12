@@ -62,11 +62,12 @@ function Tweets () {
                     :
                     (<div className='tweet-feed-container'>
                       {tweetsSortedByDate.map(tweet => (
-                        <div className='individual-tweet'>
+                        <div className='individual-tweet' key={`allTweets${tweet._id}`}>
                           <TweetBox
-                            key={tweet._id}
+                            key={`tweetBox_${tweet._id}`}
                             tweet={tweet}
-                            alreadyExists={true}
+                            alreadyExists={new Date(tweet.date)<new Date()}
+                            userOwnTweet = {tweet.author._id === currentUser._id}
                           />
                         </div>
                       ))}

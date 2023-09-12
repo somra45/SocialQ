@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearTweetErrors, composeTweet } from '../../store/tweets';
+import { clearTweetErrors, composeTweet, fetchUserTweets } from '../../store/tweets';
 import TweetBox from './TweetBox';
 import NavBar from '../NavBar/NavBar';
 import jwtFetch from '../../store/jwt';
@@ -177,7 +177,8 @@ function TweetGenerate () {
 
 
   useEffect(() => {
-    return () => dispatch(clearTweetErrors());
+    dispatch(clearTweetErrors());
+    dispatch(fetchUserTweets(author._id));
   }, [dispatch]);
 
   const updateFiles = async e => {

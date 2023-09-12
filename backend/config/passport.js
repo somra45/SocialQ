@@ -6,6 +6,7 @@ const User = mongoose.model('User');
 const jwt = require('jsonwebtoken');
 const { secretOrKey } = require('./keys');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+const {getSubscribedUsers, getSubscribedCategories, responseArrayToObject} = require('../routes/api/modules');
 
 
 passport.use(new LocalStrategy({
@@ -39,10 +40,15 @@ passport.use(new LocalStrategy({
       secretOrKey, // sign with secret key
       { expiresIn: 3600 } // tell the key to expire in one hour
     );
-    return {
+    const subscribedUsers = await getSubscribedUsers(userInfo)
+    const subscribedCategories = await getSubscribedCategories(userInfo)
+    userInfo.subscriptions = {users: responseArrayToObject(subscribedUsers), categories: responseArrayToObject(subscribedCategories)}
+
+    const response = {
       user: userInfo,
       token
     };
+    return response
   };
 
 const options = {};

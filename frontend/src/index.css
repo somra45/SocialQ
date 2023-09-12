@@ -52,5 +52,9 @@ body{
 	background-color: #F6F4EB;
 }
 
+a {
+	cursor: pointer !important;
+}
+
 
 @import './fonts/fonts.css'

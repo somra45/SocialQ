@@ -9,7 +9,7 @@ const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../config/passport');
 const validateTweetInput = require('../../validations/tweets');
 const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
-const {getSubscribedUsers, getSubscribedCategories, getSubscribedTweets} = require('./modules.js')
+const {getSubscribedUsers, getSubscribedCategories, getSubscribedTweets, responseArrayToObject} = require('./modules.js')
 const axios = require('axios');
 
 
@@ -55,18 +55,12 @@ const addCategoriesAndImagesToTweet = async (tweet) => {
   // if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4, desc: tweet.videoDesc4}
 
   tweet._doc.mediaUrls = mediaUrls;
+  // console.log(tweet)
 
   return tweet
 }
 
-const tweetArrayToObject = (tweetArray) => {
-  const tweetObjects = {}
-  tweetArray.forEach(tweet => {
-    const tweetId = tweet._id.toString()
-    tweetObjects[tweetId] = tweet
-  })
-  return tweetObjects
-}
+
 
 router.get('/', requireUser, async function(req, res, next) {
   // res.json({
@@ -75,14 +69,19 @@ router.get('/', requireUser, async function(req, res, next) {
   try {
     const currentUser = req.user
     const subscribedTweets = await getSubscribedTweets(currentUser)
-                              // .populate("author", "_id username profileImageUrl twitterHandle instagramHandle")
     const tweetsWithCategories = await Promise.all(subscribedTweets.map(async tweet => {
           tweet = await addCategoriesAndImagesToTweet(tweet)
           return tweet;
     }));
 
-    const subscribedTweetObjects = tweetArrayToObject(tweetsWithCategories)
-    return res.json(subscribedTweetObjects);
+    const userOwnTweets = tweetsWithCategories.filter(tweet => tweet.author._id.toString() === currentUser._id.toString())
+
+    const userOwnTweetObjects = responseArrayToObject(userOwnTweets)
+    const subscribedTweetObjects = responseArrayToObject(tweetsWithCategories)
+
+    const tweets = {subscribed: subscribedTweetObjects, user: userOwnTweetObjects}
+
+    return res.json(tweets);
   }
   catch(err) {
     return res.json([]);
@@ -90,9 +89,19 @@ router.get('/', requireUser, async function(req, res, next) {
 });
 
 router.get('/user/:userId', async (req, res, next) => {
-  
   try {
-    const user = await User.findById(req.params.userId)
+    let user;
+    
+    // Check if req.params.userId is a valid ObjectId
+    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      user = await User.findOne({ _id: req.params.userId });
+    } else {
+      user = await User.findOne({ username: req.params.userId });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     try {
       const userTweets = await Tweet.find({ author: user._id })
                                 .sort({ createdAt: -1 })
@@ -104,7 +113,7 @@ router.get('/user/:userId', async (req, res, next) => {
         return tweet;
       }));
   
-      const userTweetObjects = tweetArrayToObject(userTweetsWithCategories)
+      const userTweetObjects = responseArrayToObject(userTweetsWithCategories)
 
       const subscribedTweets = await getSubscribedTweets(user)
       
@@ -113,11 +122,16 @@ router.get('/user/:userId', async (req, res, next) => {
             return tweet;
       }));
 
-      const subscribedTweetObjects = tweetArrayToObject(subscribedTweetsWithCategories)
+      const subscribedTweetObjects = responseArrayToObject(subscribedTweetsWithCategories)
                             
       const tweets = {subscribed: subscribedTweetObjects, user: userTweetObjects}
 
-      return res.json(tweets);
+      // const userSubscriptions = await getSubscribedUsers(user)
+      // const categorySubscriptions = await getSubscribedCategories(user)
+      // const currentPageSubscriptions = {users: responseArrayToObject(userSubscriptions), categories: responseArrayToObject(categorySubscriptions)}
+      
+      const response = {tweets}
+      return res.json(response);
     }
     catch(err) {
       return res.json([]);
@@ -161,37 +175,27 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
-      // date: req.body.date,
-      // categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
+      createdOnSocialQ: true
     });
 
     let tweet = await newTweet.save();
-    
-    const newTweetCategories = req.body.newTweetCategories?.split(',')
-    if (newTweetCategories?.length) {
-      // Use a for...of loop to ensure proper order and await inside a try-catch block
-      try {
-        console.log(newTweetCategories)
-        for (const catEl of newTweetCategories) {
-          const category = await Category.findOne({ name: catEl.toLowerCase() });
-          
-          if (!category) {
-            //create new categories for anything not already in db
-            const newCategory = new Category({ name: catEl.toLowerCase() });
-            await newCategory.save();
-            console.log(`saved cat: ${newCategory}`);
-            // Now you have the newly created category
-            await PostCategory.create({ category: newCategory._id, post: tweet._id });
-          } else {
-            // Category already exists, create the PostCategory
-            await PostCategory.create({ category: category._id, post: tweet._id });
-          }
-        }
-      } catch (error) {
-        console.error(error);
+    const newTweetCategories = req.body.newTweetCategories.split(',')
+  
+    //create new categories for anything not already in db
+    if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
+      let category = await Category.findOne({name: catEl.toLowerCase()})
+      if (!category) {
+        let cat = await new Category({name: catEl.toLowerCase()});
+        cat.save();
+        cat = await Category.find({name: catEl.toLowerCase()});
       }
-    }
-    
+      
+      category = await Category.findOne({name: catEl.toLowerCase()})
+      PostCategory.create({category: category._id, post: tweet._id});
+      
+    });
+
+    //create new postCategory for each category, now that categories have been created
 
     tweet = await tweet
                       .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
@@ -202,6 +206,7 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     return res.json(updatedTweet);
   }
   catch(err) {
+    console.log(err)
     next(err);
   }
 });
@@ -235,7 +240,7 @@ router.delete('/:id', async (req, res) => {
     // Find the post by its ID and delete it, and delete any associated postCategories
     PostCategory.deleteMany({post: tweetId})
     const deletedPost = await Tweet.findByIdAndDelete(tweetId);
-    
+    console.log(`deleted: ${deletedPost}`)
 
     if (!deletedPost) {
       return res.status(404).json({ error: 'Post not found' });
@@ -248,4 +253,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  addCategoriesAndImagesToTweet
+}

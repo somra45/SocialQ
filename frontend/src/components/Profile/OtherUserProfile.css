@@ -165,6 +165,6 @@
     margin-top: 220px;
 }
 
-a {
-    cursor: pointer !important;
+.subscribe-button {
+    cursor: pointer !important; /*why is this not working?*/
 }

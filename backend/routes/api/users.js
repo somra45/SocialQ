@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const passport = require('passport');
 const { loginUser, restoreUser } = require('../../config/passport');
+const {getSubscribedUsers, getSubscribedCategories, responseArrayToObject} = require('./modules');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
-const {getSubscribedUsers, getSubscribedCategories} = require('./modules.js')
 
 router.get('/current', restoreUser, async (req, res) => {
   if (!isProduction) {
@@ -18,9 +18,8 @@ router.get('/current', restoreUser, async (req, res) => {
   }
   if (!req.user) return res.json(null);
 
-  const subscribedUsersArray = await getSubscribedUsers(req.user);
-
-  const subscribedCategoriesArray = await getSubscribedCategories(req.user);
+  const subscribedUsers = await getSubscribedUsers(req.user)
+  const subscribedCategories = await getSubscribedCategories(req.user)
   
   res.json({
     _id: req.user._id,
@@ -31,8 +30,7 @@ router.get('/current', restoreUser, async (req, res) => {
     profileImageUrl: req.user.profileImageUrl,
     twitterHandle: req.user.twitterHandle,
     instagramHandle: req.user.instagramHandle,
-    subscribibedUsers: subscribedUsersArray,
-    subscribedCategories: subscribedCategoriesArray
+    subscriptions: {users: responseArrayToObject(subscribedUsers), categories: responseArrayToObject(subscribedCategories)},
   });
 });
 

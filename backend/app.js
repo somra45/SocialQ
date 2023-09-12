@@ -17,10 +17,11 @@ const cors = require('cors');
 
 
 const usersRouter = require('./routes/api/users');
-const tweetsRouter = require('./routes/api/tweets');
+const {router: tweetsRouter} = require('./routes/api/tweets');
 const aiFetchRouter = require('./routes/api/aiFetch');
 const postCategoriesRouter = require('./routes/api/postCategories');
-const subscriptionsRouter = require('./routes/api/subscriptions');
+const userSubscriptionsRouter = require('./routes/api/subscriptions/userSubscriptions');
+const categorySubscriptionsRouter = require('./routes/api/subscriptions/categorySubscriptions');
 const csrfRouter = require('./routes/api/csrf');
 
 const app = express();
@@ -50,7 +51,8 @@ app.use('/api/tweets', tweetsRouter);
 app.use('/api/postCategories', postCategoriesRouter);
 app.use('/api/aiFetch', aiFetchRouter);
 // app.use('/api/categories', categoriesRouter);
-app.use('/api/subscriptions', subscriptionsRouter);
+app.use('/api/subscriptions/userSubscriptions', userSubscriptionsRouter);
+app.use('/api/subscriptions/categorySubscriptions', categorySubscriptionsRouter);
 app.use('/api/csrf', csrfRouter);
 
 if (isProduction) {
