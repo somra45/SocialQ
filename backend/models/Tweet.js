@@ -177,7 +177,7 @@ const tweetSchema = new Schema({
     createdOnSocialQ: {
         type: Boolean,
         required: true,
-        default: false
+        default: true
     }
 }, {
     timestamps: true

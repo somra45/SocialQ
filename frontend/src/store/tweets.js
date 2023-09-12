@@ -114,10 +114,6 @@ export const fetchTweets = () => async dispatch => {
 
     } catch(err) {
       console.log(err)
-      // const resBody = await err.json();
-      // if (resBody.statusCode === 400) {
-      //   return dispatch(receiveErrors(resBody.errors));
-      // }
     }
   };
 

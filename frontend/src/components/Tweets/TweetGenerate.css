@@ -273,6 +273,23 @@
 .modal-show {
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 135vh;
     background-color: rgba(0,0,0,0.55);
+}
+
+.ai-loading-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 1vh;
+    width: 100%;
+    margin-bottom: 155px;
+}
+
+.generate-error {
+    color: maroon;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 8px;
 }

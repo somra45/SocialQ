@@ -10,6 +10,7 @@ import {WithContext as ReactTags} from 'react-tag-input'
 import SelectDateCalendar from '../SelectDateCalendar/SelectDateCalendar';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import LoadingPage from '../LoadingPage';
 
 
 
@@ -45,6 +46,8 @@ function TweetGenerate () {
   const fileRef = useRef(null);
   const [showGeneratedTweet,setShowGeneratedTweet] = useState(false);
   const history = useHistory();
+  const [generateError, setGenerateError] = useState(false);
+  const [scheduleDateError, setScheduledDateError] = useState(false);
 
   const [displayedImages,setDisplayedImages] = useState(imageUrls?.map((url, index) => {
     const styleObject = {
@@ -199,17 +202,22 @@ function TweetGenerate () {
 
   const handleGenerate = e => {
     e.preventDefault();
-    dispatch(composeTweet({
-      body: generatedBody, 
-      images,
-      date: window.selectedDate,
-      categories: tags.map(tag => tag.text)
-    })); 
-    setImages([]);                        
-    setImageUrls([]); 
-    setBody('');
-    fileRef.current.value = null;
-    history.push('/profile')
+    if (window.selectedDate) {
+        dispatch(composeTweet({
+        body: generatedBody.slice(1, -1), // slice to get rid of extra quotation marks
+        images,
+        date: window.selectedDate,
+        categories: tags.map(tag => tag.text)
+      })); 
+      setImages([]);                        
+      setImageUrls([]); 
+      setBody('');
+      fileRef.current.value = null;
+      history.push('/profile')
+    } else {
+      setScheduledDateError('Please schedule a date for this post before proceeding!')
+    }
+    
   };
 
   useEffect(() => {
@@ -285,24 +293,26 @@ function TweetGenerate () {
                   <div className='tweet-header-ellipsis'><i className="fa-solid fa-ellipsis"></i></div>
                 </div>   
 
-              {/* <div className='tweet-replica-container'> */}
-                <textarea
-                rows="9"
-                cols="20"
-                wrap='soft'
-                className='generated-tweet-body'
-                type="textarea"
-                value={generatedBody}
-                onChange={(e) => {setGeneratedBody(e.target.value)}}
-                required
-                />
+                {generatedBody ? <textarea
+                  rows="9"
+                  cols="20"
+                  wrap='soft'
+                  className='generated-tweet-body'
+                  type="textarea"
+                  value={generatedBody}
+                  onChange={(e) => {setGeneratedBody(e.target.value)}}
+                  required
+                /> : 
+                <div className='ai-loading-div'>
+                  < LoadingPage type={'bubbles'} color={'#91C8E4'} height={'15vh'} width={'19vw'}/> 
+                </div>
+                }
                 
                 <div className="generated-tweet-images">
                   {(imageUrls.length !== 0) ?                  
                   displayedImages : // <-- MODIFY THIS LINE
                   undefined}
                 </div>
-              {/* </div> */}
 
               <div className='twitter-icons'>
                 <p><i className="fa-solid fa-comment"> 0</i></p>
@@ -316,6 +326,9 @@ function TweetGenerate () {
                 <button className='scheduleTweetButton' onClick={handleSchedule}>Schedule Tweet</button> 
                 <button className='scheduleTweetButton' onClick={handleGenerate} >Confirm</button>
               </div>
+              {scheduleDateError && <>
+                <p className='generate-error'>{scheduleDateError}</p>
+              </>}
               </>
           ) : ""}
 
@@ -369,9 +382,19 @@ function TweetGenerate () {
 
           </div>
             <button className="generateButton" onClick={() => {
-              if(!showGeneratedTweet) setShowGeneratedTweet(true);
-              setTriggerGeneration(true)
+              if (userInstructions === '' ) {
+                setGenerateError('Please enter your instructions for the AI above!')
+              }
+              else if (!showGeneratedTweet && userInstructions.length > 0) {
+                setShowGeneratedTweet(true);
+                setTriggerGeneration(true);
+                setGenerateError(false);
+              }
               }}>{showGeneratedTweet ? "Regenerate" : "Generate"}</button>
+              {generateError && 
+              <>
+                <p className='generate-error'>{generateError}</p>
+              </>}
           
           <div className='generateRight'>      
             

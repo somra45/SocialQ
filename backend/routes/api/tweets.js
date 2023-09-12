@@ -134,7 +134,6 @@ router.get('/user/:userId', async (req, res, next) => {
       return res.json(response);
     }
     catch(err) {
-      console.log(err)
       return res.json([]);
     }
 
@@ -180,7 +179,6 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     });
 
     let tweet = await newTweet.save();
-    
     const newTweetCategories = req.body.newTweetCategories.split(',')
   
     //create new categories for anything not already in db
@@ -203,6 +201,7 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
                       .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
 
     const updatedTweet = await addCategoriesAndImagesToTweet(tweet);
+    console.log(updatedTweet)
                         
     return res.json(updatedTweet);
   }
@@ -211,6 +210,8 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     next(err);
   }
 });
+
+
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
   try {
