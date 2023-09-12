@@ -13,8 +13,8 @@ function Profile () {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
   const userTweets = useSelector(state => Object.values(state.tweets.user))
-  const subscribedUsers = useSelector(state => state.subscriptions.currentPage ? Object.values(state.subscriptions.currentPage.users) : null)
-  const subscribedCategories = useSelector(state => state.subscriptions.currentPage ? Object.values(state.subscriptions.currentPage.categories) : null)
+  const subscribedUsers = useSelector(state => Object.values(state.session.user.subscriptions).length ? Object.values(state.session.user.subscriptions.users) : null)
+  const subscribedCategories = useSelector(state => Object.values(state.session.user.subscriptions).length ? Object.values(state.session.user.subscriptions.categories) : null)
   const tweetsSortedByDate = userTweets?.map(tweet => tweet).sort((a,b) => new Date(b.date) - new Date(a.date));
 
   
@@ -46,7 +46,7 @@ function Profile () {
                   <br/>
                   <h2 className='subscribed-users'>Users</h2>
                     {subscribedUsers && subscribedUsers.map(user => (   
-                      <p><Link target='_blank' to={`/users/${user._id}`}>@{user.username}</Link></p>
+                      <p><Link target='_blank' to={`/users/${user.username}`}>@{user.username}</Link></p>
                     ))}
 
                   <br/>

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const passport = require('passport');
 const { loginUser, restoreUser } = require('../../config/passport');
+const {getSubscribedUsers, getSubscribedCategories, responseArrayToObject} = require('./modules');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
@@ -16,6 +17,9 @@ router.get('/current', restoreUser, async (req, res) => {
     res.cookie("CSRF-TOKEN", csrfToken);
   }
   if (!req.user) return res.json(null);
+
+  const subscribedUsers = await getSubscribedUsers(req.user)
+  const subscribedCategories = await getSubscribedCategories(req.user)
   
   res.json({
     _id: req.user._id,
@@ -25,7 +29,8 @@ router.get('/current', restoreUser, async (req, res) => {
     lastName: req.user.lastName,
     profileImageUrl: req.user.profileImageUrl,
     twitterHandle: req.user.twitterHandle,
-    instagramHandle: req.user.instagramHandle
+    instagramHandle: req.user.instagramHandle,
+    subscriptions: {users: responseArrayToObject(subscribedUsers), categories: responseArrayToObject(subscribedCategories)},
   });
 });
 

@@ -51,8 +51,8 @@ app.use('/api/tweets', tweetsRouter);
 app.use('/api/postCategories', postCategoriesRouter);
 app.use('/api/aiFetch', aiFetchRouter);
 // app.use('/api/categories', categoriesRouter);
-app.use('/api/userSubscriptions', userSubscriptionsRouter);
-app.use('/api/categorySubscriptions', categorySubscriptionsRouter);
+app.use('/api/subscriptions/userSubscriptions', userSubscriptionsRouter);
+app.use('/api/subscriptions/categorySubscriptions', categorySubscriptionsRouter);
 app.use('/api/csrf', csrfRouter);
 
 if (isProduction) {

@@ -3,9 +3,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const Tweet = mongoose.model('Tweet');
 const Category = mongoose.model('Category');
-const PostCategory = mongoose.model('PostCategory');
 const { requireUser } = require('../../../config/passport');
 
 router.post('/:userId', requireUser, async (req, res, next) => {

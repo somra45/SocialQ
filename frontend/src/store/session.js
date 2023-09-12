@@ -1,18 +1,12 @@
 import jwtFetch from './jwt';
 
-const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
+const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
 export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
 
-const RECEIVE_SUBSCRIPTIONS = "RECEIVE_SUBSCRIPTIONS";
-const receiveSubscriptions = subscriptions => ({
-  type: RECEIVE_SUBSCRIPTIONS,
-  subscriptions
-});
-
 // Dispatch receiveCurrentUser when a user logs in.
-const receiveCurrentUser = currentUser => ({
+export const receiveCurrentUser = currentUser => ({
   type: RECEIVE_CURRENT_USER,
   currentUser
 });
@@ -45,23 +39,21 @@ const startSession = (userInfo, route) => async dispatch => {
   formData.append("email", email);
 
   if (image) formData.append("image", image);
-  try {  
+  // try {  
     const res = await jwtFetch(route, {
       method: "POST",
       body: formData
     });
     const { user, token, subscriptions } = await res.json();
     localStorage.setItem('jwtToken', token);
-    debugger
     dispatch(receiveCurrentUser(user));
-    dispatch(receiveSubscriptions(subscriptions))
-  } catch(err) {
-    const res = await err.json();
-    if (res.statusCode === 422) {
-      // return dispatch(receiveErrors(res.errors));
-      return res
-    }
-  }
+  // } catch(err) {
+  //   const res = await err.json();
+  //   if (res.statusCode === 422) {
+  //     // return dispatch(receiveErrors(res.errors));
+  //     return res
+  //   }
+  // }
 };
 
 export const logout = () => dispatch => {
@@ -80,8 +72,10 @@ export const logout = () => dispatch => {
   };
   
   const sessionReducer = (state = initialState, action) => {
+    debugger
     switch (action.type) {
       case RECEIVE_CURRENT_USER:
+        debugger
         return { user: action.currentUser };
       case RECEIVE_USER_LOGOUT:
         return initialState;

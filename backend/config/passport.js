@@ -42,9 +42,10 @@ passport.use(new LocalStrategy({
     );
     const subscribedUsers = await getSubscribedUsers(userInfo)
     const subscribedCategories = await getSubscribedCategories(userInfo)
+    userInfo.subscriptions = {users: responseArrayToObject(subscribedUsers), categories: responseArrayToObject(subscribedCategories)}
+
     const response = {
       user: userInfo,
-      subscriptions: {users: responseArrayToObject(subscribedUsers), categories: responseArrayToObject(subscribedCategories)},
       token
     };
     return response

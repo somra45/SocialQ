@@ -147,14 +147,14 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
             undefined
           }
           
-          <h3 className="tweet-author"><Link to={`/users/${author._id.toString()}`} target='_blank'>{authorName}</Link></h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
+          <h3 className="tweet-author"><Link to={`/users/${author.username.toString()}`} target='_blank'>{authorName}</Link></h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
           <p className="tweet-author-handle">@{authorName}</p>
         
       </div>
       <br/>
       <p className="tweet-body">{body}</p>
       <div className="tweet-category-container">
-        <ul className="tweet-categories">{categories?.map(cat => <li><b>{cat}&nbsp;</b></li>)} </ul>
+        <ul className="tweet-categories">{categories?.map(cat => <li><b><Link to={`/categories/${cat}`} target='_blank'>{cat}&nbsp;</Link></b></li>)} </ul>
       </div>
       <br/>
       <p className="tweet-date">{convertTime(date)}</p>

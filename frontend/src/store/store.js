@@ -4,14 +4,14 @@ import tweetsReducer from './tweets';
 import errorsReducer from './errors';
 import sessionReducer from './session';
 import aiBodyReducer from './aiBody';
-import subscriptionsReducer from './subscriptions';
+// import subscriptionsReducer from './subscriptions';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   tweets: tweetsReducer,
   errors: errorsReducer,
   aiBody: aiBodyReducer,
-  subscriptions: subscriptionsReducer
+  // subscriptions: subscriptionsReducer
 });
 
 let enhancer;
