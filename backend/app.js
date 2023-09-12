@@ -17,7 +17,7 @@ const cors = require('cors');
 
 
 const usersRouter = require('./routes/api/users');
-const {router: tweetsRouter} = require('./routes/api/tweets');
+const tweetsRouter = require('./routes/api/tweets');
 const aiFetchRouter = require('./routes/api/aiFetch');
 const postCategoriesRouter = require('./routes/api/postCategories');
 const userSubscriptionsRouter = require('./routes/api/subscriptions/userSubscriptions');

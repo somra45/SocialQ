@@ -4,8 +4,7 @@ const Category = mongoose.model('Category');
 const PostCategory = mongoose.model('PostCategory');
 const Tweet = mongoose.model('Tweet');
 const User = mongoose.model('User');
-const {addCategoriesAndImagesToTweet} = require('./tweets')
-const {responseArrayToObject} = require('./modules');
+const {responseArrayToObject, addCategoriesAndImagesToTweet} = require('./modules');
 const router = express.Router();
 
 router.get('/:categoryName', async (req,res,next) => {

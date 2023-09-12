@@ -133,7 +133,7 @@ const createDemoUserTweets = async () => {
   const demoUser = await User.findOne({ username: 'demo-user' })
   const demoUserTweets = [];
 
-  for (let i = 0; i < 100; i++) { //create 100 tweets in past
+  for (let i = 0; i < 40; i++) { //create 100 tweets in past
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
@@ -149,7 +149,7 @@ const createDemoUserTweets = async () => {
     demoUserTweets.push(newTweet)
   }
 
-  for (let i = 0; i < 30; i++) { //create 30 tweets in future
+  for (let i = 0; i < 15; i++) { //create 30 tweets in future
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
@@ -171,7 +171,7 @@ const createFakerUserTweets = async () => {
   const fakerUserTweets = [];
 
   [fakerUser1, fakerUser2, fakerUser3, fakerUser4, fakerUser5].forEach(fakeUser => {
-    for (let i = 0; i < 100; i++) { //create 100 tweets in past
+    for (let i = 0; i < 40; i++) { //create 100 tweets in past
       const newTweet = new Tweet ({
           body: faker.hacker.phrase(),
           author: fakeUser,
@@ -187,7 +187,7 @@ const createFakerUserTweets = async () => {
       fakerUserTweets.push(newTweet)
     }
   
-    for (let i = 0; i < 30; i++) { //create 30 tweets in future
+    for (let i = 0; i < 15; i++) { //create 30 tweets in future
       const newTweet = new Tweet ({
           body: faker.hacker.phrase(),
           author: fakeUser,
