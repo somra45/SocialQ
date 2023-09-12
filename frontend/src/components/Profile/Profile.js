@@ -52,7 +52,7 @@ function Profile () {
                   <br/>
                   <h2 className='subscribed-categories'>Categories</h2>
                   {subscribedCategories && subscribedCategories.map(category => (   
-                      <p>#{category.name}</p>
+                      <p><Link to={`/categories/${category.name}`} target='_blank'>#{category.name}</Link></p>
                     ))}
                 </div>
               </div>

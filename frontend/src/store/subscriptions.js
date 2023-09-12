@@ -26,7 +26,7 @@ export const receiveCurrentUser = currentUser => ({
 // };
 
 export const subscribeToUser = username => async dispatch => {
-    // try {
+    try {
       const res = await jwtFetch(`/api/subscriptions/userSubscriptions/${username}`, {
         method: 'POST'
       });
@@ -35,12 +35,13 @@ export const subscribeToUser = username => async dispatch => {
       debugger
       dispatch(receiveCurrentUser(updatedUser));
       
-    // } catch(err) {
+    } catch(err) {
+      console.log(err)
     //   const resBody = await err.json();
     //   if (resBody.statusCode === 400) {
     //     return dispatch(receiveErrors(resBody.errors));
     //   }
-    // }
+    }
 };
 
 export const unsubscribeFromUser = username => async dispatch => {
@@ -63,4 +64,37 @@ export const unsubscribeFromUser = username => async dispatch => {
     }
 };
 
-// export default subscriptionsReducer
+export const subscribeToCategory = categoryName => async dispatch => {
+    try {
+      const res = await jwtFetch(`/api/subscriptions/categorySubscriptions/${categoryName}`, {
+        method: 'POST'
+      });
+      const updatedUser = await res.json();
+      dispatch(receiveCurrentUser(updatedUser));
+      
+    } catch(err) {
+      console.log(err)
+      // const resBody = await err.json();
+      // if (resBody.statusCode === 400) {
+      //   return dispatch(receiveErrors(resBody.errors));
+      // }
+    }
+};
+
+export const unsubscribeFromCategory = categoryName => async dispatch => {
+    try {
+
+      const res = await jwtFetch(`/api/subscriptions/categorySubscriptions/${categoryName}`, {
+        method: 'DELETE'
+      });
+      const updatedUser = await res.json();
+      dispatch(receiveCurrentUser(updatedUser));
+      // dispatch(receiveCurrentPageSubscriptions(currentPageSubscriptions))
+    } catch(err) {
+    //   const resBody = await err.json();
+      console.log(err)
+    //   if (resBody.statusCode === 400) {
+    //     return dispatch(receiveErrors(resBody.errors));
+    //   }
+    }
+};

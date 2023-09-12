@@ -54,24 +54,74 @@ users.push(
     hashedPassword: bcrypt.hashSync('starwars', 10),
     profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/voldemortProfileImage.jpeg'
   }),
+
+  new User ({
+    firstName: 'Fake',
+    lastName: 'User 1',
+    username: 'fake-user-1',
+    twitterHandle: 'fake-user-1',
+    email: 'fake-user-1@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+  }),
+
+  new User ({
+    firstName: 'Fake',
+    lastName: 'User 2',
+    username: 'fake-user-2',
+    twitterHandle: 'fake-user-2',
+    email: 'fake-user-3@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+  }),
+
+  new User ({
+    firstName: 'Fake',
+    lastName: 'User 3',
+    username: 'fake-user-3',
+    twitterHandle: 'fake-user-3',
+    email: 'fake-user-3@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+  }),
+
+  new User ({
+    firstName: 'Fake',
+    lastName: 'User 4',
+    username: 'fake-user-4',
+    twitterHandle: 'fake-user-4',
+    email: 'fake-user-4@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+  }),
+
+  new User ({
+    firstName: 'Fake',
+    lastName: 'User 5',
+    username: 'fake-user-5',
+    twitterHandle: 'fake-user-5',
+    email: 'fake-user-5@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+  }),
 )
   
 // Create tweets
 
-function getRandomDateWithinLast30Days() {
+function getRandomDateWithinLast180Days() {
   const currentDate = new Date();
   const pastDate = new Date();
-  pastDate.setDate(currentDate.getDate() - 30); // Subtract 30 days
+  pastDate.setDate(currentDate.getDate() - 180); // Subtract 180 days
 
   const randomTimestamp = pastDate.getTime() + Math.random() * (currentDate.getTime() - pastDate.getTime());
 
   return new Date(randomTimestamp);
 }
 
-function getRandomDateWithinNext30Days() {
+function getRandomDateWithinNext90Days() {
   const currentDate = new Date();
   const pastDate = new Date();
-  pastDate.setDate(currentDate.getDate() + 30); // Add 30 days
+  pastDate.setDate(currentDate.getDate() + 90); // Add 90 days
 
   const randomTimestamp = pastDate.getTime() + Math.random() * (currentDate.getTime() - pastDate.getTime());
 
@@ -82,11 +132,11 @@ const createDemoUserTweets = async () => {
   const demoUser = await User.findOne({ username: 'demo-user' })
   const demoUserTweets = [];
 
-  for (let i = 0; i < 30; i++) { //create 30 tweets in past
+  for (let i = 0; i < 100; i++) { //create 100 tweets in past
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
-        date: getRandomDateWithinLast30Days(),
+        date: getRandomDateWithinLast180Days(),
         replyCount: Math.floor(Math.random() * 30) + 1,
         retweetCount: Math.floor(Math.random() * 50) + 1,
         quoteTweetCount: Math.floor(Math.random() * 40) + 1,
@@ -98,17 +148,57 @@ const createDemoUserTweets = async () => {
     demoUserTweets.push(newTweet)
   }
 
-  for (let i = 0; i < 10; i++) { //create 10 tweets in future
+  for (let i = 0; i < 30; i++) { //create 30 tweets in future
     const newTweet = new Tweet ({
         body: faker.hacker.phrase(),
         author: demoUser,
-        date: getRandomDateWithinNext30Days(),
+        date: getRandomDateWithinNext90Days(),
         createdOnSocialQ: true
         })
     demoUserTweets.push(newTweet)
   }
   
   return demoUserTweets;
+};
+
+const createFakerUserTweets = async () => {
+  const fakerUser1 = await User.findOne({ username: 'fake-user-1' })
+  const fakerUser2 = await User.findOne({ username: 'fake-user-2' })
+  const fakerUser3 = await User.findOne({ username: 'fake-user-3' })
+  const fakerUser4 = await User.findOne({ username: 'fake-user-4' })
+  const fakerUser5 = await User.findOne({ username: 'fake-user-5' })
+  const fakerUserTweets = [];
+
+  [fakerUser1, fakerUser2, fakerUser3, fakerUser4, fakerUser5].forEach(fakeUser => {
+    for (let i = 0; i < 100; i++) { //create 100 tweets in past
+      const newTweet = new Tweet ({
+          body: faker.hacker.phrase(),
+          author: fakeUser,
+          date: getRandomDateWithinLast180Days(),
+          replyCount: Math.floor(Math.random() * 30) + 1,
+          retweetCount: Math.floor(Math.random() * 50) + 1,
+          quoteTweetCount: Math.floor(Math.random() * 40) + 1,
+          viewCount: Math.floor(Math.random() * 10000) + 1,
+          likeCount: Math.floor(Math.random() * 1000) + 1,
+          bookmarkCount: Math.floor(Math.random() * 100) + 1,
+          createdOnSocialQ: true
+          })
+      fakerUserTweets.push(newTweet)
+    }
+  
+    for (let i = 0; i < 30; i++) { //create 30 tweets in future
+      const newTweet = new Tweet ({
+          body: faker.hacker.phrase(),
+          author: fakeUser,
+          date: getRandomDateWithinNext90Days(),
+          createdOnSocialQ: true
+          })
+      demoUserTweets.push(newTweet)
+    }
+
+  })
+  
+  return fakerUserTweets;
 };
 
 //create categories
@@ -239,9 +329,15 @@ mongoose
       const lordVoldemortTweetsArray = await createLordVoldemortTweets();
       await Tweet.insertMany(lordVoldemortTweetsArray);
 
+      const fakerUserTweetsArray = await createFakerUserTweets();
+      await Tweet.inserMany(fakerUserTweetsArray)
+
       await Category.insertMany(categories);
 
       await createDemoUserSubscription('cher', 'user')
+      await createDemoUserSubscription('fake-user-1', 'user')
+      await createDemoUserSubscription('fake-user-3', 'user')
+      await createDemoUserSubscription('fake-user-5', 'user')
       await createDemoUserSubscription('goofy', 'category')
   
       // Populate postCategories before inserting
@@ -256,6 +352,21 @@ mongoose
 
       const demoUserPostCategories = await createPostCategoriesForUserTweets('demo-user', allCategories);
       await PostCategory.insertMany(demoUserPostCategories);
+
+      const fakerUser1PostCategories = await createPostCategoriesForUserTweets('fake-user-1', allCategories);
+      await PostCategory.insertMany(fakerUser1PostCategories);
+
+      const fakerUser2PostCategories = await createPostCategoriesForUserTweets('fake-user-2', allCategories);
+      await PostCategory.insertMany(fakerUser2PostCategories);
+
+      const fakerUser3PostCategories = await createPostCategoriesForUserTweets('fake-user-3', allCategories);
+      await PostCategory.insertMany(fakerUser3PostCategories);
+
+      const fakerUser4PostCategories = await createPostCategoriesForUserTweets('fake-user-4', allCategories);
+      await PostCategory.insertMany(fakerUser4PostCategories);
+
+      const fakerUser5PostCategories = await createPostCategoriesForUserTweets('fake-user-5', allCategories);
+      await PostCategory.insertMany(fakerUser5PostCategories);
 
       console.log("Done!");
     } catch (err) {

@@ -55,6 +55,7 @@ const addCategoriesAndImagesToTweet = async (tweet) => {
   // if (tweet.videoUrl1) mediaUrls.videos[4] = {url: tweet.videoUrl4, desc: tweet.videoDesc4}
 
   tweet._doc.mediaUrls = mediaUrls;
+  // console.log(tweet)
 
   return tweet
 }
@@ -88,7 +89,6 @@ router.get('/', requireUser, async function(req, res, next) {
 });
 
 router.get('/user/:userId', async (req, res, next) => {
-  
   try {
     let user;
     
@@ -126,11 +126,11 @@ router.get('/user/:userId', async (req, res, next) => {
                             
       const tweets = {subscribed: subscribedTweetObjects, user: userTweetObjects}
 
-      const userSubscriptions = await getSubscribedUsers(user)
-      const categorySubscriptions = await getSubscribedCategories(user)
-      const currentPageSubscriptions = {users: responseArrayToObject(userSubscriptions), categories: responseArrayToObject(categorySubscriptions)}
+      // const userSubscriptions = await getSubscribedUsers(user)
+      // const categorySubscriptions = await getSubscribedCategories(user)
+      // const currentPageSubscriptions = {users: responseArrayToObject(userSubscriptions), categories: responseArrayToObject(categorySubscriptions)}
       
-      const response = {tweets, currentPageSubscriptions}
+      const response = {tweets}
       return res.json(response);
     }
     catch(err) {
@@ -176,27 +176,28 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
       date: req.body.date,
       photoUrl: req.body.photoUrl,
       videoUrl: req.body.videoUrl,
-      // date: req.body.date,
-      categories: req.body.tweetCategories || ['funny', 'cool', 'unique']
+      createdOnSocialQ: true
     });
 
     let tweet = await newTweet.save();
     
+    const newTweetCategories = req.body.newTweetCategories.split(',')
+  
     //create new categories for anything not already in db
     if (newTweetCategories.length) newTweetCategories.forEach(async catEl => {
-      const category = await Category.findOne({name: catEl.toLowerCase()})
+      let category = await Category.findOne({name: catEl.toLowerCase()})
       if (!category) {
         let cat = await new Category({name: catEl.toLowerCase()});
         cat.save();
         cat = await Category.find({name: catEl.toLowerCase()});
       }
+      
+      category = await Category.findOne({name: catEl.toLowerCase()})
+      PostCategory.create({category: category._id, post: tweet._id});
+      
     });
 
     //create new postCategory for each category, now that categories have been created
-    let mappedCategoryIds = newTweetCategories.forEach(async catEl =>{
-      const category = await Category.findOne({name: catEl.toLowerCase()})
-      PostCategory.create({category: category._id, post: tweet._id});
-    })
 
     tweet = await tweet
                       .populate("author", "_id username profileImageUrl twitterHandle instagramHandle");
@@ -206,12 +207,12 @@ router.post('/', multipleMulterUpload("images"), requireUser, async (req, res, n
     return res.json(updatedTweet);
   }
   catch(err) {
+    console.log(err)
     next(err);
   }
 });
 
 router.put('/:id', requireUser, validateTweetInput, async (req, res, next) => {
-  console.log(req)
   try {
     const tweetId = req.params.id;
     const updates = req.body;
@@ -251,4 +252,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  addCategoriesAndImagesToTweet
+}

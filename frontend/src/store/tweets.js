@@ -8,6 +8,7 @@ const RECEIVE_USER_TWEETS = "tweets/RECEIVE_USER_TWEETS";
 const RECEIVE_NEW_TWEET = "tweets/RECEIVE_NEW_TWEET";
 const RECEIVE_UPDATED_TWEET = 'tweets/RECEIVE_UPDATED_TWEET'
 const REMOVE_TWEET = 'tweets/REMOVE_TWEET';
+const RECEIVE_CATEGORY_TWEETS = 'tweets/RECEIVE_CATEGORY_TWEETS'
 const RECEIVE_TWEET_ERRORS = "tweets/RECEIVE_TWEET_ERRORS";
 const CLEAR_TWEET_ERRORS = "tweets/CLEAR_TWEET_ERRORS";
 
@@ -22,6 +23,11 @@ const receiveUserTweets = tweets => ({
   type: RECEIVE_USER_TWEETS,
   tweets
 });
+
+const receiveCategoryTweets = tweets => ({
+  type: RECEIVE_CATEGORY_TWEETS,
+  tweets
+})
 
 const receiveNewTweet = tweet => ({
   type: RECEIVE_NEW_TWEET,
@@ -69,6 +75,7 @@ export const fetchTweets = () => async dispatch => {
   
   export const fetchUserTweets = id => async dispatch => {
     try {
+      debugger
       const res = await jwtFetch(`/api/tweets/user/${id}`);
       // const {tweets,subscriptions} = await res.json();
       const {tweets} = await res.json();
@@ -81,6 +88,17 @@ export const fetchTweets = () => async dispatch => {
       }
     }
   };
+
+  export const fetchCategoryTweets = categoryName => async dispatch => {
+    try {
+      const res = await jwtFetch(`/api/postCategories/${categoryName}`);
+      const tweets = await res.json();
+      debugger
+      dispatch(receiveCategoryTweets(tweets));
+    } catch(err) {
+      console.log(err)
+    }
+  }
   
   export const composeTweet = data => async dispatch => {
     const formData = new FormData();
@@ -94,13 +112,15 @@ export const fetchTweets = () => async dispatch => {
         body: formData
       });
       const tweet = await res.json();
+      debugger
       dispatch(receiveNewTweet(tweet));
     } catch(err) {
-      // TypeError: Cannot read properties of undefined (reading 'user')
-      const resBody = await err.json();
-      if (resBody.statusCode === 400) {
-        return dispatch(receiveErrors(resBody.errors));
-      }
+      debugger
+      console.log(err)
+      // const resBody = await err.json();
+      // if (resBody.statusCode === 400) {
+      //   return dispatch(receiveErrors(resBody.errors));
+      // }
     }
   };
 
@@ -153,18 +173,22 @@ export const tweetErrorsReducer = (state = nullErrors, action) => {
   }
 };
 
-const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
+const tweetsReducer = (state = { all: {}, user: {}, category: {} }, action) => {
     const newState = {...state}
     switch(action.type) {
       case RECEIVE_TWEETS:
-        return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user, new: undefined};
+        return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user};
       case RECEIVE_USER_TWEETS:
-        return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user, new: undefined};
+        return { ...state, subscribed: action.tweets.subscribed, user: action.tweets.user};
+      case RECEIVE_CATEGORY_TWEETS:
+        debugger
+        return {...state, category: action.tweets}
       case RECEIVE_NEW_TWEET:
         // return { ...state, new: action.tweet};
-        newState.tweets.new = action.tweet;
-        newState.tweets.user[action.tweet._id] = action.tweet;
-        newState.tweets.all[action.tweet._id] = action.tweet;
+        debugger
+        // newState.tweets.new = action.tweet;
+        newState.user[action.tweet._id] = action.tweet;
+        newState.all[action.tweet._id] = action.tweet;
         return newState
       case RECEIVE_UPDATED_TWEET:
         newState.user[action.tweet._id] = action.tweet
@@ -175,7 +199,7 @@ const tweetsReducer = (state = { all: {}, user: {}, new: undefined }, action) =>
           delete newState.all[action.tweetId]
           return newState
       case RECEIVE_USER_LOGOUT:
-        return { ...state, user: {}, new: undefined }
+        return { ...state, user: {} }
       default:
         return state;
     }

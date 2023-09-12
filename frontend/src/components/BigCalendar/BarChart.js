@@ -18,18 +18,20 @@ const BarChart = ({userTweets}) => {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
     }
 
-    const basicChartData = userTweets
+    const basicChartData = userTweets ? userTweets
             .filter(tweet => (new Date()) > (new Date(tweet.date.slice(0,10))))
             .map(tweet => {return {id: tweet._id, interactions: interactions(tweet), date: parseISOString(tweet.date)}})
-            .sort((a,b) => a.date - b.date);
+            .sort((a,b) => a.date - b.date)
+            :
+            null;
             
     const [chartData, setChartData] = useState({
-        labels: basicChartData.map((data) => data.date.toISOString().slice(0,10)), 
+        labels: basicChartData?.map((data) => data.date.toISOString().slice(0,10)), 
         // labels: Data.map((data) => data.year), 
         datasets: [
             {
             label: "",
-            data: basicChartData.map((data) => data.interactions),
+            data: basicChartData?.map((data) => data.interactions),
             backgroundColor: [
                 "rgba(75,192,192,1)",
                 "#ecf0f1",
@@ -51,12 +53,12 @@ const BarChart = ({userTweets}) => {
 
     useEffect(() => {
         setChartData({
-            labels: basicChartData.map((data) => data.date.toISOString().slice(0,10)), 
+            labels: basicChartData?.map((data) => data.date.toISOString().slice(0,10)), 
             // labels: Data.map((data) => data.year), 
             datasets: [
                 {
                 label: "",
-                data: basicChartData.map((data) => data.interactions),
+                data: basicChartData?.map((data) => data.interactions),
                 backgroundColor: [
                     "rgba(75,192,192,1)",
                     "#ecf0f1",
@@ -75,7 +77,7 @@ const BarChart = ({userTweets}) => {
                 }
             ]
         })
-    }, [basicChartData.length])
+    }, [basicChartData?.length])
 
     // console.log(chartData)
 

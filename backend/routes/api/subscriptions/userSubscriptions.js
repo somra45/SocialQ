@@ -90,11 +90,8 @@ router.delete('/:username', requireUser, async (req, res, next) => {
     await currentSubscription.deleteOne()
 
     const subscribedUsers = await getSubscribedUsers(currentUser)
-    console.log(`users: ${subscribedUsers}`)
     const subscribedCategories = await getSubscribedCategories(currentUser)
-    console.log(`categories: ${subscribedCategories}`)
 
-    console.log(`currentUser: ${currentUser}`)
     const updatedUserInfo = {
       _id: currentUser._id,
       username: currentUser.username,
@@ -108,7 +105,6 @@ router.delete('/:username', requireUser, async (req, res, next) => {
         users: responseArrayToObject(subscribedUsers),
         categories: responseArrayToObject(subscribedCategories)}
     }
-    console.log(`updatedUser: ${updatedUserInfo}`)
 
 
     return res.json({ updatedUser: updatedUserInfo, message: 'Successfully unsubscribed to user' });
