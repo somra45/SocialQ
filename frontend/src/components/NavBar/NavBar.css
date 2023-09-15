@@ -62,4 +62,5 @@
     position: absolute;
     top: 2.5%;
     left: 76.5%;
+    box-shadow: 0 8px 16px -1px rgba(0,0,0,.2);
 }

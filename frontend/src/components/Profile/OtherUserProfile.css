@@ -54,7 +54,7 @@
 .profile-tweet-container{
     overflow-y: scroll;
     scroll-behavior: smooth;
-    height: 300px;
+    height: 350px;
     margin-top: 5px;
     margin-bottom: 5px;
     /* border: 2px solid green; */

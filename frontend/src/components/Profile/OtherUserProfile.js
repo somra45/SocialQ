@@ -74,7 +74,7 @@ function OtherUserProfile () {
                         key={tweet._id}
                         tweet={tweet}
                         alreadyExists={new Date(tweet.date)<new Date()}
-                        userOwnTweet = {false}
+                        userOwnTweet={false}
                       />
                     </div>
                   ))}
@@ -87,9 +87,7 @@ function OtherUserProfile () {
               </div>
 
               <div className='right-container'>
-                <div className='theos-calendar-container'>
                   < Calendar />
-                </div>
               </div>
               </div>
           )}

@@ -74,6 +74,7 @@
 .event-div {
     height: fit-content;
     box-shadow: 0 8px 6px -1px rgba(0,0,0,.3) !important;
+    line-height: normal !important;
 }
 
 .event-div:hover {
@@ -88,3 +89,18 @@
     cursor: pointer;
 }
 
+.fc-bigCalendar-button {
+    margin: 10px;
+    padding: 11px !important;
+    border-radius: 9999px !important;
+    border: 0.1px solid lightgray !important;
+    background-color: #4682A9 !important;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
+}
+
+.fc-bigCalendar-button:hover {
+    background-color: #1a252f !important;
+    cursor: pointer;
+}

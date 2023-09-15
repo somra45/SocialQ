@@ -66,7 +66,8 @@ const Calendar = ({categoryTweets}) => {
                         text: 'Edit Calendar',
                         click: function() {
                             history.push('/calendar')
-                        }
+                        },
+                        className: 'big-calendar-button'
                     }
                 }}
                 headerToolbar={{

@@ -107,6 +107,23 @@
     z-index: 2;
 }
 
+.fc-profile-button {
+    margin: 10px;
+    padding: 11px !important;
+    border-radius: 9999px !important;
+    border: 0.1px solid lightgray !important;
+    background-color: #4682A9 !important;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.3) !important;
+    color: #fff;
+    font-weight: 700;
+}
+
+.fc-profile-button:hover {
+    background-color: #1a252f !important;
+    cursor: pointer;
+}
+
+
 /* /*this is a decent alternative/*
 .fc-event, .fc-event-draggable, .fc-event-start, .fc-event-resizable, .fc-event-past, .fc-daygrid-event, 
 .fc-daygrid-dot-event, .event-div, .fc-event-end {

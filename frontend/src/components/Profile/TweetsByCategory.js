@@ -52,7 +52,7 @@ function TweetsByCategory () {
             :
             (<div className='profile-container'>
 
-              <div className='middle-container'>
+              <div className='category-middle-container'>
                 <h2 className='currentUserHeader'>Tweets with the category #{category}</h2>
                       <button className='subscribe-button' onClick={handleSubscribe}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</button>
                 <div className='tweet-container'>
