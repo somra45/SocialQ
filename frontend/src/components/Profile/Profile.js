@@ -45,15 +45,27 @@ function Profile () {
                   <h1 className='subs-header'>Subscriptions</h1>
                   <br/>
                   <h2 className='subscribed-users'>Users</h2>
+                  <div className='subscribed-users-div' >
                     {subscribedUsers && subscribedUsers.map(user => (   
-                      <p><Link target='_blank' to={`/users/${user.username}`}>@{user.username}</Link></p>
+                      <div className='subscribed-users-image-div'>
+                        <Link target='_blank' to={`/users/${user.username}`}>
+                          <img className='subscribed-user-image' src={user.profileImageUrl}></img>
+                          <p className='sub-name'>{user.username}</p>
+                        </Link>
+                      </div>
                     ))}
-
+                  </div>
                   <br/>
                   <h2 className='subscribed-categories'>Categories</h2>
+                  <ul className='categories-list'>
                   {subscribedCategories && subscribedCategories.map(category => (   
-                      <p><Link to={`/categories/${category.name}`} target='_blank'>#{category.name}</Link></p>
+                      <Link to={`/categories/${category.name}`} target='_blank'>
+                        <li className='category-link'>
+                          {`#${category.name}`}
+                        </li>
+                      </Link>
                     ))}
+                    </ul>
                 </div>
               </div>
 
