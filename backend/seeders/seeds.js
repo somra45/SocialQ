@@ -63,7 +63,7 @@ users.push(
     twitterHandle: 'fake-user-1',
     email: 'fake-user-1@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/1_dennis.jpg'
   }),
 
   new User ({
@@ -73,7 +73,7 @@ users.push(
     twitterHandle: 'fake-user-2',
     email: 'fake-user-2@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/2_dee.jpg'
   }),
 
   new User ({
@@ -83,7 +83,7 @@ users.push(
     twitterHandle: 'fake-user-3',
     email: 'fake-user-3@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/3_charlie.jpg'
   }),
 
   new User ({
@@ -93,7 +93,7 @@ users.push(
     twitterHandle: 'fake-user-4',
     email: 'fake-user-4@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/4_mac.jpg'
   }),
 
   new User ({
@@ -103,7 +103,7 @@ users.push(
     twitterHandle: 'fake-user-5',
     email: 'fake-user-5@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/frank.png'
+    profileImageUrl: 'https://socialq--seeds.s3.us-east-2.amazonaws.com/fake_user_5_artemis.png'
   }),
 )
   
