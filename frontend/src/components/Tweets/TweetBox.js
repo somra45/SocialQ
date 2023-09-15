@@ -121,14 +121,15 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
   const handleScheduleTime = (e) => {
     e.preventDefault();
     let modal = document.getElementById('modal');
+    setShowModal(false);
     modal.classList.remove('calendar-update-select-hide');
     modal.classList.add('calendar-update-select-modal');
   }
 
   return (
     <>
-    < SelectEditDateCalendar />
-    <div className={showModal ? `show-modal` : `hide-modal`}>
+    < SelectEditDateCalendar showModal={showModal} setShowModal={setShowModal}/>
+    <div id='edit' className={showModal ? `show-modal` : `hide-modal`}>
       <div className="update-outer-div">
         <h1 className='update-header' >Update Tweet</h1>
         <textarea className="edit-input-body" value={tweetBody} onChange={e=>setTweetBody(e.target.value)} rows='12' cols='10' wrap='soft'></textarea>
@@ -146,7 +147,6 @@ const TweetBox = ({ tweet: { _id, body, author, date, categories,likeCount, retw
             <img className="profile-image" src={author.profileImageUrl} alt="profile"/> :
             undefined
           }
-          
           <h3 className="tweet-author"><Link to={`/users/${author.username.toString()}`} target='_blank'>{authorName}</Link></h3>&nbsp;<i className="fa-solid fa-circle-check"></i>&nbsp;
           <p className="tweet-author-handle">@{authorName}</p>
         

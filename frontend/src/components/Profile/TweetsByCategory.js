@@ -6,7 +6,7 @@ import { useParams, Link } from 'react-router-dom/';
 import TweetBox from '../Tweets/TweetBox';
 import Calendar from '../Calendar/Calendar';
 import NavBar from '../NavBar/NavBar';
-import './OtherUserProfile.css';
+import './TweetsByCategory.css';
 import BarChart from '../BigCalendar/BarChart';
 import LoadingPage from '../LoadingPage';
 
@@ -51,15 +51,6 @@ function TweetsByCategory () {
             </div>) 
             :
             (<div className='profile-container'>
-                <div className='left-container'>
-                  {/* {author.profileImageUrl ? 
-                      <img className="profile-image-main" src={author.profileImageUrl} alt="profile"/> :
-                        undefined
-                  } */}
-                  {/* <h2 className='currentUserProfile'>Tweets with the category #{category}</h2> */}
-                  <div className='profile-subs-container'>
-                </div>
-              </div>
 
               <div className='middle-container'>
                 <h2 className='currentUserHeader'>Tweets with the category #{category}</h2>
@@ -80,7 +71,7 @@ function TweetsByCategory () {
 
               <div className='right-container'>
                 <div className='theos-calendar-container'>
-                < Calendar />
+                < Calendar categoryTweets={categoryTweets} />
                 </div>
 
                 <h1 className='stats-header'>Category Stats</h1>

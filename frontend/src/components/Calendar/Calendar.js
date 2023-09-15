@@ -8,12 +8,30 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
 
 
-const Calendar = () => {
+const Calendar = ({categoryTweets}) => {
     const history = useHistory();
     const calendarRef = useRef(null);
-    const events = Object.values(useSelector(state => state.tweets.user));
+    let events = Object.values(useSelector(state => state.tweets.user));
+
+    if (categoryTweets) {
+        events = categoryTweets
+    }
 
     const renderEventContent = (eventInfo) => {
+        if (categoryTweets) {
+            return (
+                <>
+                <div className="event-title">
+                <i style={{
+                    whiteSpace: "wrap",
+                    overflow: "wrap",
+                    textOverflow: "ellipsis"
+                }}>{`${eventInfo.event.extendedProps.author.username} ${eventInfo.timeText} ${eventInfo.event.extendedProps.categories[0] ? eventInfo.event.extendedProps.categories[0] : null } tweet: ${eventInfo.event.extendedProps.body}`}
+                </i>
+            </div>
+                </>
+            )
+        }
         return (
             <>
             {eventInfo.event._context.options.type === 'timeGrid' ? 
@@ -77,7 +95,6 @@ const Calendar = () => {
                 handleWindowResize={true}
                 events={events}
                 eventContent={renderEventContent}
-                
             />
         </div>
         </>

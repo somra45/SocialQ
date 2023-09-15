@@ -38,15 +38,7 @@ const SelectDateCalendar = ({showSelect}) => {
             window.alert('Please select a date and time that is in the future')
         }
     }
-
-    // const handleSelect = ( selectionInfo ) => {
-    //     if (selectionInfo.view.type === 'timeGridDay' || selectionInfo.view.type === 'timeGridWeek') {
-    //         window.selectedDate = selectionInfo.start
-    //         setSelectionDate(window.selectedDate)
-
-    //     }
-    // }
-
+    
     const handleSchedule = (e) => {
         e.preventDefault();
         if (!window.selectedDate) {
@@ -92,7 +84,6 @@ const SelectDateCalendar = ({showSelect}) => {
                 events={events}
                 eventContent={renderEventContent}
                 dateClick={handleDateClick}
-                // select={handleSelect}
             />
             <div className="bottom-div">
                 <button className='schedule-button' onClick={handleSchedule} >Confirm Time</button>
