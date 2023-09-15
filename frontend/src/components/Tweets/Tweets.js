@@ -41,10 +41,6 @@ function Tweets () {
             <p className='icon-instruction'>This button navigates you back to your profile page, where you can see your scheduled and past tweets; in a feed and calendar, and some analytic information.</p>
           </div>
           <div className='navbar-instruction'>
-            <i className="fa-solid fa-circle-plus fa-2xl" style={{color: "#4682A9"}}></i>
-            <p className='icon-instruction'>This button navigates you to a page to use AI to generate and schedule a new tweet, based on what you want the tweet to be about.</p>
-          </div>
-          <div className='navbar-instruction'>
             <i className="fa-solid fa-calendar-days fa-2xl" style={{color: "#4682A9"}}></i>
             <p className='icon-instruction'>This button navigates you to a big calendar to allow you to manage your tweets and when they are scheduled by dragging the tweet to a future date.</p>
           </div>
@@ -74,6 +70,12 @@ function Tweets () {
                     </div>
                     )
                   }
+            </div>
+            <div className='right-container'>
+              <div className='ai-instruction'>
+                <i className="fa-solid fa-circle-plus fa-2xl" style={{color: "#4682A9"}}></i>
+                <p className='icon-instruction'>This button navigates you to a page to use AI to generate and schedule a new tweet, based on what you want the tweet to be about. The AI can be provided with moods in the form of categories that will determine how your tweet is crafted. You can also upload images and videos, and you can provide desscriptions of these images/videos that will help the AI to curate a post fit for you! </p>
+              </div>
             </div>
       </div>
     </>

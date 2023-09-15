@@ -86,7 +86,7 @@ function Profile () {
                 </div>
               </div>
 
-              <div className='right-container'>
+              <div className='profile-right-container'>
                 <div className='theos-calendar-container'>
                 < Calendar />
                 </div>

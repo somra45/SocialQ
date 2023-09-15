@@ -55,3 +55,11 @@
     background-color:lightslategray;
 }
 
+.navbar-pic {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 9999px;
+    position: absolute;
+    top: 2.5%;
+    left: 76.5%;
+}
