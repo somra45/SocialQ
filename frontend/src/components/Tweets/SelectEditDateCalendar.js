@@ -7,7 +7,7 @@ import './SelectEditDateCalendar.css'
 import { useSelector } from "react-redux";
 import { useState} from "react";
 
-const SelectEditDateCalendar = () => {
+const SelectEditDateCalendar = ({showModal, setShowModal}) => {
     const calendarRef = useRef(null);
     const events = Object.values(useSelector(state => state.tweets.user));
     const [selectionDate, setSelectionDate] = useState(null);
@@ -39,18 +39,12 @@ const SelectEditDateCalendar = () => {
         }
     }
 
-    // const handleSelect = ( selectionInfo ) => {
-    //     if (selectionInfo.view.type === 'timeGridDay' || selectionInfo.view.type === 'timeGridWeek') {
-    //         window.selectedUpdatedDate = selectionInfo.start
-    //         setSelectionDate(selectionInfo.start)
-    //     }
-    // }
-
     const handleSchedule = (e) => {
         e.preventDefault();
             let modal = document.getElementById('modal');
             modal.classList.add('calendar-update-select-hide');
             modal.classList.remove('calendar-update-select-modal');
+            setShowModal(true)
     }
 
     return (
@@ -85,7 +79,6 @@ const SelectEditDateCalendar = () => {
                 events={events}
                 eventContent={renderEventContent}
                 dateClick={handleDateClick}
-                // select={handleSelect}
             />
             <div className="bottom-update-div">
                 <button className='schedule-update-button' onClick={handleSchedule} >Confirm Time</button>

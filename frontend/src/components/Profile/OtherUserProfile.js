@@ -55,33 +55,19 @@ function OtherUserProfile () {
               <LoadingPage type={'spinningBubbles'} color={'#91C8E4'} />
             </div>) 
             :
-            (<div className='profile-container'>
-                <div className='left-container'>
-                  {author.profileImageUrl ? 
-                      <img className="profile-image-main" src={author.profileImageUrl} alt="profile"/> :
-                        undefined
-                  }
-                  <h2 className='currentUserProfile'>{author.username}'s Profile</h2>
-                  <div className='profile-subs-container'>
-                  {/* <h1 className='subs-header'>Subscriptions</h1>
-                  <br/>
-                  <h2 className='subscribed-users'>Users</h2>
-                    {subscribedUsers && subscribedUsers.map(user => (   
-                      <p><Link target='_blank' to={`/users/${user._id}`}>@{user.username}</Link></p>
-                    ))}
-
-                  <br/>
-                  <h2 className='subscribed-categories'>Categories</h2>
-                  {subscribedCategories && subscribedCategories.map(category => (   
-                      <p>#{category.name}</p>
-                    ))} */}
-                </div>
-              </div>
-
+            (
+            <div className='user-profile-container'>
               <div className='middle-container'>
                 <h2 className='currentUserHeader'>{author.username}'s Tweets</h2>
-                      <button className='subscribe-button' onClick={handleSubscribe}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</button>
-                <div className='tweet-container'>
+                <div className='profile-page-image-sub'>
+                  <div className='profile-image-button-div'>
+                  {author.profileImageUrl ? 
+                      <img className="user-profile-image-main" src={author.profileImageUrl} alt="profile"/> :
+                        undefined
+                  }
+                  <button className='subscribe-button' onClick={handleSubscribe}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</button>
+                  </div>
+                    <div className='profile-tweet-container'>
                   {tweetsSortedByDate.map(tweet => (
                     <div className='individual-tweet' key={tweet._id} id={tweet._id}>
                       <TweetBox
@@ -92,21 +78,21 @@ function OtherUserProfile () {
                       />
                     </div>
                   ))}
+                  </div>
+                  
+                </div>
+                <div className='profile-stats-container'>
+                  <BarChart userTweets={userTweets} />
                 </div>
               </div>
 
               <div className='right-container'>
                 <div className='theos-calendar-container'>
-                < Calendar />
-                </div>
-
-                <h1 className='stats-header'>{author.username}'s Stats</h1>
-                <div className='stats-container'>
-                  <BarChart userTweets={userTweets} />
+                  < Calendar />
                 </div>
               </div>
-
-        </div>)}
+              </div>
+          )}
       </>
     );           
 }
