@@ -56,7 +56,8 @@ const AboutPage = () => {
                     <h2 className='team-member-role'>Frontend Engineer & UX/UI</h2>
                     <p>About Me:</p>
                     <br/>
-                    <p></p>
+                    <p>While not playing card games or solving puzzles I love traveling the world </p>
+                    <p>and learning about different cultures</p>
                     <br/>
                     < a href="https://github.com/TheofanisNeofotistos" className="fa-brands fa-github fa-2xl" style={{color: "#ffff",}}> </a>  < a href="https://www.linkedin.com/in/theofanis-neofotistos-483b33254/" className="fa-brands fa-linkedin fa-2xl" style={{color: "#ffff",}}> </a>
                 </div>
